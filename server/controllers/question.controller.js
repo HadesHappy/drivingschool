@@ -28,7 +28,7 @@ const details = async (req, res) => {
       status: "error",
       message: "Server Error",
     });
-  } 
+  }
 }
 
 const add = async (req, res) => {
@@ -154,16 +154,67 @@ const deleteTest = async (req, res) => {
   }
 }
 
-const readbyId = async ( req, res) => {
-  try{
-    const id = req.params.id;
-    
-    res.status(200).send('hello')
+const readbyName = async (req, res) => {
+  try {
+    const name = req.params.name;
+    let questions
+    if (name.startsWith('category')) {
+      questions = await Question.find({ category: name })
+    }
+    else {
+      const query = {};
+      query[name] = true;
+      questions = await Question.find(query)
+    }
+
+    let datas = [];
+    let data = [];
+    let length = questions.length
+    if (length > 30) {
+      for (let i = 0; i < length / 30; i++) {
+        datas.push({
+          id: i + 1,
+          count: 30
+        })
+      }
+    }
+    if (length !== 0) {
+      datas.push({
+        id: datas.length + 1,
+        count: length % 30
+      })
+    }
+
+    res.status(200).send(datas);
   }
-  catch(error){
+  catch (error) {
     res.status(401).send(error)
   }
-  
+
+}
+
+const readbyId = async (req, res) => {
+  try {
+
+    const id = req.params.id
+    const name = req.params.name
+    const query = {};
+    query[name] = true;
+    const questions = await Question.find(query)
+    let datas = []
+
+    for (let i = 0; i < 30; i++) {
+      let iid = 30 * id + i
+      if (questions.length == iid) break
+      datas.push(questions[iid])
+    }
+
+    res.status(200).send(datas)
+  }
+  catch (error) {
+    res.status(401).send(error)
+  }
+
 }
 
 module.exports = {
@@ -174,4 +225,5 @@ module.exports = {
   updateTest,
   deleteTest,
   readbyId,
+  readbyName,
 }

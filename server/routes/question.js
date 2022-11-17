@@ -5,7 +5,10 @@ const questionController = require('../controllers/question.controller')
 
 router.get('/read', questionController.read);
 router.get('/read/:id', questionController.readTest);
-router.get('/readbyid/:id', questionController.readbyId);
+router.get('/readbyId/:id/:name', questionController.readbyId);
+
+router.get('/readbyName/:name', questionController.readbyName)
+
 router.post('/add', [uploadImage], questionController.add);
 
 router.post('/updateTest/:id', [uploadImage], questionController.updateTest);

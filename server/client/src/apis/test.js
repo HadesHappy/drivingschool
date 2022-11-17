@@ -1,8 +1,6 @@
 import axios from '../utils/axios'
 
 const saveTest = async (questions) => {
-
-  console.log('questions: ', questions)
   let formData = new FormData()
   formData.append('total', questions.length)
   for (let i = 0; i < questions.length; i++) {
@@ -114,28 +112,19 @@ const updateTest = async (id, problems) => {
   }
 }
 
-const read = async () => {
-  const data = await axios.get('api/question/read');
-  return data.data
-}
-
 const deleteTest = async (id) => {
-  const data = await axios.post(`api/question/deleteTest/${id}`);
-  console.log(data.data)
-  return data.data
+  try{
+    const data = await axios.post(`api/question/deleteTest/${id}`);
+    return data.data
+  }
+  catch(error){
+    return error
+  }
+  
 }
-
-const readTest = async (id) => {
-  const data = await axios.get(`api/question/read/${id}`)
-  return data.data
-}
-
-
 
 export {
   saveTest,
-  read,
   deleteTest,
-  readTest,
   updateTest,
 }

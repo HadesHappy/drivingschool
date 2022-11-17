@@ -65,7 +65,7 @@ const temas = [
       },
       {
         id: 'category 1.4',
-        text: 'la velocidad.'
+        text: '1.4 la velocidad.'
       },
       {
         id: 'category 1.5',
@@ -133,19 +133,19 @@ const temas = [
       },
       {
         id: 'category 3.5',
-        text: 'senales de advertencia de peligro.'
+        text: '3.5 senales de advertencia de peligro.'
       },
       {
         id: 'category 3.6',
-        text: 'senales de reglamentacion.'
+        text: '3.6 senales de reglamentacion.'
       },
       {
         id: 'category 3.7',
-        text: 'senales de indicacion.'
+        text: '3.7 senales de indicacion.'
       },
       {
         id: 'category 3.8',
-        text: 'marcas viales.'
+        text: '3.8 marcas viales.'
       },
     ]
   },
