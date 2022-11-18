@@ -1,19 +1,12 @@
 import React from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { getProblems, readProblems } from '../../../../actions/problem'
 
 const Modal = ({ id = '', name = '', showModal, setShowModal }) => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   const onExamClick = () => {
-    if (name === 'todotest')
-      dispatch(getProblems(id))
-    else
-      dispatch(readProblems(id, name))
-    navigate('/exam/1')
+    navigate('/exam/1', {state: {test_num: id, name: name}})
   }
   
   return (

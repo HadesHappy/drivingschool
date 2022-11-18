@@ -13,7 +13,7 @@ const TodoTest = props => {
   }
   return (
     <>
-      <div className='flex flex-row items-center justify-between w-full mb-3 px-8 py-4 shadow-lg cursor-pointer' onClick={onClick}>
+      <div className='flex flex-row items-center justify-between w-full mb-3 px-8 py-4 shadow-md cursor-pointer hover:shadow-xl hover:bg-gray-50' onClick={onClick}>
         <div className='bg-[#3598DB] text-white text-2xl py-3 w-14 rounded-md text-center'>{number}</div>
         <div className='text-normal  text-gray-600'>Test Oficiale de la DGT</div>
         <div className='flex flex-row space-x-2'>

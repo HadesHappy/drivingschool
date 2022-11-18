@@ -42,11 +42,10 @@ const updateProblem = data => async dispatch => {
   }
 }
 
-const getProblems = (id) => async dispatch => {
+const getProblems = (test_num) => async dispatch => {
   try {
     dispatch({ type: PROBLEM_LOADING })
-    const data = await axios.get(`api/question/read/${id}`)
-    console.log(data.data)
+    const data = await axios.get(`api/question/read/${test_num}`)
     dispatch({ type: GET_PROBLEMS, payload: data.data })
   }
   catch (error) {
@@ -54,12 +53,10 @@ const getProblems = (id) => async dispatch => {
   }
 }
 
-const readProblems = (id, name) => async dispatch => {
+const readProblems = (test_num, name) => async dispatch => {
   try {
     dispatch({ type: PROBLEM_LOADING })
-    console.log(id, name)
-    const data = await axios.get(`api/question/readbyId/${id}/${name}`)
-    console.log(data.data)
+    const data = await axios.get(`api/question/readbyId/${test_num}/${name}`)
     dispatch({ type: GET_PROBLEMS, payload: data.data })
   }
   catch (error) {

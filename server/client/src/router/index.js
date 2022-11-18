@@ -15,6 +15,7 @@ import Content from '../components/users/common/Content';
 import Exam from '../components/users/exam/Exam';
 
 import Preview from '../pages/Preview';
+import Result from '../components/users/exam/Result';
 
 export default function Router() {
   const router = [
@@ -55,6 +56,10 @@ export default function Router() {
     {
       path: '/exam/:id',
       element: <Exam />
+    },
+    {
+      path: '/exam/result',
+      element: <Result />
     },
     {
       path: '/preview',
