@@ -17,7 +17,7 @@ const Top = ({ id = '' }) => {
           <div className='text-white text-lg'>Pregunta {num}.</div>
           <div className='flex flex-row justify-center space-x-4 items-center'>
             <div className='text-white text-lg'>salir</div>
-            <img className='cursor-pointer' src='/assets/icons/Logout.png' alt='' onClick={() => navigate('/user/killertest')} />
+            <img className='cursor-pointer' src='/assets/icons/Logout.png' alt='' onClick={() => navigate('/user/todotest')} />
           </div>
         </div>
       </div>

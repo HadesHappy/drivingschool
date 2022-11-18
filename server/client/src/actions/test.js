@@ -21,9 +21,7 @@ const getTests = () => async dispatch => {
 const readTests = id => async dispatch => {
   try{
     dispatch({ type: TEST_LOADING })
-    console.log('id: ', id)
     const data = await axios.get(`api/question/readbyName/${id}`)
-    console.log(data.data)
     dispatch({ type: GET_TESTS, payload: data.data })
   }
   catch(error){

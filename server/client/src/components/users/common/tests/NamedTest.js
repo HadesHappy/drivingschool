@@ -8,10 +8,10 @@ const NamedTest = props => {
     setShowModal(true)
   }
   let number;
-  if (props.test.id < 10)
-    number = props.name.slice(0, 1).toUpperCase() + `0${props.test.id}`
+  if (props.test.no < 10)
+    number = props.name.slice(0, 1).toUpperCase() + `0${props.test.no}`
   else
-    number = props.name.slice(0, 1).toUpperCase() + `${props.test.id}`
+    number = props.name.slice(0, 1).toUpperCase() + `${props.test.no}`
   return (
     <>
       <div className='flex flex-row items-center justify-between w-full mb-3 px-8 py-3 shadow-lg cursor-pointer' onClick={onClick}>
@@ -58,7 +58,7 @@ const NamedTest = props => {
 
         <img src='/assets/icons/More.png' alt='more' />
       </div>
-      <Modal showModal={showModal} setShowModal={setShowModal} />
+      <Modal showModal={showModal} setShowModal={setShowModal} id={props.test.no} count={props.test.count} name={props.name}/>
     </>
 
   )

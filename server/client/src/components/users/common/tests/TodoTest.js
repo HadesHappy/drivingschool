@@ -44,7 +44,7 @@ const TodoTest = props => {
 
         <img src='/assets/icons/More.png' alt='more' />
       </div>
-      <Modal showModal={showModal} setShowModal={setShowModal} />
+      <Modal showModal={showModal} setShowModal={setShowModal} id={props.test.no} count = {props.test.count} name='todotest'/>
     </>
   )
 }

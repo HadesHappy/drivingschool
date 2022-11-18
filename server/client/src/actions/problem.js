@@ -46,24 +46,25 @@ const getProblems = (id) => async dispatch => {
   try {
     dispatch({ type: PROBLEM_LOADING })
     const data = await axios.get(`api/question/read/${id}`)
+    console.log(data.data)
     dispatch({ type: GET_PROBLEMS, payload: data.data })
   }
   catch (error) {
     return error
   }
-
 }
 
 const readProblems = (id, name) => async dispatch => {
   try {
     dispatch({ type: PROBLEM_LOADING })
+    console.log(id, name)
     const data = await axios.get(`api/question/readbyId/${id}/${name}`)
+    console.log(data.data)
     dispatch({ type: GET_PROBLEMS, payload: data.data })
   }
   catch (error) {
     return error
   }
-
 }
 
 const deleteProblem = id => async dispatch => {

@@ -54,7 +54,6 @@ const Content = () => {
         {
           string
         }
-        <Modal />
       </div>
     </>
 

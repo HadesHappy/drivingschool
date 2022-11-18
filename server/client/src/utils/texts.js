@@ -363,4 +363,5 @@ const categories = [
     text: '10.1 tecnicas de conduccion.'
   }
 ];
+
 export { tagtabs, stars, temas, categories}

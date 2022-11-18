@@ -173,14 +173,14 @@ const readbyName = async (req, res) => {
     if (length > 30) {
       for (let i = 0; i < length / 30; i++) {
         datas.push({
-          id: i + 1,
+          no: i + 1,
           count: 30
         })
       }
     }
     if (length !== 0) {
       datas.push({
-        id: datas.length + 1,
+        no: datas.length + 1,
         count: length % 30
       })
     }
@@ -195,13 +195,15 @@ const readbyName = async (req, res) => {
 
 const readbyId = async (req, res) => {
   try {
-
-    const id = req.params.id
+    const id = req.params.id - 1
     const name = req.params.name
-    const query = {};
-    query[name] = true;
-    const questions = await Question.find(query)
     let datas = []
+    const query = {};
+    name.startsWith('category') ?
+      query['category'] = name
+      :
+      query[name] = true;
+    const questions = await Question.find(query)
 
     for (let i = 0; i < 30; i++) {
       let iid = 30 * id + i
@@ -214,7 +216,6 @@ const readbyId = async (req, res) => {
   catch (error) {
     res.status(401).send(error)
   }
-
 }
 
 module.exports = {

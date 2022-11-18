@@ -1,10 +1,21 @@
 import React from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { getProblems, readProblems } from '../../../../actions/problem'
 
-const Modal = ({ showModal, setShowModal }) => {
+const Modal = ({ id = '', name = '', showModal, setShowModal }) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
+  const onExamClick = () => {
+    if (name === 'todotest')
+      dispatch(getProblems(id))
+    else
+      dispatch(readProblems(id, name))
+    navigate('/exam/1')
+  }
+  
   return (
     <>
       {
@@ -33,14 +44,14 @@ const Modal = ({ showModal, setShowModal }) => {
                         <div className='flex flex-row justify-center items-center bg-[#3598DB] rounded-lg'>
                           <img src='/assets/icons/estudio.png' alt='estudio' className='mx-20 my-20' />
                         </div>
-                        <div className='px-auto mt-2 font-bold py-4 text-[#3598DB] uppercase rounded-lg border border-[#3598DB] text-center hover:text-white hover:bg-[#3598DB] cursor-pointer' onClick={()=>navigate('/test/1')}>iniciar test</div>
+                        <div className='px-auto mt-2 font-bold py-4 text-[#3598DB] uppercase rounded-lg border border-[#3598DB] text-center hover:text-white hover:bg-[#3598DB] cursor-pointer' onClick={() => navigate('/test/1')}>iniciar test</div>
                       </div>
                       <div className='flex flex-col gap-5'>
                         <div className='text-gray-300 uppercase text-lg text-left'>modo examen</div>
                         <div className='flex flex-row justify-center items-center bg-[#3598DB] rounded-lg'>
                           <img src='/assets/icons/examen.png' alt='estudio' className='mx-20 my-20' />
                         </div>
-                        <div className='px-auto font-bold py-4 text-[#3598DB] uppercase rounded-lg border border-[#3598DB] text-center hover:text-white hover:bg-[#3598DB] cursor-pointer' onClick={()=>navigate('/exam/1')}>iniciar test</div>
+                        <div className='px-auto font-bold py-4 text-[#3598DB] uppercase rounded-lg border border-[#3598DB] text-center hover:text-white hover:bg-[#3598DB] cursor-pointer' onClick={onExamClick}>iniciar test</div>
                       </div>
                     </div>
                   </div>
