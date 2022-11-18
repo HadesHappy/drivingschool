@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Modal from './Modal'
+import toast from 'react-hot-toast'
 
 const TodoTest = props => {
   const [showModal, setShowModal] = useState(false)
@@ -10,6 +11,11 @@ const TodoTest = props => {
     number = '' + props.test.no
   const onClick = () => {
     setShowModal(true)
+  }
+
+  const onDetailClick = (e) => {
+    e.stopPropagation()
+    toast.success('details')
   }
   return (
     <>
@@ -42,7 +48,7 @@ const TodoTest = props => {
           Para hacer
         </div>
 
-        <img src='/assets/icons/More.png' alt='more' />
+        <img className='cursor-pointer' src='/assets/icons/More.png' alt='more' onClick={onDetailClick}/>
       </div>
       <Modal showModal={showModal} setShowModal={setShowModal} id={props.test.no} count = {props.test.count} name='todotest'/>
     </>

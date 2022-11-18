@@ -1,10 +1,10 @@
 import React from 'react'
 import toast from 'react-hot-toast'
-import { deleteTest, readTest } from '../../../apis/test';
+import { deleteTest, readTest } from '../../apis/test';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTests, setIndex } from '../../../actions/test';
-import { getProblems } from '../../../actions/problem';
+import { getTests, setIndex } from '../../actions/test';
+import { getProblems } from '../../actions/problem';
 
 const TestRow = ({ num = '', count = '' }) => {
   const navigate = useNavigate()
@@ -28,7 +28,7 @@ const TestRow = ({ num = '', count = '' }) => {
   }
 
   return (
-    <div className='flex flex-row w-full shadow-xl px-10 py-3 justify-between items-center mb-4 bg-[#FBFBFB]'>
+    <div className='flex flex-row w-full shadow-md px-10 py-3 justify-between items-center mb-4 hover:shadow-xl hover:bg-gray-50'>
       <div className='flex flex-row items-center justify-center w-14 h-14 bg-[#3598DB] rounded-xl text-white text-2xl font-bold'>
         {number}
       </div>

@@ -171,7 +171,7 @@ const readbyName = async (req, res) => {
     let data = [];
     let length = questions.length
     if (length > 30) {
-      for (let i = 0; i < length / 30; i++) {
+      for (let i = 0; i < Math.floor(length / 30); i++) {
         datas.push({
           no: i + 1,
           count: 30

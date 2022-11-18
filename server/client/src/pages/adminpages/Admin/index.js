@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import AddButton from '../../../components/admin/addtest/AddButton'
-import TestRow from '../../../components/admin/addtest/TestRow'
+import TestRow from '../../../components/admin/TestRow'
 import { getTests } from '../../../actions/test'
 import { useSelector, useDispatch } from 'react-redux'
 
