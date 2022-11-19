@@ -68,8 +68,6 @@ const add = async (req, res) => {
         video: req.body[`video${i}`],
         difficulty: req.body[`difficulty${i}`],
       })
-      console.log('i: ', i)
-      console.log('total: ', total)
       await newQuestion.save()
     }
     res.status(200).send('Test saved successfully.')

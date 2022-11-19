@@ -113,14 +113,14 @@ const updateTest = async (id, problems) => {
 }
 
 const deleteTest = async (id) => {
-  try{
+  try {
     const data = await axios.post(`api/question/deleteTest/${id}`);
     return data.data
   }
-  catch(error){
+  catch (error) {
     return error
   }
-  
+
 }
 
 export {

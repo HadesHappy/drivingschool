@@ -4,10 +4,12 @@ import { initializeProblems } from '../../../actions/problem'
 import { useDispatch } from 'react-redux'
 
 const AddButton = () => {
+ 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
     dispatch(initializeProblems())
     navigate('/add');
   }

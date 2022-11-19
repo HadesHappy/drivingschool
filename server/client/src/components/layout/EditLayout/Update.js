@@ -22,9 +22,9 @@ const UpdateButton = () => {
   }
 
   return (
-    <button className='mb-8 py-5 w-full flex flex-row justify-center items-center cursor-pointer bg-[#DE3A3A] text-white text-lg' type="submit" onClick={handleSubmit}>
+    <div className='mb-8 py-5 w-full flex flex-row justify-center items-center cursor-pointer bg-[#DE3A3A] text-white text-lg' type="submit" onClick={handleSubmit}>
       Guardar prueba
-    </button>
+    </div>
   )
 }
 

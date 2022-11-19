@@ -5,9 +5,9 @@ import AddSideBar from './AddSideBar'
 const AddLayout = () => {
 
   return (
-    <form className='flex flex-row' encType='multipart/form-data'>
-        <AddSideBar />
-        <MainAddPage />
+    <form className='flex flex-row' encType='multipart/form-data' onSubmit={(e) => { e.preventDefault() }}>
+      <AddSideBar />
+      <MainAddPage />
     </form>
   )
 }

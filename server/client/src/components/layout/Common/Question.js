@@ -1,9 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
-import { getProblem, updateProblems, deleteProblem } from '../../../actions/problem';
+import { deleteProblem } from '../../../actions/problem';
 
-import toast from 'react-hot-toast'
 
 const QuestionButton = ({ q_id = '', selectedIndex, setSelectedIndex, lists, setLists, }) => {
   const navigate = useNavigate();

@@ -15,7 +15,7 @@ const AnswerField = ({ placeholder = '', answer_id = '', answer, setAnswer, choi
     const data = {
       id: id,
       property: 'choices',
-      value: choices
+      value: newChoices
     }
     dispatch(updateProblem(data))
   }

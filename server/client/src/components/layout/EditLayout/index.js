@@ -5,7 +5,7 @@ import EditSideBar from './EditSideBar'
 const EditLayout = () => {
 
   return (
-    <form className='flex flex-row' encType='multipart/form-data'>
+    <form className='flex flex-row' encType='multipart/form-data' onSubmit={(e) => { e.preventDefault() }}>
       <EditSideBar />
       <MainAddPage />
     </form>

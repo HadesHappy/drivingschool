@@ -11,6 +11,7 @@ const SaveButton = () => {
   const problems = useSelector(state => state.problemReducer.problems)
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     if (problems.length) {
       const res = isFill(problems[problems.length - 1])
@@ -18,6 +19,7 @@ const SaveButton = () => {
       if (res.isFull) {
         const response = await saveTest(problems)
         toast.success(`Totalmente ${problems.length} de preguntas guardadas`)
+        console.log(`Totalmente ${problems.length} de preguntas guardadas`)
         navigate('/admin')
       }
       else {
@@ -30,9 +32,9 @@ const SaveButton = () => {
   }
 
   return (
-    <button className='mb-8 py-5 w-full flex flex-row justify-center items-center cursor-pointer bg-[#DE3A3A] text-white text-lg' type="submit" onClick={handleSubmit}>
+    <div className='mb-8 py-5 w-full flex flex-row justify-center items-center cursor-pointer bg-[#DE3A3A] text-white text-lg' onClick={handleSubmit}>
       Guardar prueba
-    </button>
+    </div>
   )
 }
 
