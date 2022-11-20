@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import isFill from '../../../utils/isFill'
 import toast from 'react-hot-toast'
-import { addProblem, getProblem, updateProblems } from '../../../actions/problem'
+import { addProblem } from '../../../actions/problem'
 
 const CreateButton = ({ lists, setLists, selectedIndex, setSelectedIndex }) => {
   const problems = useSelector(state => state.problemReducer.problems)

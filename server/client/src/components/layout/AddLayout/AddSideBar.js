@@ -20,8 +20,13 @@ const AddSideBar = () => {
   }, [loading])
 
   // useEffect(() => {
-  //   setLists(problems.length)
-  // }, [loading])
+  //   console.log('here')
+  //   console.log(problems)
+  //   if (problems.length) {
+  //     setLists(problems.length)
+  //     setSelectedIndex(problems.length - 1)
+  //   }
+  // }, [])
 
   const getQuestions = () => {
     const result = [];

@@ -29,7 +29,7 @@ const uploadImage = async (req, res, next) => {
           // });
 
           sharp(file.data)
-            .resize(701, 423)
+            .resize({width : 701, height: 423, fit: 'fill'})
             .toFormat("jpeg")
             .jpeg({ quality: 90 })
             .toFile(`${path}`

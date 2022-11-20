@@ -1,7 +1,7 @@
 import { combineReducers } from "redux"
 import testReducer from './test'
-import problemReducer from "./problem"
 import todoReducer from "./todo"
+import problemReducer from './problem'
 
 const reducer = combineReducers({
   testReducer,
