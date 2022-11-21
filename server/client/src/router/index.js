@@ -2,6 +2,8 @@ import React from 'react'
 import { useRoutes } from 'react-router-dom';
 
 import HomePage from '../pages/home'
+import SignUp from '../pages/auth/Signup';
+import Signin from '../pages/auth/Signin';
 
 import AdminLayout from '../components/layout/AdminLayout'
 import Admin from '../pages/adminpages/Admin'
@@ -21,7 +23,11 @@ export default function Router() {
   const router = [
     {
       path: '/',
-      element: <HomePage />
+      element: <Signin />
+    },
+    {
+      path: '/signup',
+      element: <SignUp />
     },
     {
       path: '/admin',

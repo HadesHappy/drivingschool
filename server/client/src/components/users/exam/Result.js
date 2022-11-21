@@ -10,11 +10,11 @@ const Result = () => {
   const [correctNum, setCorrectNum] = useState(0)
   const [falseNum, setFalseNum] = useState(0)
   const checkAnswers = () => {
-    let count1 = 0; 
+    let count1 = 0;
     let count2 = 0;
 
     for (let i = 0; i < answers.length; i++) {
-      if (answers[i] === questions[1].answer)
+      if (answers[i] === questions[i].answer)
         count1++
       else
         count2++
@@ -35,11 +35,27 @@ const Result = () => {
             <div className='flex flex-col items-center justify-center'>
               <div className='text-4xl font-bold py-2'>Wow! Eres un crack</div>
               <div className='flex flex-row test-lg text-gray-500 gap-2 py-3'>Autoescuela App Test 001
-                <p className='text-lg text-[#26FF4A]'>Apto</p>
-                <img src='/assets/icons/checkall.png' alt='checkall' />
+                {
+                  falseNum <= 3 ?
+                    <>
+                      <p className='text-lg text-[#26FF4A]'>Apto</p>
+                      <img src='/assets/icons/checkall.png' alt='checkall' />
+                    </>
+                    :
+                    <>
+                      <p className='text-lg text-[#FF5353]'>No Apto.</p>
+                      <img src='/assets/icons/alertall.png' alt='checkall' />
+                    </>
+                }
               </div>
             </div>
-            <img className='' src='/assets/emotions/success.png' alt='emotion' />
+            {
+              falseNum <= 3 ?
+                <img className='' src='/assets/emotions/success.png' alt='emotion' />
+                :
+                <img className='' src='/assets/emotions/fail.png' alt='emotion' />
+            }
+            
           </div>
           <div className='mt-10 ml-32 flex flex-row gap-5 text-center'>
             <div className='rounded-xl bg-[#3598DB] text-white text-sm py-3 w-36 cursor-pointer'>resultado test</div>

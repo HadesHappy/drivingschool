@@ -14,7 +14,7 @@ const TodoTest = props => {
   else
     number = '' + props.test.no
   const onClick = () => {
-    dispatch(props.test.no)
+    dispatch(setIndex(props.test.no))
     setShowModal(true)
   }
 

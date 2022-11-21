@@ -1,14 +1,18 @@
 import React from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { clearAnswer } from '../../../../actions/answer'
 
-const Modal = ({showModal, setShowModal }) => {
+const Modal = ({ showModal, setShowModal }) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const onExamClick = () => {
+    dispatch(clearAnswer())
     navigate('/exam/1')
   }
-  
+
   return (
     <>
       {
