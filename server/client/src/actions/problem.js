@@ -6,7 +6,7 @@ import {
   DELETE_PROBLEM,
   INITIALIZE_PROBLEMS,
   PROBLEM_LOADING,
-} from "../store/actions/constants"
+} from "../store/constants"
 
 import axios from "../utils/axios"
 

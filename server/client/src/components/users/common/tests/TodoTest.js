@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
 import Modal from './Modal'
 import toast from 'react-hot-toast'
+import {setIndex} from '../../../../actions/test'
+import { useDispatch } from 'react-redux'
 
 const TodoTest = props => {
   const [showModal, setShowModal] = useState(false)
+  const dispatch = useDispatch()
+
   let number
   if (props.test.no < 10)
     number = '0' + props.test.no
   else
     number = '' + props.test.no
   const onClick = () => {
+    dispatch(props.test.no)
     setShowModal(true)
   }
 
@@ -50,7 +55,7 @@ const TodoTest = props => {
 
         <img className='cursor-pointer' src='/assets/icons/More.png' alt='more' onClick={onDetailClick}/>
       </div>
-      <Modal showModal={showModal} setShowModal={setShowModal} id={props.test.no} count = {props.test.count} name='todotest'/>
+      <Modal showModal={showModal} setShowModal={setShowModal} />
     </>
   )
 }

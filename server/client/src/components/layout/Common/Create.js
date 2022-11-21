@@ -32,7 +32,7 @@ const CreateButton = ({ lists, setLists, selectedIndex, setSelectedIndex }) => {
   const handleClick = () => {
     if (problems.length !== 0) {
       const res = isFill(problems[problems.length - 1])
-      console.log(res)
+      
       if (res.isFull) {
         dispatch(addProblem(newProblem))
         setLists(lists + 1)

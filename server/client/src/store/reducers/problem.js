@@ -7,7 +7,7 @@ import {
   DELETE_PROBLEM,
   INITIALIZE_PROBLEMS,
   PROBLEM_LOADING
-} from "../actions/constants"
+} from "../constants"
 
 const initialState = {
   problems: [],
@@ -34,7 +34,7 @@ const problemReducer = (state = initialState, action) => {
     case UPDATE_PROBLEM:
       const { id, property, value } = payload
       const newProblem = [...state.problems]
-      newProblem[id-1][property] = value
+      newProblem[id - 1][property] = value
       return {
         ...state,
         problems: newProblem

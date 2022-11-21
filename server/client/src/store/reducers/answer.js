@@ -1,15 +1,18 @@
 import {
   ADD_ANSWER,
   UPDATE_ANSWER,
-} from '../actions/constants'
+  CLEAR_ANSWER,
+} from '../constants'
 
 const initialState = {
   answers: [],
 }
 
-const todoReducer = (state = initialState, action) => {
+const answerReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
+    case CLEAR_ANSWER:
+      return initialState
     case ADD_ANSWER:
       return {
         ...state,
@@ -28,5 +31,5 @@ const todoReducer = (state = initialState, action) => {
   }
 }
 
-export default todoReducer
+export default answerReducer
 

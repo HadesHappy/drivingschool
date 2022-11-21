@@ -3,7 +3,6 @@ import TodoTest from './tests/TodoTest'
 import Temas from './temas'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import Modal from './tests/Modal'
 
 import { readTests, getTests } from '../../../actions/test'
 

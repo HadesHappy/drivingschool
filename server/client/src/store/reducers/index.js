@@ -1,12 +1,12 @@
 import { combineReducers } from "redux"
-import testReducer from './test'
 import todoReducer from "./todo"
 import problemReducer from './problem'
+import answerReducer from "./answer"
 
 const reducer = combineReducers({
-  testReducer,
   problemReducer,
   todoReducer,
+  answerReducer,
 })
 
 export default reducer

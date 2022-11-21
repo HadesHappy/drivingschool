@@ -2,11 +2,11 @@ import React from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 
-const Modal = ({ id = '', name = '', showModal, setShowModal }) => {
+const Modal = ({showModal, setShowModal }) => {
   const navigate = useNavigate()
 
   const onExamClick = () => {
-    navigate('/exam/1', {state: {test_num: id, name: name}})
+    navigate('/exam/1')
   }
   
   return (

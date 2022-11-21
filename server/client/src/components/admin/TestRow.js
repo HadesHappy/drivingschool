@@ -1,6 +1,6 @@
 import React from 'react'
 import toast from 'react-hot-toast'
-import { deleteTest, readTest } from '../../apis/test';
+import { deleteTest, readTest } from '../../apis/test.api';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTests, setIndex } from '../../actions/test';

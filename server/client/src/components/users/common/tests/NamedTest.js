@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import Modal from './Modal'
+import { setIndex } from '../../../../actions/test'
+import { useDispatch } from 'react-redux'
 
 const NamedTest = props => {
-
+  const dispatch = useDispatch()
   const [showModal, setShowModal] = useState(false)
   const onClick = () => {
+    dispatch(setIndex(props.test.no))
     setShowModal(true)
   }
   let number;
@@ -58,7 +61,7 @@ const NamedTest = props => {
 
         <img src='/assets/icons/More.png' alt='more' />
       </div>
-      <Modal showModal={showModal} setShowModal={setShowModal} id={props.test.no} count={props.test.count} name={props.name}/>
+      <Modal showModal={showModal} setShowModal={setShowModal} />
     </>
 
   )

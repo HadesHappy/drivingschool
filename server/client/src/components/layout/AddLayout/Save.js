@@ -1,7 +1,7 @@
 import React from 'react'
 import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
-import { saveTest } from '../../../apis/test'
+import { saveTest } from '../../../apis/test.api'
 import isFill from '../../../utils/isFill'
 import { useNavigate } from 'react-router-dom'
 
@@ -17,8 +17,6 @@ const SaveButton = () => {
       const res = isFill(problems[problems.length - 1])
 
       if (res.isFull) {
-        console.log('problems: ', problems)
-
         const response = await saveTest(problems)
         toast.success(`Totalmente ${problems.length} de preguntas guardadas`)
         console.log(`Totalmente ${problems.length} de preguntas guardadas`)

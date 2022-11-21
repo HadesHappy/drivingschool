@@ -26,7 +26,8 @@ const isFill = props => {
     string.details += 'choice3 '
   }
   if(!props.answer) {
-    string.answer += 'answer '
+    console.log('sdfasd')
+    string.details += 'answer '
   }
   if (string.details === '') {
     string.isFull = true

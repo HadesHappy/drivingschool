@@ -1,12 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Top from './Top'
 import Bottom from './Bottom'
 import { BsFillLightningChargeFill, BsFillXCircleFill } from 'react-icons/bs'
+import { useSelector } from 'react-redux'
 
 const Result = () => {
+  const answers = useSelector(state => state.answerReducer.answers)
+  const questions = useSelector(state => state.problemReducer.problems)
+  const [correctNum, setCorrectNum] = useState(0)
+  const [falseNum, setFalseNum] = useState(0)
+  const checkAnswers = () => {
+    let count1 = 0; 
+    let count2 = 0;
+
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i] === questions[1].answer)
+        count1++
+      else
+        count2++
+    }
+
+    setCorrectNum(count1)
+    setFalseNum(count2)
+  }
+  useEffect(() => {
+    checkAnswers()
+  }, [])
   return (
     <>
-      <Top id={30}/>
+      <Top id={30} />
       <div className='flex flex-row 2xl:gap-40 xl: gap-20'>
         <div className='flex flex-col 2xl:pl-60 xl:pl-20 mt-10'>
           <div className='flex flex-row float-left'>
@@ -23,7 +45,6 @@ const Result = () => {
             <div className='rounded-xl bg-[#3598DB] text-white text-sm py-3 w-36 cursor-pointer'>resultado test</div>
             <div className='rounded-xl bg-[#3598DB] text-white text-sm py-3 w-36 cursor-pointer'>resultados live</div>
             <div className='rounded-xl bg-[#3598DB] text-white text-sm py-3 w-36 cursor-pointer'>siguient test</div>
-            <div className='rounded-xl bg-[#3598DB] text-white text-sm py-3 w-36 cursor-pointer'>repetir test</div>
             <div className='rounded-xl bg-[#3598DB] text-white text-sm py-3 w-36 cursor-pointer'>tests</div>
           </div>
           <div className='flex flex-row text-lg font-bold my-10 items-center'>
@@ -57,7 +78,7 @@ const Result = () => {
                   <BsFillLightningChargeFill className='w-7 h-7' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Total de preguntas: 30</div>
+                  <div className='text-md font-bold'>Total de preguntas: {answers.length}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -66,7 +87,7 @@ const Result = () => {
                   <img src='/assets/icons/check.png' alt='check' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Preguntas correctas: 27</div>
+                  <div className='text-md font-bold'>Preguntas correctas: {correctNum}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -75,7 +96,7 @@ const Result = () => {
                   <BsFillXCircleFill className='text-white w-7 h-7' />
                 </div>
                 <div className='flex flex-col justify-between'>
-                  <div className='text-md font-bold'>Preguntas incorrectas: 03</div>
+                  <div className='text-md font-bold'>Preguntas incorrectas: {falseNum}</div>
                   <div className='text-sm text-gray-500'>Maximum fallos 3</div>
                 </div>
               </div>
@@ -89,14 +110,13 @@ const Result = () => {
               <div className='text-lg'>Próxima clase en vivo con Lorena la profe</div>
               <div className='text-sm'>Empieza en 2 horas 25min</div>
               <div className='text-center py-2 mt-4 bg-gray-200 text-[#3598DB] text-sm w-32 rounded-lg cursor-pointer'>Ver Clase</div>
-
-              </div>
+            </div>
             <img className='absolute -mt-40 float-right right-0 pr-14' src='/assets/icons/Vector.png' alt='vector' />
             <img className='absolute pl-5' src='/assets/icons/Vector2.png' alt='vector' />
           </div>
         </div>
       </div>
-      
+
       <Bottom />
     </>
   )
