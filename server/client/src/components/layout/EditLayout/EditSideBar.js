@@ -11,17 +11,19 @@ const EditSideBar = () => {
   const problems = useSelector(state => state.problemReducer.problems)
   const loading = useSelector(state => state.problemReducer.loading)
 
+  const navigate = useNavigate()
   const [lists, setLists] = useState(0)
   const [selectedIndex, setSelectedIndex] = useState(0)
+
+  useEffect(() => {
+    if ((lists === 0 && id) && id !== '1')
+      navigate('/admin')
+  }, [])
 
   useEffect(() => {
     setLists(problems.length)
     setSelectedIndex(Number(id))
   }, [loading])
-
-  // useEffect(() => {
-  //   setLists(problems.length)
-  // }, [loading])
 
   const getQuestions = () => {
     const result = [];

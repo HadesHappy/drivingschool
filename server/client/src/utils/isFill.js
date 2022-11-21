@@ -1,30 +1,36 @@
 const isFill = props => {
   let string = {
-    isFull : false,
+    isFull: false,
     details: ''
   }
 
-  if(!props.title){
+  if (!props.title) {
     string.details += 'title, '
   }
-  if(!props.answer){
-    string.details += 'answer, '
-  }
-  if(!props.choices){
-    string.details += 'Respuesta, '
-  }
-  if(!props.image){
+  if (!props.image) {
     string.details += 'image, '
   }
-  if(!props.category){
+  if (!props.category) {
     string.details += 'tema, '
   }
-  if(!props.killertest && !props.gemela && !props.newpregunta){
+  if (!props.killertest && !props.gemela && !props.newpregunta) {
     string.details += 'tag tab, '
   }
-  if(string.details === ''){
+  if (!props.choice1) {
+    string.details += 'choice1 '
+  }
+   if (!props.choice2) {
+    string.details += 'choice2 '
+  }
+  if (!props.choice3) {
+    string.details += 'choice3 '
+  }
+  if(!props.answer) {
+    string.answer += 'answer '
+  }
+  if (string.details === '') {
     string.isFull = true
-  } else{
+  } else {
     string.isFull = false
   }
 

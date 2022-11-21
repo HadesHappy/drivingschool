@@ -3,19 +3,36 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { updateProblem } from '../../../actions/problem'
 
-const AnswerField = ({ placeholder = '', answer_id = '', answer, setAnswer, choices, setChoices }) => {
-  const dispatch = useDispatch()
+const AnswerField = ({ placeholder = '', answer_id = '', answer, setAnswer }) => {
   const { id } = useParams()
 
+  const problem = useSelector(state => state.problemReducer.problems[id - 1])
+
+  const dispatch = useDispatch()
+  const [text, setText] = useState('')
+
+  useEffect(() => {
+    if (problem) {
+      if (problem[answer_id])
+        setText(problem[answer_id])
+      else
+        setText('')
+      if (problem.answer)
+        setAnswer(answer)
+      else
+        setAnswer('')
+    }
+    else
+      setText('')
+  }, [id, problem])
+
   const handleChange = (e) => {
-    let newChoices = [...choices];
-    newChoices[answer_id-1] = e.target.value;
-    setChoices(newChoices);
+    setText(e.target.value)
 
     const data = {
       id: id,
-      property: 'choices',
-      value: newChoices
+      property: answer_id,
+      value: e.target.value
     }
     dispatch(updateProblem(data))
   }
@@ -35,61 +52,49 @@ const AnswerField = ({ placeholder = '', answer_id = '', answer, setAnswer, choi
       const data = {
         id: id,
         property: 'answer',
-        value: 0
+        value: '',
       }
       dispatch(updateProblem(data))
     }
+
   }
 
   return (
     <>
       <div className='relative text-center mb-5'>
-        <input type='checkbox' className='absolute float-right right-7 w-8 h-8 mt-9' checked={answer === answer_id} onChange={handleCheckClick} />
+        <input type='checkbox' className='absolute float-right right-7 w-8 h-8 mt-9' checked={answer_id === answer ? true : false} onChange={handleCheckClick} />
         <input
           type='text'
           className='w-full px-16 py-8 text-3xl text-[#C4BEBE] bg-[#F2F5FA] border-none focus:outline-none'
           placeholder={placeholder}
-          value={choices[answer_id-1]}
+          value={text ? text : ''}
           onChange={handleChange}
         />
       </div>
     </>
-
   )
 }
 
 const Answers = () => {
-  const [choices, setChoices] = useState(['', '', '', ''])
-  const [answer, setAnswer] = useState(0)
+  const [answer, setAnswer] = useState('')
 
   const { id } = useParams()
   const problem = useSelector(state => state.problemReducer.problems[id - 1])
 
   useEffect(() => {
     if (problem) {
-      if (problem.choices) {
-        setChoices(problem.choices)
-
-      }
-      else
-        setChoices(['', '', '', ''])
-      if (problem.answer)
+      if (problem.answer) {
         setAnswer(problem.answer)
-      else
-        setAnswer(0)
-    }
-    else {
-      setChoices(['', '', '', ''])
-      setAnswer(0)
+      }
     }
   }, [id, problem])
 
   return (
     <>
-      <AnswerField placeholder='Respuesta 1' answer_id={1} answer={answer} setAnswer={setAnswer} choices={choices} setChoices={setChoices} />
-      <AnswerField placeholder='Respuesta 2' answer_id={2} answer={answer} setAnswer={setAnswer} choices={choices} setChoices={setChoices} />
-      <AnswerField placeholder='Respuesta 3' answer_id={3} answer={answer} setAnswer={setAnswer} choices={choices} setChoices={setChoices} />
-      <AnswerField placeholder='Respuesta 4' answer_id={4} answer={answer} setAnswer={setAnswer} choices={choices} setChoices={setChoices} />
+      <AnswerField placeholder='Respuesta 1' answer_id='choice1' answer={answer} setAnswer={setAnswer} />
+      <AnswerField placeholder='Respuesta 2' answer_id='choice2' answer={answer} setAnswer={setAnswer} />
+      <AnswerField placeholder='Respuesta 3' answer_id='choice3' answer={answer} setAnswer={setAnswer} />
+      <AnswerField placeholder='Respuesta 4' answer_id='choice4' answer={answer} setAnswer={setAnswer} />
     </>
   )
 }

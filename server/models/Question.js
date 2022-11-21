@@ -18,10 +18,25 @@ const QuestionSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  choices: [],
+  choice1: {
+    type: String,
+    default: ''
+  },
+  choice2: {
+    type: String,
+    default: ''
+  },
+  choice3: {
+    type: String,
+    default: ''
+  },
+  choice4: {
+    type: String,
+    default: ''
+  },
   answer: {
-    type: Number,
-    required: true
+    type: String,
+    default: ''
   },
   tema: {
     type: String,

@@ -33,6 +33,8 @@ const details = async (req, res) => {
 
 const add = async (req, res) => {
   try {
+    console.log('body: ', req.body)
+
     const total = req.body.total;
     let no;
     const test = await Test.findOne({}, {}, { sort: { 'createdAt': -1 } })
@@ -47,19 +49,18 @@ const add = async (req, res) => {
       count: total
     })
 
-    await newTest.save()
-
     for (let i = 0; i < total; i++) {
-      const choices = req.body[`choices${i}`];
-      const choiceArray = choices.split(',')
 
       const newQuestion = new Question({
         test: no,
         id: req.body[`id${i}`],
         title: req.body[`title${i}`],
         image: req.body[`image${i}`],
+        choice1: req.body[`choice1${i}`],
+        choice2: req.body[`choice2${i}`],
+        choice3: req.body[`choice3${i}`],
+        choice4: req.body[`choice4${i}`],
         answer: req.body[`answer${i}`],
-        choices: choiceArray,
         killertest: req.body[`killertest${i}`],
         gemela: req.body[`gemela${i}`],
         newpregunta: req.body[`newpregunta${i}`],
@@ -70,6 +71,9 @@ const add = async (req, res) => {
       })
       await newQuestion.save()
     }
+
+    await newTest.save()
+
     res.status(200).send('Test saved successfully.')
   }
   catch (error) {
@@ -113,16 +117,17 @@ const updateTest = async (req, res) => {
     await Question.deleteMany({ test: req.params.id })
 
     for (let i = 0; i < total; i++) {
-      const choices = req.body[`choices${i}`];
-      const choiceArray = choices.split(',')
 
       const newQuestion = new Question({
         test: req.params.id,
         id: req.body[`id${i}`],
         title: req.body[`title${i}`],
         image: req.body[`image${i}`],
+        choice1: req.body[`choice1${i}`],
+        choice2: req.body[`choice2${i}`],
+        choice3: req.body[`choice3${i}`],
+        choice4: req.body[`choice4${i}`],
         answer: req.body[`answer${i}`],
-        choices: choiceArray,
         killertest: req.body[`killertest${i}`],
         gemela: req.body[`gemela${i}`],
         newpregunta: req.body[`newpregunta${i}`],

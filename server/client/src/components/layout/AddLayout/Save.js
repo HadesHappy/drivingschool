@@ -17,6 +17,8 @@ const SaveButton = () => {
       const res = isFill(problems[problems.length - 1])
 
       if (res.isFull) {
+        console.log('problems: ', problems)
+
         const response = await saveTest(problems)
         toast.success(`Totalmente ${problems.length} de preguntas guardadas`)
         console.log(`Totalmente ${problems.length} de preguntas guardadas`)

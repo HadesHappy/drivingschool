@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import CreateButton from '../Common/Create'
 import SaveButton from './Save'
 import QuestionButton from '../Common/Question'
@@ -10,23 +10,20 @@ const AddSideBar = () => {
   const { id } = useParams()
   const problems = useSelector(state => state.problemReducer.problems)
   const loading = useSelector(state => state.problemReducer.loading)
+  const navigate = useNavigate()
 
   const [lists, setLists] = useState(0)
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   useEffect(() => {
+    if (lists === 0 && id)
+      navigate('/admin')
+  }, [])
+
+  useEffect(() => {
     setLists(problems.length)
     setSelectedIndex(Number(id))
   }, [loading])
-
-  // useEffect(() => {
-  //   console.log('here')
-  //   console.log(problems)
-  //   if (problems.length) {
-  //     setLists(problems.length)
-  //     setSelectedIndex(problems.length - 1)
-  //   }
-  // }, [])
 
   const getQuestions = () => {
     const result = [];

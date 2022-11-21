@@ -7,13 +7,12 @@ import { useSelector } from 'react-redux'
 const Preview = () => {
   const location = useLocation();
   const problem = useSelector(state => state.problemReducer.problems[location.state.id - 1])
-  const [choices, setChoices] = useState(['', '', '', ''])
+  const [choices, setChoices] = useState([{}, {}, {}, {}])
   const [url, setUrl] = useState('')
   useEffect(() => {
     if (problem.choices)
       setChoices(problem.choices)
 
-    console.log(typeof (problem.image))
     if (problem.image)
       if (typeof (problem.image) === 'object') {
         console.log('iiihere')
@@ -57,21 +56,21 @@ const Preview = () => {
             </div>
             <div className='flex flex-row gap-10 items-center'>
               <div className='bg-[#3598DB] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer hover:bg-blue-300'>A</div>
-              <div className='text-gray-500 text-[32px]'>{choices[0]}</div>
+              <div className='text-gray-500 text-[32px]'>{choices[0].text}</div>
             </div>
             <div className='flex flex-row gap-10 items-center'>
               <div className='bg-[#3598DB] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer hover:bg-blue-300'>B</div>
-              <div className='text-gray-500 text-[32px]'>{choices[1]}</div>
+              <div className='text-gray-500 text-[32px]'>{choices[1].text}</div>
             </div>
             <div className='flex flex-row gap-10 items-center'>
               <div className='bg-[#3598DB] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer hover:bg-blue-300'>C</div>
-              <div className='text-gray-500 text-[32px]'>{choices[2]}</div>
+              <div className='text-gray-500 text-[32px]'>{choices[2].text}</div>
             </div>
             {
-              choices[3] === '' ? (<></>) : (<div className='flex flex-row gap-10 items-center'>
+              choices[3].text ? (<div className='flex flex-row gap-10 items-center'>
                 <div className='bg-[#3598DB] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer hover:bg-blue-300'>D</div>
-                <div className='text-gray-500 text-[32px]'>{choices[3]}</div>
-              </div>)
+                <div className='text-gray-500 text-[32px]'>{choices[3].text}</div>
+              </div>) : (<></>)
             }
 
             <div className='flex flex-row gap-10 justify-center items-center'>
