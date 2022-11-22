@@ -3,8 +3,9 @@ import TodoTest from './tests/TodoTest'
 import Temas from './temas'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
+import { useAuth } from '../../../contexts/AuthContext'
 import { readTests, getTests } from '../../../actions/test'
+import { useNavigate } from 'react-router-dom'
 
 import { useDispatch } from 'react-redux'
 
@@ -15,10 +16,13 @@ const Content = () => {
   const [string, setString] = useState()
   const tests = useSelector(state => state.todoReducer.tests)
   const loading = useSelector(state => state.todoReducer.loading)
-
+  const { account, isLoggedIn } = useAuth()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect(() => {
+    if(!isLoggedIn)
+      navigate('/')
     switch (id) {
       case 'todotest':
         dispatch(getTests())
@@ -28,7 +32,7 @@ const Content = () => {
         break;
       default: dispatch(readTests(id))
     }
-  }, [id])
+  }, [id, isLoggedIn])
 
   useEffect(() => {
     if (id === 'todotest')

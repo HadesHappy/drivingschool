@@ -28,7 +28,7 @@ const Result = () => {
   }, [])
   return (
     <>
-      <Top id={30} />
+      <Top id={answers.length} />
       <div className='flex flex-row 2xl:gap-40 xl: gap-20'>
         <div className='flex flex-col 2xl:pl-60 xl:pl-20 mt-10'>
           <div className='flex flex-row float-left'>
@@ -76,7 +76,7 @@ const Result = () => {
                 </div>
                 <div className='flex flex-col justify-between'>
                   <div className='text-md font-bold'>Alumno:lorena P.B</div>
-                  <div className='text-sm text-gray-500'>Friday, November 18 2022</div>
+                  <div className='text-sm text-gray-500'>Tuesday, November 22 2022</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>

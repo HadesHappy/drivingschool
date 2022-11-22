@@ -6,7 +6,11 @@ const QuestionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar: {
+  password: {
+    type: String,
+    required: true,
+  },
+  image: {
     type: String,
     required: false,
     default: ''

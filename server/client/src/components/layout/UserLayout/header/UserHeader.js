@@ -1,7 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaSearch, FaRegBell, FaRegClipboard } from 'react-icons/fa'
+import { useAuth } from '../../../../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const UserHeader = () => {
+  const { isLoggedIn, logout, account } = useAuth()
+  const [clicked, setClicked] = useState(false)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isLoggedIn)
+      navigate('/')
+  }, [isLoggedIn])
+
+  const handleLogoutClick = () => {
+    logout()
+  }
+
+  const handleToggle = () => {
+    setClicked(true)
+  }
+
   return (
     <div className='pl-40 pr-20 py-0.5 mb-20 flex flex-row justify-between shadow-lg w-full items-center'>
       <div className='flex flex-row'>
@@ -21,8 +40,24 @@ const UserHeader = () => {
         </div>
         <div className='flex flex-row gap-3'>
           <p className='text-sm font-medium'>Autoescuela App</p>
-          <img  className='w-7 y-7 rounded-full' src='/assets/icons/logo.png' alt='logo circle' />
+          {/* <img className='w-7 y-7 rounded-full' src='/assets/icons/logo.png' alt='logo circle' /> */}
         </div>
+        {
+          isLoggedIn ?
+            <div className='transition-200 relative' onMouseLeave={() => setClicked(false)}>
+              <img className='w-7 h-7 rounded-full cursor-pointer' src={account.image} alt='' onClick={handleToggle} />
+              {
+                clicked ?
+                  <div className=''>
+                    <div className='cursor-pointer absolute' onClick={handleLogoutClick}>LogOut</div>
+                  </div>
+                  :
+                  <></>
+              }
+            </div>
+            :
+            <div className='cursor-pointer'>LogIn</div>
+        }
       </div>
     </div>
   )

@@ -33,8 +33,6 @@ const details = async (req, res) => {
 
 const add = async (req, res) => {
   try {
-    console.log('body: ', req.body)
-
     const total = req.body.total;
     let no;
     const test = await Test.findOne({}, {}, { sort: { 'createdAt': -1 } })

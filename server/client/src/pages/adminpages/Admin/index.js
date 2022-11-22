@@ -3,20 +3,30 @@ import AddButton from '../../../components/admin/addtest/AddButton'
 import TestRow from '../../../components/admin/TestRow'
 import { getTests } from '../../../actions/test'
 import { useSelector, useDispatch } from 'react-redux'
+import { useAuth } from '../../../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const Admin = () => {
   const [lists, setLists] = useState([])
   const tests = useSelector(state => state.todoReducer.tests)
   const loading = useSelector(state => state.todoReducer.loading)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { isLoggedIn, logout } = useAuth()
 
   useEffect(() => {
-    dispatch(getTests())
-  }, [])
+    if (isLoggedIn){
+      // logout()
+      dispatch(getTests())
+    }
+    else {
+      navigate('/')
+    }
+  }, [isLoggedIn])
 
-  useEffect(()=>{
+  useEffect(() => {
     setLists(tests)
-  },[loading])
+  }, [loading])
 
   return (
     <>
@@ -29,7 +39,7 @@ const Admin = () => {
             <div className='px-20 py-14'>
               {
                 lists.map((list, key) =>
-                  <TestRow num={list.no} count={list.count} key={key}/>
+                  <TestRow num={list.no} count={list.count} key={key} />
                 )
               }
             </div>
