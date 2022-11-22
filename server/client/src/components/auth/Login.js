@@ -16,13 +16,11 @@ export default function Login() {
 
   const handleSubmit = () => {
     //    authenticateUser();
-    console.log('yes')
-    console.log(loginState)
   }
 
   return (
-    <div className='mt-8 space-y-6'>
-      <div className='-space-y-px'>
+    <div className='mt-8 space-y-6 border rounded-lg pb-5 px-3'>
+      <div className='-space-y-px '>
         {
           fields.map(field =>
             <Input

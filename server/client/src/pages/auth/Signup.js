@@ -12,7 +12,9 @@ const SignUp = () => {
           linkName="Login"
           linkUrl="/"
         />
-        <Signup />
+        <div className='border rounded-xl px-3 pb-7'>
+          <Signup />
+        </div> 
       </div>
     </div>
   )
