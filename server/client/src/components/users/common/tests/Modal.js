@@ -13,6 +13,10 @@ const Modal = ({ showModal, setShowModal }) => {
     navigate('/exam/1')
   }
 
+  const onStudyClick = () => {
+    dispatch(clearAnswer())
+    navigate('/study/1')
+  }
   return (
     <>
       {
@@ -41,7 +45,7 @@ const Modal = ({ showModal, setShowModal }) => {
                         <div className='flex flex-row justify-center items-center bg-[#3598DB] rounded-lg'>
                           <img src='/assets/icons/estudio.png' alt='estudio' className='mx-20 my-20' />
                         </div>
-                        <div className='px-auto mt-2 font-bold py-4 text-[#3598DB] uppercase rounded-lg border border-[#3598DB] text-center hover:text-white hover:bg-[#3598DB] cursor-pointer' onClick={onExamClick}>iniciar test</div>
+                        <div className='px-auto mt-2 font-bold py-4 text-[#3598DB] uppercase rounded-lg border border-[#3598DB] text-center hover:text-white hover:bg-[#3598DB] cursor-pointer' onClick={onStudyClick}>iniciar test</div>
                       </div>
                       <div className='flex flex-col gap-5'>
                         <div className='text-gray-300 uppercase text-lg text-left'>modo examen</div>

@@ -15,9 +15,11 @@ import QuestionPart from '../components/admin/QuestionPart';
 import UserLayout from '../components/layout/UserLayout';
 import Content from '../components/users/common/Content';
 import Exam from '../components/users/exam/Exam';
+import Study from '../components/users/study/Study';
 
 import Preview from '../pages/Preview';
-import Result from '../components/users/exam/Result';
+import ExamResult from '../components/users/exam/Result';
+import StudyResult from '../components/users/study/Result';
 
 export default function Router() {
   const router = [
@@ -62,10 +64,18 @@ export default function Router() {
     {
       path: '/exam/:id',
       element: <Exam />
+    }, 
+    {
+      path: '/study/:id',
+      element: <Study />
+    }, 
+    {
+      path: '/study/result',
+      element: <StudyResult />
     },
     {
       path: '/exam/result',
-      element: <Result />
+      element: <ExamResult />
     },
     {
       path: '/preview',
