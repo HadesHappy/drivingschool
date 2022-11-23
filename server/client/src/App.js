@@ -7,7 +7,7 @@ function App() {
     <BrowserRouter>
       <Router />
       <Toaster
-        position="top-right"
+        position="top-center"
         reverseOrder={true} />
     </BrowserRouter>
   );

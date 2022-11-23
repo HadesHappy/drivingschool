@@ -11,7 +11,7 @@ const getTests = () => async dispatch => {
   try {
     dispatch({ type: TEST_LOADING })
     dispatch({ type: GET_CATEGORY, payload: 'todotest' })
-    const data = await axios.get('api/question/read');
+    const data = await axios.get('api/question/read'); 
     dispatch({ type: GET_TESTS, payload: data.data })
   }
   catch (error) {
@@ -21,7 +21,6 @@ const getTests = () => async dispatch => {
 
 const readTests = name => async dispatch => {
   try {
-    console.log(name)
     dispatch({ type: TEST_LOADING })
     dispatch({type: GET_CATEGORY, payload: name})
     const data = await axios.get(`api/question/readbyName/${name}`)

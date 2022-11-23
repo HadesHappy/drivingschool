@@ -1,8 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import TabButton from './TabButton';
+import { useParams } from 'react-router-dom';
 
 const Tabs = () => {
   const [selectedTab, setSelectedTab] = useState('todotest');
+  const { id } = useParams()
+
+  useEffect(()=>{
+    setSelectedTab(id)
+  },[])
 
   return (
     <div className='flex flex-row justify-start gap-3'>

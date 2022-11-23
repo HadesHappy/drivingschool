@@ -8,12 +8,22 @@ import { useSelector, useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
 import { addAnswer, updateAnswer } from '../../../actions/answer'
 
-const DisplayButton = ({ num = '' }) => {
+const DisplayButton = ({ num = '', pageId, visited = '' }) => {
+
+  const navigate = useNavigate()
   return (
     <>
-      <div className='border border-gray-600 bg-gray-400 text-white text-center items-center w-28 py-6 text-[32px] rounded-xl cursor-pointer'>
-        {num}
-      </div>
+      {
+        visited ?
+          <div className='border border-gray-600 bg-gray-400 text-white text-center items-center w-28 py-6 text-[32px] rounded-xl cursor-pointer mx-1.5 my-2' onClick={() => navigate(`/exam/${pageId}`)}>
+            {num}
+          </div>
+          :
+          <div className='border border-gray-600 text-gray-700 text-center items-center w-28 py-6 text-[32px] rounded-xl mx-1.5 my-2'>
+            {num}
+          </div>
+      }
+
     </>
   )
 }
@@ -102,7 +112,7 @@ const Exam = () => {
   let rows = [];
   function Rows() {
     let i = 0
-    let len = 15;
+    let len = exams.length;
     while (++i <= len) rows.push(i);
   }
   Rows()
@@ -131,15 +141,15 @@ const Exam = () => {
   return (
     <>
       <Top id={id} />
-      <div>
+      <div className='h-full'>
         {
           currentData ?
             <>
-              <div className='flex flex-row w-full'>
+              <div className='flex flex-row w-full h-screen -mt-16'>
                 <div className='flex justify-center items-center w-1/2'>
-                  <img className='px-20 py-40' src={currentData.image} alt='test_image' />
+                  <img className='px-20 py-40 min-w-[701px] w-[801px]' src={currentData.image} alt='test_image' />
                 </div>
-                <div className='flex flex-col gap-10 w-1/2 px-10'>
+                <div className='flex flex-col justify-center gap-10 w-1/2 px-10'>
                   <div className='mt-20 text-[32px] text-gray-500'>
                     {currentData.title}
                   </div>
@@ -152,7 +162,7 @@ const Exam = () => {
                       :
                       <></>
                   }
-                  <div className='flex flex-row gap-10 justify-center items-center'>
+                  <div className='flex flex-row py-10 gap-10 justify-center items-center'>
                     <div className='flex flex-row rounded-xl px-10 py-5 items-center gap-5 text-white bg-[#3598DB] cursor-pointer hover:bg-blue-300' onClick={onPreviousClick}>
                       <FaChevronLeft />
                       <div className='uppercase'>anterior</div>
@@ -164,18 +174,11 @@ const Exam = () => {
                   </div>
                 </div>
               </div>
-              <div className='mt-20 flex flex-col space-y-10'>
-                <div className='flex flex-row px-5 justify-between'>
+              <div className='px-5'>
+                <div className='flex flex-row flex-wrap'>
                   {
                     rows.map((row, key) => {
-                      return <DisplayButton num={row} key={key} />
-                    })
-                  }
-                </div>
-                <div className='flex flex-row px-5 justify-between'>
-                  {
-                    rows.map((row, key) => {
-                      return <DisplayButton num={row + 15} key={key} />
+                      return <DisplayButton num={row} pageId={key+1} visited={answers[key] ? true : false} key={key} />
                     })
                   }
                 </div>

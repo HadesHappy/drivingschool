@@ -2,13 +2,32 @@ import React, { useEffect, useState } from 'react'
 import Top from './Top'
 import Bottom from './Bottom'
 import { BsFillLightningChargeFill, BsFillXCircleFill } from 'react-icons/bs'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { setIndex } from '../../../actions/test'
+import { toast } from 'react-hot-toast'
+import { clearAnswer } from '../../../actions/answer'
+import { useAuth } from '../../../contexts/AuthContext'
 
 const Result = () => {
   const answers = useSelector(state => state.answerReducer.answers)
   const questions = useSelector(state => state.problemReducer.problems)
+  const category = useSelector(state => state.todoReducer.category)
+  const index = useSelector(state => state.todoReducer.index)
+  const tests = useSelector(state => state.todoReducer.tests)
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const [correctNum, setCorrectNum] = useState(0)
   const [falseNum, setFalseNum] = useState(0)
+  const { account } = useAuth()
+
+  const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  const current = new Date();
+  const date = `${weekday[current.getDay()]}, ${month[current.getMonth()]} ${current.getDate()} ${current.getFullYear()}`;
+
   const checkAnswers = () => {
     let count1 = 0;
     let count2 = 0;
@@ -26,6 +45,24 @@ const Result = () => {
   useEffect(() => {
     checkAnswers()
   }, [])
+
+  const handleNextClick = () => {
+    const length = tests.length
+    if (index < length) {
+      dispatch(setIndex(index + 1))
+      dispatch(clearAnswer())
+      navigate('/exam/1')
+    }
+    else
+      toast.error('This is the last test. There is not next test.')
+  }
+
+  const handleTestsClick = () => {
+    if (category.startsWith('category'))
+      navigate('/user/testportemas')
+    else
+      navigate(`/user/${category}`)
+  }
   return (
     <>
       <Top id={answers.length} />
@@ -55,17 +92,17 @@ const Result = () => {
                 :
                 <img className='' src='/assets/emotions/fail.png' alt='emotion' />
             }
-            
+
           </div>
           <div className='mt-10 ml-32 flex flex-row gap-5 text-center'>
-            <div className='rounded-xl bg-[#3598DB] text-white text-sm py-3 w-36 cursor-pointer'>resultado test</div>
-            <div className='rounded-xl bg-[#3598DB] text-white text-sm py-3 w-36 cursor-pointer'>resultados live</div>
-            <div className='rounded-xl bg-[#3598DB] text-white text-sm py-3 w-36 cursor-pointer'>siguient test</div>
-            <div className='rounded-xl bg-[#3598DB] text-white text-sm py-3 w-36 cursor-pointer'>tests</div>
+            <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer'>resultado test</div>
+            <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={()=> toast.error('There is no live tests result.')}>resultados live</div>
+            <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={handleNextClick}>siguient test</div>
+            <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={handleTestsClick}>tests</div>
           </div>
           <div className='flex flex-row text-lg font-bold my-10 items-center'>
-            resultados
-            <div className='text-sm font-light'>&nbsp;-------------------------------------------------------------------------------------------------------</div>
+            resultados&nbsp;
+            <div className='text-sm font-light border border-dashed border-gray-400 w-full'></div>
           </div>
           <div className='ml-32'>
             <div className='flex flex-col gap-7'>
@@ -75,8 +112,8 @@ const Result = () => {
                   <img src='/assets/icons/profile.png' alt='profile' />
                 </div>
                 <div className='flex flex-col justify-between'>
-                  <div className='text-md font-bold'>Alumno:lorena P.B</div>
-                  <div className='text-sm text-gray-500'>Tuesday, November 22 2022</div>
+                  <div className='text-md font-bold'>{account.name}</div>
+                  <div className='text-sm text-gray-500'>{date}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>

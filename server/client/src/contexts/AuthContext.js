@@ -13,7 +13,6 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
 
   const register = (formData = {}) => {
-    console.log(formData);
     new Promise((resolve, reject) => {
       axios
         .post("api/auth/register", formData, {
@@ -34,7 +33,6 @@ export function AuthProvider({ children }) {
     });
   }
   const login = (formData = {}) => {
-    console.log('data: ', formData)
     new Promise((resolve, reject) => {
       axios
         .post('api/auth/login', formData)
@@ -51,7 +49,6 @@ export function AuthProvider({ children }) {
     });
   }
   const logout = () => {
-    console.log('I am Clicked')
     setIsLoggedIn(false);
     setAccount(null);
     setToken(null);
