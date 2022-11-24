@@ -16,7 +16,7 @@ const Admin = () => {
 
   useEffect(() => {
     if (isLoggedIn){
-      logout()
+      // logout()
       dispatch(getTests())
     }
     else {

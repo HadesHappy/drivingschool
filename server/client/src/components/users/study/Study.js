@@ -146,7 +146,7 @@ const Study = () => {
   const onPreviousClick = () => {
     if (Number(id) !== 1) {
       const previous = Number(id) - 1
-      navigate(`/exam/${previous}`)
+      navigate(`/study/${previous}`)
     }
   }
   const onNextClick = () => {

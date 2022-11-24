@@ -1,17 +1,22 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import './sidebar.css'
+import { useAuth } from '../../../../contexts/AuthContext'
 
 const Sidebar = () => {
   const navigate = useNavigate()
-
+  const {logout} = useAuth()
+  const onClick = () => {
+    logout()
+    navigate('/')
+  }
   return (
     <div className='adminsidebar'>
       <div className='sidebar-container'>
         <div className='sidebar-logo' />
         <div className='sidebar-menu'>
           <div className='sidebar-menu-container'>
-            <div className='sidebar-menu-item'>
+            <div className='sidebar-menu-item' onClick={onClick}>
               <img src='/assets/icons/Entradas.png' alt='entradas' />
             </div>
             <div className='sidebar-menu-item'>

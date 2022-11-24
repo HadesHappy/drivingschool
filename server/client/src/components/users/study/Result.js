@@ -51,7 +51,7 @@ const StudyResult = () => {
     if (index < length) {
       dispatch(setIndex(index + 1))
       dispatch(clearAnswer())
-      navigate('/exam/1')
+      navigate('/study/1')
     }
     else
       toast.error('This is the last test. There is not next test.')

@@ -12,7 +12,7 @@ const port = process.env.PORT || 8080
 app.use(fileupload());
 app.use(cors())
 app.use(express.json())
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
 const uri = process.env.DRIVING_URI || 'mongodb://localhost:27017/DrivingSchool';
