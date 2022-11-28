@@ -65,7 +65,7 @@ const StudyResult = () => {
     setMemoryNum(countMemory)
     setVideoNum(countVideo)
 
-    if(!flag){
+    if (!flag) {
       flag = true
       const data = {
         test: index,
@@ -74,6 +74,9 @@ const StudyResult = () => {
         choices: answers,
         videoNum: countVideo,
         cheatNum: cheatNum,
+        guessNum: countGuess,
+        killerNum: countKiller,
+        memoryNum: countMemory,
         trueNum: countCorrect,
         falseNum: countFalse,
         isPass: countFalse <= 3 ? true : false
@@ -101,6 +104,13 @@ const StudyResult = () => {
       navigate('/user/testportemas')
     else
       navigate(`/user/${category}`)
+  }
+
+  const display = (num) => {
+    if (num < 10 && num > 0)
+      return '0' + num
+    else
+      return num
   }
   return (
     <>
@@ -170,7 +180,7 @@ const StudyResult = () => {
                   <BsFillLightningChargeFill className='w-7 h-7' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Total de preguntas: {answers.length}</div>
+                  <div className='text-md font-bold'>Total de preguntas: {display(answers.length)}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -179,7 +189,7 @@ const StudyResult = () => {
                   <img src='/assets/icons/check.png' alt='check' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Preguntas correctas: {correctNum}</div>
+                  <div className='text-md font-bold'>Preguntas correctas: {display(correctNum)}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -188,7 +198,7 @@ const StudyResult = () => {
                   <BsFillXCircleFill className='text-white w-7 h-7' />
                 </div>
                 <div className='flex flex-col justify-between'>
-                  <div className='text-md font-bold'>Preguntas incorrectas: {falseNum}</div>
+                  <div className='text-md font-bold'>Preguntas incorrectas: {display(falseNum)}</div>
                   <div className='text-sm text-gray-500'>Maximum fallos 3</div>
                 </div>
               </div>
@@ -198,7 +208,7 @@ const StudyResult = () => {
                   <img className='text-white w-7 h-7' src='/assets/icons/pen.png' alt='pen' />
                 </div>
                 <div className='flex flex-col justify-between'>
-                  <div className='text-md font-bold'>Resultados elementados: {cheatNum}</div>
+                  <div className='text-md font-bold'>Resultados elementados: {display(cheatNum)}</div>
                   <div className='text-sm text-gray-500'>Maximum elementados 16</div>
                 </div>
               </div>
@@ -208,7 +218,7 @@ const StudyResult = () => {
                   <img src='/assets/icons/play.png' alt='play' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Videos visto: {videoNum}</div>
+                  <div className='text-md font-bold'>Videos visto: {display(videoNum)}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -217,7 +227,7 @@ const StudyResult = () => {
                   <img src='/assets/icons/knife.png' alt='knife' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Has marcado como killers: {killerNum}</div>
+                  <div className='text-md font-bold'>Has marcado como killers: {display(killerNum)}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -226,7 +236,7 @@ const StudyResult = () => {
                   <img src='/assets/icons/question.png' alt='question' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Has adivindo: {guessNum}</div>
+                  <div className='text-md font-bold'>Has adivindo: {display(guessNum)}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -235,7 +245,7 @@ const StudyResult = () => {
                   <img src='/assets/icons/glass.png' alt='glass' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Sabes de memoria: {memoryNum}</div>
+                  <div className='text-md font-bold'>Sabes de memoria: {display(memoryNum)}</div>
                 </div>
               </div>
             </div>

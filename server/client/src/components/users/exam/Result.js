@@ -60,7 +60,7 @@ const Result = () => {
 
   useEffect(() => {
     checkAnswers()
-  }, []) 
+  }, [])
 
   const handleNextClick = () => {
     const length = tests.length
@@ -79,6 +79,14 @@ const Result = () => {
     else
       navigate(`/user/${category}`)
   }
+
+  const display = (num) => {
+    if (num < 10 && num > 0)
+      return '0' + num
+    else
+      return num
+  }
+
   return (
     <>
       <Top id={answers.length} />
@@ -147,7 +155,7 @@ const Result = () => {
                   <BsFillLightningChargeFill className='w-7 h-7' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Total de preguntas: {answers.length}</div>
+                  <div className='text-md font-bold'>Total de preguntas: {display(answers.length)}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -156,7 +164,7 @@ const Result = () => {
                   <img src='/assets/icons/check.png' alt='check' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Preguntas correctas: {correctNum}</div>
+                  <div className='text-md font-bold'>Preguntas correctas: {display(correctNum)}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -165,7 +173,7 @@ const Result = () => {
                   <BsFillXCircleFill className='text-white w-7 h-7' />
                 </div>
                 <div className='flex flex-col justify-between'>
-                  <div className='text-md font-bold'>Preguntas incorrectas: {falseNum}</div>
+                  <div className='text-md font-bold'>Preguntas incorrectas: {display(falseNum)}</div>
                   <div className='text-sm text-gray-500'>Maximum fallos 3</div>
                 </div>
               </div>

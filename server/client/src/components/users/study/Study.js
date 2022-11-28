@@ -17,16 +17,16 @@ const DisplayButton = ({ num = '', pageId, visited = '', correct = '' }) => {
     <>
       {
         !visited ?
-          <div className='border border-gray-600 text-gray-700 text-center items-center w-28 py-6 text-[32px] rounded-xl cursor-pointer mx-1.5 my-2' onClick={() => navigate(`/study/${pageId}`)}>
+          <div className='border border-gray-600 text-gray-700 text-center items-center w-28 py-6 text-[32px] rounded-xl mx-1.5 my-2'>
             {num}
           </div>
           :
           correct ?
-            <div className='border border-gray-600 bg-[#4EFF6C] text-white text-center items-center w-28 py-6 text-[32px] rounded-xl mx-1.5 my-2'>
+            <div className='border border-gray-600 bg-[#4EFF6C] text-white text-center items-center w-28 py-6 text-[32px] rounded-xl mx-1.5 my-2 cursor-pointer' onClick={() => navigate(`/study/${pageId}`)}>
               {num}
             </div>
             :
-            <div className='border border-gray-600 bg-[#FF5353] text-white text-center items-center w-28 py-6 text-[32px] rounded-xl mx-1.5 my-2'>
+            <div className='border border-gray-600 bg-[#FF5353] text-white text-center items-center w-28 py-6 text-[32px] rounded-xl mx-1.5 my-2 cursor-pointer' onClick={() => navigate(`/study/${pageId}`)}>
               {num}
             </div>
       }
@@ -222,7 +222,7 @@ const Study = () => {
     let num = Math.floor(10 * Math.random() % 3 + 1)
     if ('choice' + `${num}` !== currentData.answer)
       return 'choice' + `${num}`
-    else{
+    else {
       num = (num + 1) % 3
       return 'choice' + `${num}`
     }
@@ -231,14 +231,8 @@ const Study = () => {
     if (leftCheatNum === 0)
       toast.error("You can not use this button.")
     else {
-      console.log('cheatText: ', cheatText)
-      console.log('is Null: ', cheatText === null)
-      console.log('is undefined: ', cheatText === undefined)
-      console.log('is empty: ', cheatText === '')
-
       if (cheatText === undefined || cheatText === '' || cheatText === null) {
         const removeText = getRandomText()
-        console.log(removeText)
         setCheatText(removeText)
         setLeftCheatNum(leftCheatNum - 1)
         dispatch(increaseCheatNum())
@@ -310,7 +304,7 @@ const Study = () => {
                 <div className='flex flex-row flex-wrap'>
                   {
                     rows.map((row, key) => {
-                      return <DisplayButton num={row} pageId={key + 1} visited={answers[key] ? true : false} key={key} correct={answers[key] === exams[id - 1].answer ? true : false} />
+                      return <DisplayButton num={row} pageId={key + 1} visited={answers[key] ? true : false} key={key} correct={answers[key] ? answers[key].isTrue : false} />
                     })
                   }
                 </div>

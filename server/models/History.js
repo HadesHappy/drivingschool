@@ -56,6 +56,18 @@ const HistorySchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  killerNum: {
+    type: Number,
+    default: 0,
+  },
+  guessNum: {
+    type: Number,
+    default: 0,
+  },
+  memoryNum: {
+    type: Number,
+    default: 0,
+  },
   trueNum: {
     type: Number,
     default: 0
