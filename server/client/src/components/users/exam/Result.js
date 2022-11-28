@@ -8,6 +8,7 @@ import { setIndex } from '../../../actions/test'
 import { toast } from 'react-hot-toast'
 import { clearAnswer } from '../../../actions/answer'
 import { useAuth } from '../../../contexts/AuthContext'
+import { addHistory } from '../../../apis/history.api'
 
 const Result = () => {
   const answers = useSelector(state => state.answerReducer.answers)
@@ -22,12 +23,12 @@ const Result = () => {
   const [correctNum, setCorrectNum] = useState(0)
   const [falseNum, setFalseNum] = useState(0)
   const { account } = useAuth()
-
   const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   const current = new Date();
   const date = `${weekday[current.getDay()]}, ${month[current.getMonth()]} ${current.getDate()} ${current.getFullYear()}`;
 
+  let saved = false
   const checkAnswers = () => {
     let count1 = 0;
     let count2 = 0;
@@ -41,10 +42,25 @@ const Result = () => {
 
     setCorrectNum(count1)
     setFalseNum(count2)
+
+    if (!saved) {
+      saved = true
+      const data = {
+        test: index,
+        category: category,
+        examType: 'exam',
+        choices: answers,
+        trueNum: count1,
+        falseNum: count2,
+        isPass: count2 <= 3 ? true : false
+      }
+      addHistory(data)
+    }
   }
+
   useEffect(() => {
     checkAnswers()
-  }, [])
+  }, []) 
 
   const handleNextClick = () => {
     const length = tests.length
@@ -96,7 +112,7 @@ const Result = () => {
           </div>
           <div className='mt-10 ml-32 flex flex-row gap-5 text-center'>
             <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer'>resultado test</div>
-            <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={()=> toast.error('There is no live tests result.')}>resultados live</div>
+            <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={() => toast.error('There is no live tests result.')}>resultados live</div>
             <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={handleNextClick}>siguient test</div>
             <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={handleTestsClick}>tests</div>
           </div>

@@ -48,6 +48,14 @@ const HistorySchema = new mongoose.Schema({
       default: false,
     }
   }],
+  cheatNum: {
+    type: Number,
+    default: 0
+  },
+  videoNum: {
+    type: Number,
+    default: 0
+  },
   trueNum: {
     type: Number,
     default: 0

@@ -8,11 +8,11 @@ import { setIndex } from '../../../actions/test'
 import { toast } from 'react-hot-toast'
 import { clearAnswer } from '../../../actions/answer'
 import { useAuth } from '../../../contexts/AuthContext'
+import { addHistory } from '../../../apis/history.api'
 
 const StudyResult = () => {
   const answers = useSelector(state => state.answerReducer.answers)
   const cheatNum = useSelector(state => state.answerReducer.cheatNum)
-  const questions = useSelector(state => state.problemReducer.problems)
   const category = useSelector(state => state.todoReducer.category)
   const index = useSelector(state => state.todoReducer.index)
   const tests = useSelector(state => state.todoReducer.tests)
@@ -34,6 +34,7 @@ const StudyResult = () => {
   const current = new Date();
   const date = `${weekday[current.getDay()]}, ${month[current.getMonth()]} ${current.getDate()} ${current.getFullYear()}`;
 
+  let flag = false
   const checkAnswers = () => {
     let countCorrect = 0;
     let countFalse = 0;
@@ -64,6 +65,21 @@ const StudyResult = () => {
     setMemoryNum(countMemory)
     setVideoNum(countVideo)
 
+    if(!flag){
+      flag = true
+      const data = {
+        test: index,
+        category: category,
+        examType: 'study',
+        choices: answers,
+        videoNum: countVideo,
+        cheatNum: cheatNum,
+        trueNum: countCorrect,
+        falseNum: countFalse,
+        isPass: countFalse <= 3 ? true : false
+      }
+      addHistory(data)
+    }
   }
   useEffect(() => {
     checkAnswers()

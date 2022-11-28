@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const authorizeBearerToken = require('../middleware/auth.middleware')
+const {authorizeBearerToken} = require('../middleware/auth.middleware')
 const historyController = require('../controllers/history.controller')
 
 // router.get('/read', questionController.read);
@@ -9,7 +9,7 @@ const historyController = require('../controllers/history.controller')
 
 // router.get('/readbyName/:name', questionController.readbyName)
 
-router.post('/add', [authorizeBearerToken], historyController.add);
+router.post('/add', [authorizeBearerToken], historyController.saveHistory);
 
 // router.post('/updateTest/:id', [uploadImage], questionController.updateTest);
 // router.post('/deleteTest/:id', questionController.deleteTest)

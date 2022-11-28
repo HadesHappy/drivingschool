@@ -115,6 +115,7 @@ const Study = () => {
   const [cheatText, setCheatText] = useState('')
 
   useEffect(() => {
+    setCheatText('')
     if (name === 'todotest')
       dispatch(getProblems(testNum))
     else
@@ -218,19 +219,26 @@ const Study = () => {
   }
 
   const getRandomText = () => {
-    const num = Math.floor(10 * Math.random() % 3 + 1)
+    let num = Math.floor(10 * Math.random() % 3 + 1)
     if ('choice' + `${num}` !== currentData.answer)
       return 'choice' + `${num}`
-    else
-      getRandomText()
+    else{
+      num = (num + 1) % 3
+      return 'choice' + `${num}`
+    }
   }
   const cheatNumClick = () => {
     if (leftCheatNum === 0)
       toast.error("You can not use this button.")
     else {
-      console.log(cheatText)
+      console.log('cheatText: ', cheatText)
+      console.log('is Null: ', cheatText === null)
+      console.log('is undefined: ', cheatText === undefined)
+      console.log('is empty: ', cheatText === '')
+
       if (cheatText === undefined || cheatText === '' || cheatText === null) {
         const removeText = getRandomText()
+        console.log(removeText)
         setCheatText(removeText)
         setLeftCheatNum(leftCheatNum - 1)
         dispatch(increaseCheatNum())
