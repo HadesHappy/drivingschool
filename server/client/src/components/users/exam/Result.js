@@ -33,7 +33,7 @@ const Result = () => {
     let count2 = 0;
 
     for (let i = 0; i < answers.length; i++) {
-      if (answers[i] === questions[i].answer)
+      if (answers[i].isTrue)
         count1++
       else
         count2++

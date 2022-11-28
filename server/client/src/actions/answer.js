@@ -2,6 +2,7 @@ import {
   ADD_ANSWER,
   UPDATE_ANSWER,
   CLEAR_ANSWER,
+  INCREASE_CHEATNUM,
 } from '../store/constants'
 
 const addAnswer = data => dispatch => {
@@ -16,8 +17,12 @@ const clearAnswer = () => dispatch => {
   dispatch({ type: CLEAR_ANSWER })
 }
 
+const increaseCheatNum = () => dispatch => {
+  dispatch({ type: INCREASE_CHEATNUM })
+}
 export {
   addAnswer,
   updateAnswer,
   clearAnswer,
+  increaseCheatNum,
 }

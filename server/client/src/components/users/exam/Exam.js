@@ -23,7 +23,6 @@ const DisplayButton = ({ num = '', pageId, visited = '' }) => {
             {num}
           </div>
       }
-
     </>
   )
 }
@@ -33,7 +32,11 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice 
   const buttonClick = () => {
     if (choice === '') {
       setChoice(name)
-      dispatch(addAnswer(name))
+      const data = {
+        choice: name,
+        isTrue: name === answer ? true : false,
+      }
+      dispatch(addAnswer(data))
     }
     else {
       toast.error('You already chose an answer.')
@@ -178,7 +181,7 @@ const Exam = () => {
                 <div className='flex flex-row flex-wrap'>
                   {
                     rows.map((row, key) => {
-                      return <DisplayButton num={row} pageId={key+1} visited={answers[key] ? true : false} key={key} />
+                      return <DisplayButton num={row} pageId={key + 1} visited={answers[key] ? true : false} key={key} />
                     })
                   }
                 </div>

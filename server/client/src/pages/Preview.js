@@ -7,15 +7,11 @@ import { useSelector } from 'react-redux'
 const Preview = () => {
   const location = useLocation();
   const problem = useSelector(state => state.problemReducer.problems[location.state.id - 1])
-  const [choices, setChoices] = useState([{}, {}, {}, {}])
+
   const [url, setUrl] = useState('')
   useEffect(() => {
-    if (problem.choices)
-      setChoices(problem.choices)
-
     if (problem.image)
       if (typeof (problem.image) === 'object') {
-        console.log('iiihere')
         URL.createObjectURL(problem.image)
         setUrl(URL.createObjectURL(problem.image))
       }
@@ -46,9 +42,9 @@ const Preview = () => {
         </div>
       </div>
       <div>
-        <div className='flex flex-row w-full'>
+        <div className='flex flex-row w-full h-screen'>
           <div className='flex justify-center items-center w-1/2'>
-            <img className='px-20 py-40' src={problem.image ? url : '/assets/icons/Main Image.png'} alt='test_image' />
+            <img className='px-20 py-30 min-w-[701px] w-[801px]' src={problem.image ? url : '/assets/icons/Main Image.png'} alt='test_image' />
           </div>
           <div className='flex flex-col gap-10 w-1/2 px-10'>
             <div className='mt-20 text-[32px] text-gray-500'>
@@ -56,20 +52,20 @@ const Preview = () => {
             </div>
             <div className='flex flex-row gap-10 items-center'>
               <div className='bg-[#3598DB] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer hover:bg-blue-300'>A</div>
-              <div className='text-gray-500 text-[32px]'>{choices[0].text}</div>
+              <div className='text-gray-500 text-[32px]'>{problem.choice1}</div>
             </div>
             <div className='flex flex-row gap-10 items-center'>
               <div className='bg-[#3598DB] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer hover:bg-blue-300'>B</div>
-              <div className='text-gray-500 text-[32px]'>{choices[1].text}</div>
+              <div className='text-gray-500 text-[32px]'>{problem.choice2}</div>
             </div>
             <div className='flex flex-row gap-10 items-center'>
               <div className='bg-[#3598DB] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer hover:bg-blue-300'>C</div>
-              <div className='text-gray-500 text-[32px]'>{choices[2].text}</div>
+              <div className='text-gray-500 text-[32px]'>{problem.choice3}</div>
             </div>
             {
-              choices[3].text ? (<div className='flex flex-row gap-10 items-center'>
+              problem.choice4 ? (<div className='flex flex-row gap-10 items-center'>
                 <div className='bg-[#3598DB] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer hover:bg-blue-300'>D</div>
-                <div className='text-gray-500 text-[32px]'>{choices[3].text}</div>
+                <div className='text-gray-500 text-[32px]'>{problem.choice4}</div>
               </div>) : (<></>)
             }
 

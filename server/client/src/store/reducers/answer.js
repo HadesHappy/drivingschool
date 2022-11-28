@@ -2,10 +2,12 @@ import {
   ADD_ANSWER,
   UPDATE_ANSWER,
   CLEAR_ANSWER,
+  INCREASE_CHEATNUM,
 } from '../constants'
 
 const initialState = {
   answers: [],
+  cheatNum: 0,
 }
 
 const answerReducer = (state = initialState, action) => {
@@ -25,6 +27,11 @@ const answerReducer = (state = initialState, action) => {
       return {
         ...state,
         answers: newAnswers
+      }
+    case INCREASE_CHEATNUM:
+      return {
+        ...state,
+        cheatNum: state.cheatNum + 1
       }
     default:
       return state

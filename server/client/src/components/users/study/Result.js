@@ -11,6 +11,7 @@ import { useAuth } from '../../../contexts/AuthContext'
 
 const StudyResult = () => {
   const answers = useSelector(state => state.answerReducer.answers)
+  const cheatNum = useSelector(state => state.answerReducer.cheatNum)
   const questions = useSelector(state => state.problemReducer.problems)
   const category = useSelector(state => state.todoReducer.category)
   const index = useSelector(state => state.todoReducer.index)
@@ -21,6 +22,11 @@ const StudyResult = () => {
 
   const [correctNum, setCorrectNum] = useState(0)
   const [falseNum, setFalseNum] = useState(0)
+  const [killerNum, setKillerNum] = useState(0)
+  const [guessNum, setGuessNum] = useState(0)
+  const [memoryNum, setMemoryNum] = useState(0)
+  const [videoNum, setVideoNum] = useState(0)
+
   const { account } = useAuth()
 
   const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -29,18 +35,35 @@ const StudyResult = () => {
   const date = `${weekday[current.getDay()]}, ${month[current.getMonth()]} ${current.getDate()} ${current.getFullYear()}`;
 
   const checkAnswers = () => {
-    let count1 = 0;
-    let count2 = 0;
+    let countCorrect = 0;
+    let countFalse = 0;
+    let countKiller = 0;
+    let countGuess = 0;
+    let countMemory = 0;
+    let countVideo = 0;
 
     for (let i = 0; i < answers.length; i++) {
-      if (answers[i] === questions[i].answer)
-        count1++
+      if (answers[i].isTrue)
+        countCorrect++
       else
-        count2++
+        countFalse++
+      if (answers[i].isKiller)
+        countKiller++
+      if (answers[i].isGuess)
+        countGuess++
+      if (answers[i].isMemory)
+        countMemory++
+      if (answers[i].isVideo)
+        countVideo++
     }
 
-    setCorrectNum(count1)
-    setFalseNum(count2)
+    setCorrectNum(countCorrect)
+    setFalseNum(countFalse)
+    setKillerNum(countKiller)
+    setGuessNum(countGuess)
+    setMemoryNum(countMemory)
+    setVideoNum(countVideo)
+
   }
   useEffect(() => {
     checkAnswers()
@@ -156,10 +179,10 @@ const StudyResult = () => {
               <div className='flex flex-row space-x-6'>
                 <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
                 <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md'>
-                  <img className='text-white w-7 h-7' src='/assets/icons/pen.png' alt='pen'/>
+                  <img className='text-white w-7 h-7' src='/assets/icons/pen.png' alt='pen' />
                 </div>
                 <div className='flex flex-col justify-between'>
-                  <div className='text-md font-bold'>Resultados elementados: 05</div>
+                  <div className='text-md font-bold'>Resultados elementados: {cheatNum}</div>
                   <div className='text-sm text-gray-500'>Maximum elementados 16</div>
                 </div>
               </div>
@@ -169,7 +192,7 @@ const StudyResult = () => {
                   <img src='/assets/icons/play.png' alt='play' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Videos visto: 03</div>
+                  <div className='text-md font-bold'>Videos visto: {videoNum}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -178,7 +201,7 @@ const StudyResult = () => {
                   <img src='/assets/icons/knife.png' alt='knife' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Has marcado como killers: 05</div>
+                  <div className='text-md font-bold'>Has marcado como killers: {killerNum}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -187,7 +210,7 @@ const StudyResult = () => {
                   <img src='/assets/icons/question.png' alt='question' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Has adivindo: 08</div>
+                  <div className='text-md font-bold'>Has adivindo: {guessNum}</div>
                 </div>
               </div>
               <div className='flex flex-row space-x-6'>
@@ -196,7 +219,7 @@ const StudyResult = () => {
                   <img src='/assets/icons/glass.png' alt='glass' />
                 </div>
                 <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Sabes de memoria: 03</div>
+                  <div className='text-md font-bold'>Sabes de memoria: {memoryNum}</div>
                 </div>
               </div>
             </div>
