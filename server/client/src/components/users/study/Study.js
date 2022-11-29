@@ -112,7 +112,7 @@ const Study = () => {
   const [isMemoryChecked, setIsMemoryChecked] = useState(false)
   const [isVideoClicked, setIsVideoClicked] = useState(false)
   const [leftCheatNum, setLeftCheatNum] = useState(CHEATNUM)
-  const [cheatText, setCheatText] = useState('')
+  const [cheatText, setCheatText] = useState([])
 
   useEffect(() => {
     setCheatText('')
@@ -218,33 +218,36 @@ const Study = () => {
     setIsVideoClicked(true)
   }
 
-  const getRandomText = () => {
-    let num = Math.floor(10 * Math.random() % 3 + 1)
+  const getRandomText = (length) => {
+    let num = Math.floor(Math.random() * length) + 1
+    console.log(num)
     if ('choice' + `${num}` !== currentData.answer)
       return 'choice' + `${num}`
     else {
-      num = (num + 1) % 3
-      return 'choice' + `${num}`
+      console.log('again')
     }
   }
   const cheatNumClick = () => {
     if (leftCheatNum === 0)
       toast.error("You can not use this button.")
     else {
-      if (cheatText === undefined || cheatText === '' || cheatText === null) {
-        const removeText = getRandomText()
-        setCheatText(removeText)
-        setLeftCheatNum(leftCheatNum - 1)
-        dispatch(increaseCheatNum())
-      }
-      else if (!cheatText.startsWith('choice')) {
-        const removeText = getRandomText()
-        setCheatText(removeText)
-        setLeftCheatNum(leftCheatNum - 1)
-        dispatch(increaseCheatNum())
+      const length = currentData.choice4 ? 4 : 3;
+      if (cheatText.length < length - 1) {
+        let removeText = getRandomText(length - 1)
+        console.log('cheatText: ', cheatText)
+        if (cheatText.includes(removeText) || removeText === undefined)
+          removeText = getRandomText(length - 1)
+        else {
+          const newArray = [...cheatText, removeText]
+          setCheatText(newArray)
+          console.log('newArray: ', newArray)
+          setLeftCheatNum(leftCheatNum - 1)
+          dispatch(increaseCheatNum())
+        }
+
       }
       else {
-        toast.error('You already used this.')
+        toast.error('You run out this on this problem.')
       }
     }
   }
@@ -279,12 +282,12 @@ const Study = () => {
                   <div className='mt-20 text-[32px] text-gray-500'>
                     {currentData.title}
                   </div>
-                  <ChoiceButton name='choice1' content={currentData.choice1} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText === 'choice1' ? true : false} />
-                  <ChoiceButton name='choice2' content={currentData.choice2} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText === 'choice2' ? true : false} />
-                  <ChoiceButton name='choice3' content={currentData.choice3} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText === 'choice3' ? true : false} />
+                  <ChoiceButton name='choice1' content={currentData.choice1} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice1') ? true : false} />
+                  <ChoiceButton name='choice2' content={currentData.choice2} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice2') ? true : false} />
+                  <ChoiceButton name='choice3' content={currentData.choice3} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice3') ? true : false} />
                   {
                     currentData.choice4 ?
-                      <ChoiceButton name='choice4' content={currentData.choice4} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText === 'choice4' ? true : false} />
+                      <ChoiceButton name='choice4' content={currentData.choice4} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice4') ? true : false} />
                       :
                       <></>
                   }

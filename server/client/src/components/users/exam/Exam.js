@@ -58,10 +58,7 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice 
       <div className='flex flex-row gap-10 items-center'>
         {
           choice === name ?
-            choice === answer ?
-              <div className='bg-[#4EFF6C] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer'>{text}</div>
-              :
-              <div className='bg-[#FF5353] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer'>{text}</div>
+            <div className='bg-gray-400 text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer'>{text}</div>
             :
             <div className='bg-[#3598DB] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer hover:bg-blue-300' onClick={buttonClick}>{text}</div>
         }
