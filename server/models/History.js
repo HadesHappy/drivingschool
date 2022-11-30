@@ -8,7 +8,11 @@ const HistorySchema = new mongoose.Schema({
   },
   test: {
     type: Number,
-    required: true,
+    required: false,
+  },
+  id: {
+    type: String,
+    required: false
   },
   category: {
     type: String,

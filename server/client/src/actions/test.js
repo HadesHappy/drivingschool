@@ -6,12 +6,24 @@ import {
 } from '../store/constants'
 
 import axios from '../utils/axios'
+import HEADER from '../apis/header'
+
+const getTodoTests = () => async dispatch => {
+  try {
+    dispatch({ type: TEST_LOADING })
+    dispatch({ type: GET_CATEGORY, payload: 'todotest' })
+    const data = await axios.get('api/question/todotest', HEADER());
+    dispatch({ type: GET_TESTS, payload: data.data })
+  }
+  catch (error) {
+    return error
+  }
+}
 
 const getTests = () => async dispatch => {
   try {
     dispatch({ type: TEST_LOADING })
-    dispatch({ type: GET_CATEGORY, payload: 'todotest' })
-    const data = await axios.get('api/question/read'); 
+    const data = await axios.get('api/question/read');
     dispatch({ type: GET_TESTS, payload: data.data })
   }
   catch (error) {
@@ -37,6 +49,7 @@ const setIndex = (num) => dispatch => {
 
 export {
   getTests,
+  getTodoTests,
   setIndex,
   readTests,
 }

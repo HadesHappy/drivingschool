@@ -1,5 +1,7 @@
 const Question = require("../models/Question");
 const Test = require("../models/Test")
+const History = require('../models/History')
+const User = require('../models/User')
 
 const details = async (req, res) => {
   try {
@@ -128,7 +130,7 @@ const deleteTest = async (req, res) => {
   }
 }
 
-const readProblemsById = async (req, res) => {
+const readTodoTestProblems = async (req, res) => {
   try {
     let test = await Test.findOne({ _id: req.params.id })
     const problems = test.problems
@@ -203,13 +205,60 @@ const readbyId = async (req, res) => {
   }
 }
 
+const readTodoTest = async (req, res) => {
+  try {
+    const name = req.auth.name
+    const tests = await Test.find()
+    let data = []
+
+    for (let i = 0; i < tests.length; i++) {
+      let newItem = {}
+      newItem.id = tests[i].id
+      const histories = await History.find({ id: tests[i].id, category: 'todotest' }, {}, { sort: { 'createdAt': -1 } })
+      if (histories.length) {
+        let users = []
+        let images = []
+        for (let j = 0; j < histories.length; j++) {
+          if (!users.includes(histories[j].user)) {
+            users.push(histories[j].user)
+            const user = await User.findOne({ name: histories[j].user })
+            images.push(user.image)
+          }
+          newItem.totalUsers = users.length
+          newItem.users = users
+          newItem.images = images
+        }
+      }
+      const myHistories = await History.find({ id: tests[i].id, category: 'todotest', user: name, examType: 'exam' }, {}, { sort: { 'createdAt': -1 } })
+      if (myHistories.length) {
+        newItem.latestTime = myHistories[0].createdAt
+        let length = myHistories.length < 3 ? myHistories.length : 3
+        let results = []
+        for (let j = 0; j < length; j++) {
+          let result = {}
+          result.isPass = myHistories[j].isPass
+          result.falseNum = myHistories[j].falseNum
+          results.push(result)
+        }
+        newItem.results = results
+      }
+      data.push(newItem)
+    }
+    res.status(200).send(data)
+  }
+  catch (error) {
+    res.status(403).send(error)
+  }
+}
+
 module.exports = {
   details,
   addTest,
   readTests,
-  readProblemsById,
+  readTodoTestProblems,
   updateTest,
   deleteTest,
+  readTodoTest,
   readbyId,
   readbyName,
 }
