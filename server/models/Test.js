@@ -2,39 +2,68 @@ const mongoose = require('mongoose')
 const modelName = 'Test'
 
 const TestSchema = new mongoose.Schema({
-  no: {
-    type: Number,
-    required: true,
-  },
-  count: {
+  total: {
     type: Number,
     required: true
   },
-  participants: [{
-    user: {
+  problems: [{
+    title: {
       type: String,
       required: true,
     },
-    status: {
+    image: {
       type: String,
-      default: 'attend',
-      history: [{
-        result: {
-          type: String,
-          timestamp: {
-            type: Date,
-            required: true,
-            default: new Date(),
-          },
-        }
-      }]
+      default: '',
     },
-    timestamp: {
-      type: Date,
+    choice1: {
+      type: String,
+      default: ''
+    },
+    choice2: {
+      type: String,
+      default: ''
+    },
+    choice3: {
+      type: String,
+      default: ''
+    },
+    choice4: {
+      type: String,
+      default: ''
+    },
+    answer: {
+      type: String,
+      default: ''
+    },
+    tema: {
+      type: String,
       required: true,
-      default: new Date(),
     },
-  }],
+    category: {
+      type: String,
+      required: true
+    },
+    video: {
+      type: String,
+      default: '',
+    },
+    difficulty: {
+      type: Number,
+      default: 0
+    },
+    killertest: {
+      type: Boolean,
+      default: false,
+    },
+    gemela: {
+      type: Boolean,
+      default: false,
+    },
+    newpregunta: {
+      type: Boolean,
+      default: false
+    },
+  }]
 },
   {
     timestamps: true,

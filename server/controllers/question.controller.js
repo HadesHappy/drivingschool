@@ -31,27 +31,12 @@ const details = async (req, res) => {
   }
 }
 
-const add = async (req, res) => {
+const addTest = async (req, res) => {
   try {
     const total = req.body.total;
-    let no;
-    const test = await Test.findOne({}, {}, { sort: { 'createdAt': -1 } })
-    if (test) {
-      no = test.no + 1
-    }
-    else {
-      no = 1
-    }
-    const newTest = new Test({
-      no: no,
-      count: total
-    })
-
+    let newProblems = []
     for (let i = 0; i < total; i++) {
-
       const newQuestion = new Question({
-        test: no,
-        id: req.body[`id${i}`],
         title: req.body[`title${i}`],
         image: req.body[`image${i}`],
         choice1: req.body[`choice1${i}`],
@@ -67,11 +52,13 @@ const add = async (req, res) => {
         video: req.body[`video${i}`],
         difficulty: req.body[`difficulty${i}`],
       })
-      await newQuestion.save()
+      newProblems.push(newQuestion)
     }
-
+    const newTest = new Test({
+      total: total,
+      problems: newProblems
+    })
     await newTest.save()
-
     res.status(200).send('Test saved successfully.')
   }
   catch (error) {
@@ -79,14 +66,14 @@ const add = async (req, res) => {
   }
 }
 
-const read = async (req, res) => {
+const readTests = async (req, res) => {
   try {
     const tests = await Test.find();
     let data = []
     for (let i = 0; i < tests.length; i++) {
       data[i] = {
-        no: tests[i].no,
-        count: tests[i].count,
+        id: tests[i].id,
+        total: tests[i].total,
       }
     }
     res.status(200).send(data)
@@ -96,29 +83,13 @@ const read = async (req, res) => {
   }
 }
 
-const readTest = async (req, res) => {
-  try {
-    const questions = await Question.find({ test: req.params.id })
-    res.status(200).send(questions)
-  }
-  catch (error) {
-    res.status(400).send(error)
-  }
-}
-
 const updateTest = async (req, res) => {
   try {
-    const test = await Test.findOne({ no: req.params.id })
     const total = req.body.total
-    test.count = total
-    await test.save()
-    await Question.deleteMany({ test: req.params.id })
-
+    let test = await Test.findOne({ _id: req.params.id })
+    let newProblems = []
     for (let i = 0; i < total; i++) {
-
       const newQuestion = new Question({
-        test: req.params.id,
-        id: req.body[`id${i}`],
         title: req.body[`title${i}`],
         image: req.body[`image${i}`],
         choice1: req.body[`choice1${i}`],
@@ -134,8 +105,11 @@ const updateTest = async (req, res) => {
         video: req.body[`video${i}`],
         difficulty: req.body[`difficulty${i}`],
       })
-      await newQuestion.save()
+      newProblems.push(newQuestion)
     }
+    test.total = total
+    test.problems = newProblems
+    await test.save()
     res.status(200).send('Test saved successfully.')
 
   }
@@ -146,12 +120,22 @@ const updateTest = async (req, res) => {
 
 const deleteTest = async (req, res) => {
   try {
-    await Test.deleteOne({ no: req.params.id })
-    await Question.deleteMany({ test: req.params.id })
+    await Test.deleteOne({ _id: req.params.id })
     res.status(200).send('Successfully Deleted.')
   }
   catch (error) {
     res.status(401).send(error)
+  }
+}
+
+const readProblemsById = async (req, res) => {
+  try {
+    let test = await Test.findOne({ _id: req.params.id })
+    const problems = test.problems
+    res.status(200).send(problems)
+  }
+  catch (error) {
+    res.status(400).send(error)
   }
 }
 
@@ -221,9 +205,9 @@ const readbyId = async (req, res) => {
 
 module.exports = {
   details,
-  add,
-  read,
-  readTest,
+  addTest,
+  readTests,
+  readProblemsById,
   updateTest,
   deleteTest,
   readbyId,

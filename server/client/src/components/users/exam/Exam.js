@@ -67,6 +67,7 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice 
     </>
   )
 }
+
 const Exam = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()

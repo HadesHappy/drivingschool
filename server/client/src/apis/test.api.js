@@ -68,7 +68,6 @@ const updateTest = async (id, problems) => {
   let formData = new FormData()
   formData.append('total', problems.length)
 
-  console.log('problems: ', problems)
   for (let i = 0; i < problems.length; i++) {
     formData.append(
       `id${i}`, problems[i].id
@@ -117,7 +116,7 @@ const updateTest = async (id, problems) => {
     )
   }
   try {
-    const result = await axios.post(`api/question/updateTest/${id}`, formData, {
+    const result = await axios.post(`api/question/update/${id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -131,7 +130,7 @@ const updateTest = async (id, problems) => {
 
 const deleteTest = async (id) => {
   try {
-    const data = await axios.post(`api/question/deleteTest/${id}`);
+    const data = await axios.post(`api/question/delete/${id}`);
     return data.data
   }
   catch (error) {

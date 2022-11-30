@@ -3,15 +3,13 @@ const router = express.Router()
 const {uploadImage} = require('../middleware/upload')
 const questionController = require('../controllers/question.controller')
 
-router.get('/read', questionController.read);
-router.get('/read/:id', questionController.readTest);
+router.get('/read', questionController.readTests);
+router.get('/read/:id', questionController.readProblemsById);
 router.get('/readbyId/:id/:name', questionController.readbyId);
-
 router.get('/readbyName/:name', questionController.readbyName)
 
-router.post('/add', [uploadImage], questionController.add);
-
-router.post('/updateTest/:id', [uploadImage], questionController.updateTest);
-router.post('/deleteTest/:id', questionController.deleteTest)
+router.post('/add', [uploadImage], questionController.addTest);
+router.post('/update/:id', [uploadImage], questionController.updateTest);
+router.post('/delete/:id', questionController.deleteTest)
 
 module.exports = router

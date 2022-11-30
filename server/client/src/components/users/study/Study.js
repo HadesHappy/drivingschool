@@ -218,32 +218,25 @@ const Study = () => {
     setIsVideoClicked(true)
   }
 
-  const getRandomText = (length) => {
-    let num = Math.floor(Math.random() * length) + 1
-    console.log(num)
-    if ('choice' + `${num}` !== currentData.answer)
-      return 'choice' + `${num}`
-    else {
-      console.log('again')
-    }
-  }
   const cheatNumClick = () => {
     if (leftCheatNum === 0)
       toast.error("You can not use this button.")
     else {
       const length = currentData.choice4 ? 4 : 3;
       if (cheatText.length < length - 1) {
-        let removeText = getRandomText(length - 1)
-        console.log('cheatText: ', cheatText)
-        if (cheatText.includes(removeText) || removeText === undefined)
-          removeText = getRandomText(length - 1)
-        else {
-          const newArray = [...cheatText, removeText]
-          setCheatText(newArray)
-          console.log('newArray: ', newArray)
-          setLeftCheatNum(leftCheatNum - 1)
-          dispatch(increaseCheatNum())
+        let removeText = ''
+        do{
+          let num = Math.floor(Math.random() * length) + 1
+          removeText = 'choice'.concat(`${num}`)
+          console.log('removeText: ', removeText)
         }
+        while (removeText === '' || cheatText.includes(removeText) || removeText === currentData.answer)
+
+        const newArray = [...cheatText, removeText]
+        setCheatText(newArray)
+        console.log('newArray: ', newArray)
+        setLeftCheatNum(leftCheatNum - 1)
+        dispatch(increaseCheatNum())
 
       }
       else {

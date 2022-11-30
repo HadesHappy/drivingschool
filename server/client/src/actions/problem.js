@@ -42,10 +42,10 @@ const updateProblem = data => async dispatch => {
   }
 }
 
-const getProblems = (test_num) => async dispatch => {
+const getProblems = (id) => async dispatch => {
   try {
     dispatch({ type: PROBLEM_LOADING })
-    const data = await axios.get(`api/question/read/${test_num}`)
+    const data = await axios.get(`api/question/read/${id}`)
     dispatch({ type: GET_PROBLEMS, payload: data.data })
   }
   catch (error) {

@@ -16,7 +16,6 @@ const Admin = () => {
 
   useEffect(() => {
     if (isLoggedIn){
-      // logout()
       dispatch(getTests())
     }
     else {
@@ -39,7 +38,7 @@ const Admin = () => {
             <div className='px-20 py-14'>
               {
                 lists.map((list, key) =>
-                  <TestRow num={list.no} count={list.count} key={key} />
+                  <TestRow test={list} no={key + 1} key={key} />
                 )
               }
             </div>

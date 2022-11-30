@@ -1,36 +1,38 @@
 import React from 'react'
 import toast from 'react-hot-toast'
-import { deleteTest, readTest } from '../../apis/test.api';
+import { deleteTest } from '../../apis/test.api';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getTests, setIndex } from '../../actions/test';
 import { getProblems } from '../../actions/problem';
 
-const TestRow = ({ num = '', count = '' }) => {
+const TestRow = ({ test = {}, no = '' }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  let number = '';
-  if (num < 10)
-    number = '0' + num;
-  else
-    number = '' + num
   const handleDeleteClick = async () => {
-    const response = await deleteTest(num)
+    const response = await deleteTest(test.id)
     dispatch(getTests())
     toast.success(response)
   }
 
   const handleEditClick = async () => {
-    dispatch(setIndex(num))
-    await dispatch(getProblems(num));
+    dispatch(setIndex(test.id))
+    await dispatch(getProblems(test.id));
     navigate('/edit/1')
+  }
+
+  const display = (no) => {
+    if (no < 10)
+      return '0' + no
+    else
+      return no
   }
 
   return (
     <div className='flex flex-row w-full shadow-md px-10 py-3 justify-between items-center mb-4 hover:shadow-xl hover:bg-gray-50'>
       <div className='flex flex-row items-center justify-center w-14 h-14 bg-[#3598DB] rounded-xl text-white text-2xl font-bold'>
-        {number}
+        {display(no)}
       </div>
       <div className='text-xl text-gray-500'>Test Oficiale de la DGT</div>
       <div className='flex flex-row gap-3 items-center'>
@@ -43,7 +45,7 @@ const TestRow = ({ num = '', count = '' }) => {
           <img src='/assets/icons/star2.png' alt='star' />
         </div>
       </div>
-      <div className='text-gray-500 text-xl'>Preguntas: {count}</div>
+      <div className='text-gray-500 text-xl'>Preguntas: {display(test.total)}</div>
       <div className='flex flex-row items-center gap-3'>
         <div className='w-11 h-11 px-3 py-3 rounded-md text-center flex flex-row justify-center cursor-pointer bg-[#DB3546]' onClick={handleDeleteClick}>
           <img src='/assets/icons/Delete1.png' alt='delete' />
