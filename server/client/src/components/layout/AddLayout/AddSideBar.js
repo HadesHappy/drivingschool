@@ -15,10 +15,10 @@ const AddSideBar = () => {
   const [lists, setLists] = useState(0)
   const [selectedIndex, setSelectedIndex] = useState(0)
 
-  useEffect(() => {
-    if (lists === 0 && id)
-      navigate('/admin')
-  }, [])
+  // useEffect(() => {
+  //   if (lists === 0 && id)
+  //     navigate('/admin')
+  // }, [])
 
   useEffect(() => {
     setLists(problems.length)

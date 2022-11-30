@@ -13,7 +13,7 @@ const getTodoTests = () => async dispatch => {
   try {
     dispatch({ type: TEST_LOADING })
     dispatch({ type: GET_CATEGORY, payload: 'todotest' })
-    const data = await axios.get('api/question/todotest', HEADER());
+    const data = await axios.get('api/test/todotest', HEADER());
     dispatch({ type: GET_TESTS, payload: data.data })
   }
   catch (error) {
@@ -24,7 +24,7 @@ const getTodoTests = () => async dispatch => {
 const getTests = () => async dispatch => {
   try {
     dispatch({ type: TEST_LOADING })
-    const data = await axios.get('api/question/read');
+    const data = await axios.get('api/test/read');
     dispatch({ type: GET_TESTS, payload: data.data })
   }
   catch (error) {
@@ -36,7 +36,7 @@ const readTests = name => async dispatch => {
   try {
     dispatch({ type: TEST_LOADING })
     dispatch({ type: GET_CATEGORY, payload: name })
-    const data = await axios.get(`api/question/readbyName/${name}`, HEADER())
+    const data = await axios.get(`api/test/readbyName/${name}`, HEADER())
     dispatch({ type: GET_TESTS, payload: data.data })
   }
   catch (error) {
@@ -47,7 +47,7 @@ const readTests = name => async dispatch => {
 const readCategoryTests = name => async dispatch => {
   try {
     dispatch({ type: GET_CATEGORY, payload: name })
-    const data = await axios.get(`api/question/readbyName/${name}`, HEADER())
+    const data = await axios.get(`api/test/readbyName/${name}`, HEADER())
     dispatch({ type: SET_TESTS, payload: data.data })
   }
   catch (error) {

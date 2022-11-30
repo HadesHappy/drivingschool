@@ -90,7 +90,6 @@ const Exam = () => {
   }, [])
 
   useEffect(() => {
-    console.log(answers)
     if (exams)
       setCurrentData(exams[id - 1])
     if (answers) {

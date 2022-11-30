@@ -15,7 +15,7 @@ const Tabs = () => {
       <TabButton text='todo test' id='todotest' selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <TabButton text='killer test' id='killertest' selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <TabButton text='preguntas gemelas' id='gemela' selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-      <TabButton text='nuevas preguntas' id='newpreguntas' selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      <TabButton text='nuevas preguntas' id='newpregunta' selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <TabButton text='test por temas' id='testportemas' selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
     </div>
   )

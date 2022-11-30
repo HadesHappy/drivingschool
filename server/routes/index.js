@@ -1,11 +1,11 @@
 const express = require('express')
 const app = express()
 
-const questionRoutes = require('./question');
+const testRoutes = require('./test');
 const authRoutes = require('./auth')
 const historyRoutes = require('./history')
 
-app.use('/question', questionRoutes)
+app.use('/test', testRoutes)
 app.use('/auth', authRoutes)
 app.use('/history', historyRoutes)
 

@@ -1,4 +1,3 @@
-const Question = require("../models/Question");
 const Test = require("../models/Test")
 const History = require('../models/History')
 const User = require('../models/User')
@@ -38,7 +37,7 @@ const addTest = async (req, res) => {
     const total = req.body.total;
     let newProblems = []
     for (let i = 0; i < total; i++) {
-      const newQuestion = new Question({
+      const newQuestion = {
         title: req.body[`title${i}`],
         image: req.body[`image${i}`],
         choice1: req.body[`choice1${i}`],
@@ -53,7 +52,7 @@ const addTest = async (req, res) => {
         category: req.body[`category${i}`],
         video: req.body[`video${i}`],
         difficulty: req.body[`difficulty${i}`],
-      })
+      }
       newProblems.push(newQuestion)
     }
     const newTest = new Test({
@@ -91,7 +90,7 @@ const updateTest = async (req, res) => {
     let test = await Test.findOne({ _id: req.params.id })
     let newProblems = []
     for (let i = 0; i < total; i++) {
-      const newQuestion = new Question({
+      const newQuestion = {
         title: req.body[`title${i}`],
         image: req.body[`image${i}`],
         choice1: req.body[`choice1${i}`],
@@ -106,7 +105,7 @@ const updateTest = async (req, res) => {
         category: req.body[`category${i}`],
         video: req.body[`video${i}`],
         difficulty: req.body[`difficulty${i}`],
-      })
+      }
       newProblems.push(newQuestion)
     }
     test.total = total
@@ -184,16 +183,7 @@ const readbyName = async (req, res) => {
     for (let i = 0; i < groups.length; i++) {
       let newItem = {}
       newItem.id = groups[i].no
-      let histories
-      let condition = {}
-      condition[name] = true
-      condition.test = groups[i].no
-      name.startsWith('category') ?
-        histories = await History.find({ test: groups[i].no, category: name }, {}, { sort: { 'createdAt': -1 } })
-        :
-        histories = await History.find({ ...condition }, {}, { sort: { 'createdAt': -1 } })
-
-      console.log('histories: ', histories)
+      const histories = await History.find({ test: groups[i].no, category: name }, {}, { sort: { 'createdAt': -1 } })
       if (histories.length) {
         let users = []
         let images = []
@@ -209,12 +199,7 @@ const readbyName = async (req, res) => {
         }
       }
 
-      let myHistories
-      name.startsWith('category') ?
-        myHistories = await History.find({ test: groups[i].no, category: name, user: name, examType: 'exam' }, {}, { sort: { 'createdAt': -1 } })
-        :
-        myHistories = await History.find({ ...condition, user: myName, examType: 'exam' }, {}, { sort: { 'createdAt': -1 } })
-      console.log('myHistories: ', myHistories)
+      const myHistories = await History.find({ test: groups[i].no, category: name, user: myName, examType: 'exam' }, {}, { sort: { 'createdAt': -1 } })
       if (myHistories.length) {
         newItem.latestTime = myHistories[0].createdAt
         let length = myHistories.length < 3 ? myHistories.length : 3
@@ -315,7 +300,7 @@ const readTodoTest = async (req, res) => {
     res.status(403).send(error)
   }
 }
- 
+
 module.exports = {
   details,
   addTest,

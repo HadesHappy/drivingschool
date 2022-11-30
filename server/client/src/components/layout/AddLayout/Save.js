@@ -19,7 +19,6 @@ const SaveButton = () => {
       if (res.isFull) {
         const response = await saveTest(problems)
         toast.success(`Totalmente ${problems.length} de preguntas guardadas`)
-        console.log(`Totalmente ${problems.length} de preguntas guardadas`)
         navigate('/admin')
       }
       else {

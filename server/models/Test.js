@@ -59,7 +59,7 @@ const TestSchema = new mongoose.Schema({
       type: Boolean,
       default: false,
     },
-    newpreguntas: {
+    newpregunta: {
       type: Boolean,
       default: false
     },
