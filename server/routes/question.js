@@ -8,7 +8,7 @@ router.get('/read', questionController.readTests);
 router.get('/read/:id', questionController.readTodoTestProblems);
 router.get('/todotest', [authorizeBearerToken], questionController.readTodoTest);
 router.get('/readbyName/:name', [authorizeBearerToken], questionController.readbyName);
-router.get('/readbyId/:id/:name', questionController.readbyId);
+router.get('/readbyNameAndId/:id/:name', questionController.readbyNameAndId);
 
 router.post('/add', [uploadImage], questionController.addTest);
 router.post('/update/:id', [uploadImage], questionController.updateTest);

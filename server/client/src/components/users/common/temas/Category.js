@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { readTests } from '../../../../actions/test'
+import { readCategoryTests } from '../../../../actions/test'
 import NamedTest from '../tests/NamedTest'
 
 const Category = ({ category = '', selectedCategory, setSelectedCategory }) => {
   const dispatch = useDispatch()
   const tests = useSelector(state => state.todoReducer.tests)
   const loading = useSelector(state => state.todoReducer.loading)
-  const [string, setString] = useState('')
-
-  const onCategoryClick = async () => {
+  const [string, setString] = useState()
+  const onCategoryClick = () => {
     if (selectedCategory === category.id)
       setSelectedCategory('')
     else {
       setSelectedCategory(category.id)
-      await dispatch(readTests(category.id))
+      dispatch(readCategoryTests(category.id))
     }
   }
 
-  useEffect(() => {
+  useEffect(()=>{
     setString(
       tests.map((test, key) =>
-        <NamedTest test={test} key={key} name={category.id} />
-      )
+        <NamedTest test={test} key={key} name={category.id} />)
     )
-  }, [loading])
+  },[tests])
 
   return (
     <>
@@ -33,18 +31,11 @@ const Category = ({ category = '', selectedCategory, setSelectedCategory }) => {
       </div>
       {
         selectedCategory === category.id ?
-          (
-            <div>
-              {string}
-            </div>
-          )
+          string
           :
-          (
-            <></>
-          )
+          <></>
       }
     </>
-
   )
 }
 

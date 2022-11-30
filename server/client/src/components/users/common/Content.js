@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import TodoTest from './tests/TodoTest'
 import Temas from './temas'
-import { useLoaderData, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useAuth } from '../../../contexts/AuthContext'
 import { readTests, getTodoTests } from '../../../actions/test'
@@ -32,21 +32,22 @@ const Content = () => {
         case 'testportemas':
           string = (<><Temas /></>)
           break;
-        default: dispatch(readTests(id))
+        default:
+          dispatch(readTests(id))
       }
     }
   }
 
   useEffect(() => {
-    loadData() 
+    loadData()
   }, [id])
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!isLoggedIn)
       navigate('/')
-  },[isLoggedIn])
+  }, [isLoggedIn])
 
-  if(loading === false) {
+  if (loading === false) {
     if (id === 'todotest')
       string = (
         tests.map((test, key) =>
@@ -61,9 +62,6 @@ const Content = () => {
         <NamedTest test={test} name={id} key={key} />
       ))
     }
-  }
-  else{
-    string = (<></>)
   }
 
   return (

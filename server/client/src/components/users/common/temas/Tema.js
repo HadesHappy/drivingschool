@@ -5,10 +5,12 @@ const Tema = ({ tema = {}, selectedTema, setSelectedTema }) => {
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const onTemaClick = () => {
-    if (selectedTema === tema.id)
+    if (selectedTema === tema.id) {
       setSelectedTema('')
-    else
+    }
+    else {
       setSelectedTema(tema.id);
+    }
   }
   return (
     <>
@@ -17,19 +19,10 @@ const Tema = ({ tema = {}, selectedTema, setSelectedTema }) => {
       </div>
       {
         selectedTema === tema.id ?
-          (
-            <div>
-              {
-                tema.categories.map((category, key) => {
-                  return <Category category={category} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} key={key} />
-                })
-              }
-            </div>
-          )
+          tema.categories.map((category, key) =>
+            <Category category={category} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} key={key} />)
           :
-          (
-            <></>
-          )
+          <></>
       }
     </>
   )

@@ -144,18 +144,22 @@ const readTodoTestProblems = async (req, res) => {
 const readbyName = async (req, res) => {
   try {
     const name = req.params.name
+    console.log(name)
     const myName = req.auth.name
-    console.log('name: ', name)
-    console.log('myName: ', myName)
     const tests = await Test.find()
     let questions = []
     for (let i = 0; i < tests.length; i++) {
       let problems = tests[i].problems
-      if (name.startsWith('category'))
-        problems.filter((problem) => problem.category === name)
+      if (name.startsWith('category')) {
+        problems = problems.filter(problem => problem.category === name)
+      }
       else
-        problems.filter((problem) => problem[name] === true)
-      questions.push(problems)
+        problems = problems.filter(problem => problem[name] === true)
+      if (!problems.length) {
+      }
+      else {
+        questions.push(problems)
+      }
     }
     let length = questions.length
     let groups = [];
@@ -184,7 +188,6 @@ const readbyName = async (req, res) => {
       let condition = {}
       condition[name] = true
       condition.test = groups[i].no
-      console.log('condition:', condition)
       name.startsWith('category') ?
         histories = await History.find({ test: groups[i].no, category: name }, {}, { sort: { 'createdAt': -1 } })
         :
@@ -233,24 +236,33 @@ const readbyName = async (req, res) => {
   }
 }
 
-const readbyId = async (req, res) => {
+const readbyNameAndId = async (req, res) => {
   try {
     const id = req.params.id - 1
     const name = req.params.name
+    console.log(id, name)
+    const tests = await Test.find();
+    let questions = [];
+    for (let i = 0; i < tests.length; i++) {
+      for (let j = 0; j < tests[i].problems.length; j++) {
+        if (name.startsWith('category')) {
+          if (tests[i].problems[j].category === name)
+            questions.push(tests[i].problems[j])
+        }
+        else {
+          if (tests[i].problems[j][name] === true) {
+            questions.push(tests[i].problems[j])
+          }
+        }
+      }
+    }
     let datas = []
-    const query = {};
-    name.startsWith('category') ?
-      query['category'] = name
-      :
-      query[name] = true;
-    const questions = await Question.find(query)
-
     for (let i = 0; i < 30; i++) {
       let iid = 30 * id + i
       if (questions.length == iid) break
-      datas.push(questions[iid])
+      datas = [...datas, questions[iid]]
     }
-
+    console.log('datas: ', datas)
     res.status(200).send(datas)
   }
   catch (error) {
@@ -303,7 +315,7 @@ const readTodoTest = async (req, res) => {
     res.status(403).send(error)
   }
 }
-
+ 
 module.exports = {
   details,
   addTest,
@@ -312,6 +324,6 @@ module.exports = {
   updateTest,
   deleteTest,
   readTodoTest,
-  readbyId,
+  readbyNameAndId,
   readbyName,
 }

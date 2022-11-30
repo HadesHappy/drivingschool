@@ -1,5 +1,6 @@
 import {
   GET_TESTS,
+  SET_TESTS,
   GET_INDEX,
   TEST_LOADING,
   GET_CATEGORY,
@@ -25,6 +26,11 @@ const todoReducer = (state = initialState, action) => {
         ...state,
         tests: payload,
         loading: false
+      }
+    case SET_TESTS:
+      return {
+        ...state,
+        tests: payload,
       }
     case GET_INDEX:
       return {
