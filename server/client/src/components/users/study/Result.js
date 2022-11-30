@@ -67,21 +67,40 @@ const StudyResult = () => {
 
     if (!flag) {
       flag = true
-      const data = {
-        test: index,
-        category: category,
-        examType: 'study',
-        choices: answers,
-        videoNum: countVideo,
-        cheatNum: cheatNum,
-        guessNum: countGuess,
-        killerNum: countKiller,
-        memoryNum: countMemory,
-        trueNum: countCorrect,
-        falseNum: countFalse,
-        isPass: countFalse <= 3 ? true : false
+      if (category === 'todotest') {
+        const data = {
+          id: index,
+          category: category,
+          examType: 'study',
+          choices: answers,
+          videoNum: countVideo,
+          cheatNum: cheatNum,
+          guessNum: countGuess,
+          killerNum: countKiller,
+          memoryNum: countMemory,
+          trueNum: countCorrect,
+          falseNum: countFalse,
+          isPass: countFalse <= 3 ? true : false
+        }
+        addHistory(data)
       }
-      addHistory(data)
+      else {
+        const data = {
+          test: index,
+          category: category,
+          examType: 'study',
+          choices: answers,
+          videoNum: countVideo,
+          cheatNum: cheatNum,
+          guessNum: countGuess,
+          killerNum: countKiller,
+          memoryNum: countMemory,
+          trueNum: countCorrect,
+          falseNum: countFalse,
+          isPass: countFalse <= 3 ? true : false
+        }
+        addHistory(data)
+      }
     }
   }
   useEffect(() => {

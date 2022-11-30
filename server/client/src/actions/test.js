@@ -35,7 +35,7 @@ const readTests = name => async dispatch => {
   try {
     dispatch({ type: TEST_LOADING })
     dispatch({type: GET_CATEGORY, payload: name})
-    const data = await axios.get(`api/question/readbyName/${name}`)
+    const data = await axios.get(`api/question/readbyName/${name}`, HEADER())
     dispatch({ type: GET_TESTS, payload: data.data })
   }
   catch (error) {

@@ -90,11 +90,12 @@ const Exam = () => {
   }, [])
 
   useEffect(() => {
+    console.log(answers)
     if (exams)
       setCurrentData(exams[id - 1])
     if (answers) {
       if (answers[id - 1]) {
-        setChoice(answers[id - 1])
+        setChoice(answers[id - 1].choice)
       }
       else
         setChoice('')

@@ -143,41 +143,94 @@ const readTodoTestProblems = async (req, res) => {
 
 const readbyName = async (req, res) => {
   try {
-    const name = req.params.name;
-    let questions
-    if (name.startsWith('category')) {
-      questions = await Question.find({ category: name })
+    const name = req.params.name
+    const myName = req.auth.name
+    console.log('name: ', name)
+    console.log('myName: ', myName)
+    const tests = await Test.find()
+    let questions = []
+    for (let i = 0; i < tests.length; i++) {
+      let problems = tests[i].problems
+      if (name.startsWith('category'))
+        problems.filter((problem) => problem.category === name)
+      else
+        problems.filter((problem) => problem[name] === true)
+      questions.push(problems)
     }
-    else {
-      const query = {};
-      query[name] = true;
-      questions = await Question.find(query)
-    }
-
-    let datas = [];
-    let data = [];
     let length = questions.length
+    let groups = [];
+    // length is the total length which the name is category or specific condition is satisfied.
     if (length > 30) {
       for (let i = 0; i < Math.floor(length / 30); i++) {
-        datas.push({
+        groups.push({
           no: i + 1,
           count: 30
         })
       }
     }
-    if (length !== 0) {
-      datas.push({
-        no: datas.length + 1,
+
+    if (length !== 0 && length % 30 !== 0) {
+      groups.push({
+        no: groups.length + 1,
         count: length % 30
       })
     }
 
+    let datas = []
+    for (let i = 0; i < groups.length; i++) {
+      let newItem = {}
+      newItem.id = groups[i].no
+      let histories
+      let condition = {}
+      condition[name] = true
+      condition.test = groups[i].no
+      console.log('condition:', condition)
+      name.startsWith('category') ?
+        histories = await History.find({ test: groups[i].no, category: name }, {}, { sort: { 'createdAt': -1 } })
+        :
+        histories = await History.find({ ...condition }, {}, { sort: { 'createdAt': -1 } })
+
+      console.log('histories: ', histories)
+      if (histories.length) {
+        let users = []
+        let images = []
+        for (let j = 0; j < histories.length; j++) {
+          if (!users.includes(histories[j].user)) {
+            users.push(histories[j].user)
+            const user = await User.findOne({ name: histories[j].user })
+            images.push(user.image)
+          }
+          newItem.totalUsers = users.length
+          newItem.users = users
+          newItem.images = images
+        }
+      }
+
+      let myHistories
+      name.startsWith('category') ?
+        myHistories = await History.find({ test: groups[i].no, category: name, user: name, examType: 'exam' }, {}, { sort: { 'createdAt': -1 } })
+        :
+        myHistories = await History.find({ ...condition, user: myName, examType: 'exam' }, {}, { sort: { 'createdAt': -1 } })
+      console.log('myHistories: ', myHistories)
+      if (myHistories.length) {
+        newItem.latestTime = myHistories[0].createdAt
+        let length = myHistories.length < 3 ? myHistories.length : 3
+        let results = []
+        for (let j = 0; j < length; j++) {
+          let result = {}
+          result.isPass = myHistories[j].isPass
+          result.falseNum = myHistories[j].falseNum
+          results.push(result)
+        }
+        newItem.results = results
+      }
+      datas.push(newItem)
+    }
     res.status(200).send(datas);
   }
   catch (error) {
     res.status(401).send(error)
   }
-
 }
 
 const readbyId = async (req, res) => {

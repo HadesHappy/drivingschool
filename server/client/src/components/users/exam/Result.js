@@ -45,16 +45,30 @@ const Result = () => {
 
     if (!saved) {
       saved = true
-      const data = {
-        test: index,
-        category: category,
-        examType: 'exam',
-        choices: answers,
-        trueNum: count1,
-        falseNum: count2,
-        isPass: count2 <= 3 ? true : false
+      if(category === 'todotest'){
+        const data = {
+          id: index,
+          category: category,
+          examType: 'exam',
+          choices: answers,
+          trueNum: count1,
+          falseNum: count2,
+          isPass: count2 <= 3 ? true : false
+        }
+        addHistory(data)
       }
-      addHistory(data)
+      else{
+        const data = {
+          test: index,
+          category: category,
+          examType: 'exam',
+          choices: answers,
+          trueNum: count1,
+          falseNum: count2,
+          isPass: count2 <= 3 ? true : false
+        }
+        addHistory(data)
+      }
     }
   }
 
