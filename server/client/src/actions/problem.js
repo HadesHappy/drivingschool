@@ -64,6 +64,17 @@ const readProblems = (test_num, name) => async dispatch => {
   }
 }
 
+const readStudyProblems = (test_num, name) => async dispatch => {
+  try {
+    dispatch({ type: PROBLEM_LOADING })
+    const data = await axios.get(`api/test/readStudyByNameAndId/${test_num}/${name}`)
+    dispatch({ type: GET_PROBLEMS, payload: data.data })
+  }
+  catch (error) {
+    return error
+  }
+}
+
 const deleteProblem = id => async dispatch => {
   const data = {
     id: id
@@ -82,5 +93,6 @@ export {
   deleteProblem,
   updateProblem,
   initializeProblems,
-  readProblems
+  readProblems,
+  readStudyProblems,
 }

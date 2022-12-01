@@ -96,6 +96,14 @@ const NamedTest = ({ test = '', name = '' }) => {
       return name.slice(0, 1).toUpperCase() + id
   }
 
+  const displayTime = (id) => {
+    if (id < 10) {
+      return '0' + id
+    }
+    else
+      return id
+  }
+
   if (test.images) {
     if (test.images.length > 5) {
       let subImages = []
@@ -160,8 +168,9 @@ const NamedTest = ({ test = '', name = '' }) => {
 
           }
         </div>
-        <div className='flex flex-row gap-3 items-center'>
-          <div className='text-xl text-gray-500'>Dificultad</div>
+        
+        {/* <div className='flex flex-row gap-3 items-center'>
+          <div className='text-normal text-gray-500'>Dificultad</div>
           <div className='flex flex-row gap-1 items-center'>
             <img src='/assets/icons/star.png' alt='star' />
             <img src='/assets/icons/star.png' alt='star' />
@@ -169,6 +178,15 @@ const NamedTest = ({ test = '', name = '' }) => {
             <img src='/assets/icons/star2.png' alt='star' />
             <img src='/assets/icons/star2.png' alt='star' />
           </div>
+        </div> */}
+        <div className='flex space-x-3 text-gray-600 min-w-[150px]'>
+          <div className='text-normal'>Quedan</div>
+          {
+            enabled ?
+              <div className='text-normal'>00:00:00</div>
+              :
+              <div className='text-normal'>{displayTime(timeLeft.hours)}:{displayTime(timeLeft.minutes)}:{displayTime(timeLeft.seconds)}</div>
+          }
         </div>
         <div className='flex'>
           {

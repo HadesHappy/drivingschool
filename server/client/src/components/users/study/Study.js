@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import Top from '../exam/Top'
 import Bottom from '../exam/Bottom'
-import { getProblems, readProblems } from '../../../actions/problem'
+import { getProblems, readStudyProblems } from '../../../actions/problem'
 import { useSelector, useDispatch } from 'react-redux'
 import { CHEATNUM } from '../../../utils/constants'
 import toast from 'react-hot-toast'
@@ -51,7 +51,7 @@ const StudyButton = ({ name = '', onClick, checked }) => {
   )
 }
 
-const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice, removed }) => {
+const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice, removed, width = '' }) => {
   const buttonClick = () => {
     if (choice === '') {
       setChoice(name)
@@ -73,7 +73,7 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
 
   return (
     <>
-      <div className='flex flex-row gap-10 items-center'>
+      <div className='flex flex-row items-center w-full'>
         {
           choice === name ?
             choice === answer ?
@@ -83,12 +83,22 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
             :
             <div className='bg-[#3598DB] text-[32px] text-white px-5 py-10 rounded-xl cursor-pointer hover:bg-blue-300' onClick={buttonClick}>{text}</div>
         }
-        {
-          removed ?
-            <div className='text-gray-500 text-[32px] line-through'>{content}</div>
-            :
-            <div className='text-gray-500 text-[32px]'>{content}</div>
-        }
+        <div className='w-full'>
+          {
+            choice === '' ?
+              removed ?
+                <div className='text-gray-500 pl-10 text-[32px] line-through'>{content}</div>
+                :
+                <div className='text-gray-500 pl-10 text-[32px]'>{content}</div>
+              :
+              <div className='bg-[#DBDB3559] text-[32px]' style={{ width: `${width}%` }}>
+                <div className='pl-10 py-10'>
+                  {content}
+                </div>
+              </div>
+          }
+        </div>
+
       </div>
     </>
   )
@@ -119,7 +129,7 @@ const Study = () => {
     if (name === 'todotest')
       dispatch(getProblems(testNum))
     else
-      dispatch(readProblems(testNum, name))
+      dispatch(readStudyProblems(testNum, name))
   }, [])
 
   useEffect(() => {
@@ -225,16 +235,14 @@ const Study = () => {
       const length = currentData.choice4 ? 4 : 3;
       if (cheatText.length < length - 1) {
         let removeText = ''
-        do{
+        do {
           let num = Math.floor(Math.random() * length) + 1
           removeText = 'choice'.concat(`${num}`)
-          console.log('removeText: ', removeText)
         }
         while (removeText === '' || cheatText.includes(removeText) || removeText === currentData.answer)
 
         const newArray = [...cheatText, removeText]
         setCheatText(newArray)
-        console.log('newArray: ', newArray)
         setLeftCheatNum(leftCheatNum - 1)
         dispatch(increaseCheatNum())
 
@@ -244,6 +252,7 @@ const Study = () => {
       }
     }
   }
+
   return (
     <>
       <Top id={id} />
@@ -251,14 +260,14 @@ const Study = () => {
         {
           currentData ?
             <>
-              <div className='flex flex-row w-full h-screen -mt-16'>
+              <div className='flex flex-row w-full'>
                 <div className='flex flex-col justify-center items-center w-1/2'>
                   <div className='flex flex-row'>
                     <StudyButton name='killer pregunta' onClick={onKillerClick} checked={isKillerChecked} />
                     <StudyButton name='la he adivinado' onClick={onGuessClick} checked={isGuessChecked} />
                     <StudyButton name='de memoria' onClick={onMemoryClick} checked={isMemoryChecked} />
                   </div>
-                  <img className='min-w-[701px] w-[751px] py-3' src={currentData.image} alt='test_image' />
+                  <img className='min-w-[701px] py-3' src={currentData.image} alt='test_image' />
                   <div className='flex flex-row gap-5'>
                     <div className='flex flex-row bg-[#3598DB] space-x-5 py-4 w-52 rounded-xl items-center justify-center cursor-pointer' onClick={onVideoClick}>
                       <img src='/assets/icons/Group 88.png' alt='video' />
@@ -275,12 +284,12 @@ const Study = () => {
                   <div className='mt-20 text-[32px] text-gray-500'>
                     {currentData.title}
                   </div>
-                  <ChoiceButton name='choice1' content={currentData.choice1} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice1') ? true : false} />
-                  <ChoiceButton name='choice2' content={currentData.choice2} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice2') ? true : false} />
-                  <ChoiceButton name='choice3' content={currentData.choice3} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice3') ? true : false} />
+                  <ChoiceButton name='choice1' content={currentData.choice1} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice1') ? true : false} width={currentData.history ? currentData.history[0]?.percentage : 0} />
+                  <ChoiceButton name='choice2' content={currentData.choice2} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice2') ? true : false} width={currentData.history ? currentData.history[1]?.percentage : 0} />
+                  <ChoiceButton name='choice3' content={currentData.choice3} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice3') ? true : false} width={currentData.history ? currentData.history[2]?.percentage : 0} />
                   {
                     currentData.choice4 ?
-                      <ChoiceButton name='choice4' content={currentData.choice4} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice4') ? true : false} />
+                      <ChoiceButton name='choice4' content={currentData.choice4} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice4') ? true : false} width={currentData.history ? currentData.history[3]?.percentage : 0} />
                       :
                       <></>
                   }

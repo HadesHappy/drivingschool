@@ -221,37 +221,131 @@ const readbyName = async (req, res) => {
   }
 }
 
+const testData = async (id, name) => {
+  const tests = await Test.find();
+  let questions = [];
+  for (let i = 0; i < tests.length; i++) {
+    for (let j = 0; j < tests[i].problems.length; j++) {
+      if (name.startsWith('category')) {
+        if (tests[i].problems[j].category === name)
+          questions.push(tests[i].problems[j])
+      }
+      else {
+        if (tests[i].problems[j][name] === true) {
+          questions.push(tests[i].problems[j])
+        }
+      }
+    }
+  }
+  let datas = []
+  for (let i = 0; i < 30; i++) {
+    let iid = 30 * id + i
+    if (questions.length == iid) break
+    datas = [...datas, questions[iid]]
+  }
+  return datas
+}
+
 const readbyNameAndId = async (req, res) => {
   try {
     const id = req.params.id - 1
     const name = req.params.name
-    console.log(id, name)
-    const tests = await Test.find();
-    let questions = [];
-    for (let i = 0; i < tests.length; i++) {
-      for (let j = 0; j < tests[i].problems.length; j++) {
-        if (name.startsWith('category')) {
-          if (tests[i].problems[j].category === name)
-            questions.push(tests[i].problems[j])
-        }
-        else {
-          if (tests[i].problems[j][name] === true) {
-            questions.push(tests[i].problems[j])
-          }
-        }
-      }
-    }
-    let datas = []
-    for (let i = 0; i < 30; i++) {
-      let iid = 30 * id + i
-      if (questions.length == iid) break
-      datas = [...datas, questions[iid]]
-    }
-    console.log('datas: ', datas)
+    const datas = await testData(id, name)
     res.status(200).send(datas)
   }
   catch (error) {
     res.status(401).send(error)
+  }
+}
+
+const readStudyByNameAndId = async (req, res) => {
+  try {
+    const id = req.params.id - 1
+    const name = req.params.name
+    let datas = await testData(id, name)
+    const historyData = await History.find({ test: req.params.id, category: name })
+    let studyData = []
+    if (historyData.length) {
+      const totalUsers = historyData.length
+      for (let i = 0; i < datas.length; i++) {
+        let histories = [{
+          choice: 'choice1',
+          userNum: 0,
+          users: [],
+          images: [],
+          percentage: 0,
+        }, {
+          choice: 'choice2',
+          userNum: 0,
+          users: [],
+          images: [],
+          percentage: 0,
+        }, {
+          choice: 'choice3',
+          userNum: 0,
+          users: [],
+          images: [],
+          percentage: 0,
+        }, {
+          choice: 'choice4',
+          userNum: 0,
+          users: [],
+          images: [],
+          percentage: 0,
+        }]
+        for (let j = 0; j < totalUsers; j++) {
+          const choice = historyData[j].choices[i].choice
+          const num = choice.slice(6, 7)
+          const userName = historyData[j].user
+          const user = await User.findOne({ name: userName })
+          const image = user.image
+          if (!histories[Number(num) - 1].users.includes(userName)) {
+            histories[Number(num) - 1].users.push(userName)
+            histories[Number(num) - 1].images.push(image)
+          }
+          histories[Number(num) - 1].userNum++
+          histories[Number(num) - 1].percentage = Math.floor(histories[Number(num) - 1].userNum / totalUsers * 100)
+        }
+        let newData = {
+          title: datas[i].title,
+          image: datas[i].image,
+          choice1: datas[i].choice1,
+          choice2: datas[i].choice2,
+          choice3: datas[i].choice3,
+          choice4: datas[i].choice4,
+          answer: datas[i].answer,
+          tema: datas[i].tema,
+          category: datas[i].category,
+          video: datas[i].video,
+          difficulty: datas[i].difficulty,
+          history: histories
+        }
+        studyData.push(newData)
+      }
+    }
+    else {
+      for (let i = 0; i < datas.length; i++) {
+        let newData = {
+          title: datas[i].title,
+          image: datas[i].image,
+          choice1: datas[i].choice1,
+          choice2: datas[i].choice2,
+          choice3: datas[i].choice3,
+          choice4: datas[i].choice4,
+          answer: datas[i].answer,
+          tema: datas[i].tema,
+          category: datas[i].category,
+          video: datas[i].video,
+          difficulty: datas[i].difficulty,
+        }
+        studyData.push(newData)
+      }
+    }
+    console.log(studyData)
+    res.status(200).send(studyData)
+  }
+  catch (error) {
+    res.status(403).send(error)
   }
 }
 
@@ -310,5 +404,6 @@ module.exports = {
   deleteTest,
   readTodoTest,
   readbyNameAndId,
+  readStudyByNameAndId,
   readbyName,
 }
