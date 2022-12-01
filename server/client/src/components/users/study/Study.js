@@ -51,7 +51,7 @@ const StudyButton = ({ name = '', onClick, checked }) => {
   )
 }
 
-const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice, removed, width = '' }) => {
+const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice, removed, width = '', images = '' }) => {
   const buttonClick = () => {
     if (choice === '') {
       setChoice(name)
@@ -70,6 +70,22 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
     text = 'C'
   else
     text = 'D'
+
+  let imageString;
+
+  if (images.length > 5) {
+    let subImages = []
+    for (let i = 0; i < 4; i++)
+      subImages.push(images[i])
+
+    const extraNum = images.length - 4
+    imageString = (
+      <div className='flex flex-row min-w-fit -space-x-2 overflow-hidden'>
+        {subImages.map((image, key) =>
+          <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src={image} alt="" key={key} />)}
+        <div className='flex h-10 w-10 rounded-full ring-2 ring-white bg-[#3598DB] text-white font-medium text-center justify-center items-center'>{extraNum}+</div>
+      </div>)
+  }
 
   return (
     <>
@@ -91,14 +107,31 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
                 :
                 <div className='text-gray-500 pl-10 text-[32px]'>{content}</div>
               :
-              <div className='bg-[#DBDB3559] text-[32px]' style={{ width: `${width}%` }}>
-                <div className='pl-10 py-10'>
-                  {content}
+              <>
+                <div className='relative'>
+                  <div className='flex flex-col float-right right-0 min-w-fit'>
+                    <div className="-space-x-2 overflow-hidden">
+                      {
+                        images.length > 5 ?
+                          imageString
+                          :
+                          images.map((image, key) =>
+                            <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src={image} alt="" key={key} />)
+                      }
+                    </div>
+                    <div className='text-center'>
+                      {width}%
+                    </div>
+                  </div>
                 </div>
-              </div>
+                <div className='bg-[#DBDB3559]' style={{ width: `${width}%` }}>
+                  <div className='pl-10 py-10 text-gray-500 text-[32px]'>
+                    {content}
+                  </div>
+                </div>
+              </>
           }
         </div>
-
       </div>
     </>
   )
@@ -253,6 +286,8 @@ const Study = () => {
     }
   }
 
+  if (currentData && currentData.history)
+    console.log(currentData.history)
   return (
     <>
       <Top id={id} />
@@ -284,12 +319,48 @@ const Study = () => {
                   <div className='mt-20 text-[32px] text-gray-500'>
                     {currentData.title}
                   </div>
-                  <ChoiceButton name='choice1' content={currentData.choice1} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice1') ? true : false} width={currentData.history ? currentData.history[0]?.percentage : 0} />
-                  <ChoiceButton name='choice2' content={currentData.choice2} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice2') ? true : false} width={currentData.history ? currentData.history[1]?.percentage : 0} />
-                  <ChoiceButton name='choice3' content={currentData.choice3} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice3') ? true : false} width={currentData.history ? currentData.history[2]?.percentage : 0} />
+                  <ChoiceButton
+                    name='choice1'
+                    content={currentData.choice1}
+                    answer={currentData.answer}
+                    choice={choice}
+                    setChoice={setChoice}
+                    removed={cheatText.includes('choice1') ? true : false}
+                    width={currentData.history ? currentData.history[0]?.percentage : 0}
+                    images={currentData.history ? currentData.history[0].images : []}
+                  />
+                  <ChoiceButton
+                    name='choice2'
+                    content={currentData.choice2}
+                    answer={currentData.answer}
+                    choice={choice}
+                    setChoice={setChoice}
+                    removed={cheatText.includes('choice2') ? true : false}
+                    width={currentData.history ? currentData.history[1]?.percentage : 0}
+                    images={currentData.history ? currentData.history[1]?.images : []}
+                  />
+                  <ChoiceButton
+                    name='choice3'
+                    content={currentData.choice3}
+                    answer={currentData.answer}
+                    choice={choice}
+                    setChoice={setChoice}
+                    removed={cheatText.includes('choice3') ? true : false}
+                    width={currentData.history ? currentData.history[2]?.percentage : 0}
+                    images={currentData.history ? currentData.history[2]?.images : []}
+                  />
                   {
                     currentData.choice4 ?
-                      <ChoiceButton name='choice4' content={currentData.choice4} answer={currentData.answer} choice={choice} setChoice={setChoice} removed={cheatText.includes('choice4') ? true : false} width={currentData.history ? currentData.history[3]?.percentage : 0} />
+                      <ChoiceButton
+                        name='choice4'
+                        content={currentData.choice4}
+                        answer={currentData.answer}
+                        choice={choice}
+                        setChoice={setChoice}
+                        removed={cheatText.includes('choice4') ? true : false}
+                        width={currentData.history ? currentData.history[3]?.percentage : 0}
+                        images={currentData.history ? currentData.history[3]?.images : []}
+                      />
                       :
                       <></>
                   }

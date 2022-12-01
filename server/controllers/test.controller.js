@@ -199,7 +199,7 @@ const readbyName = async (req, res) => {
         }
       }
 
-      const myHistories = await History.find({ test: groups[i].no, category: name, user: myName, examType: 'exam' }, {}, { sort: { 'createdAt': -1 } })
+      const myHistories = await History.find({ test: groups[i].no, category: name, user: myName}, {}, { sort: { 'createdAt': -1 } })
       if (myHistories.length) {
         newItem.latestTime = myHistories[0].createdAt
         let length = myHistories.length < 3 ? myHistories.length : 3
