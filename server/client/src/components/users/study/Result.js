@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Top from '../exam/Top'
 import Bottom from '../exam/Bottom'
-import { BsFillLightningChargeFill, BsFillXCircleFill } from 'react-icons/bs'
+import { BsFillLightningChargeFill, BsFillXCircleFill, BsArrowClockwise } from 'react-icons/bs'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setIndex } from '../../../actions/test'
@@ -9,7 +9,55 @@ import { toast } from 'react-hot-toast'
 import { clearAnswer } from '../../../actions/answer'
 import { useAuth } from '../../../contexts/AuthContext'
 import { addHistory } from '../../../apis/history.api'
+import { readLiveResult } from '../../../apis/test.api'
 
+const Player = ({ liveData = {} }) => {
+  let timeLeft = {}
+  const display = (num) => {
+    if (num < 10)
+      return '0' + num
+    else
+      return num
+  }
+
+  if (liveData.time) {
+    const difference = -(new Date(liveData.time) - new Date());
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      };
+    }
+  }
+
+
+  return (
+    <div className='flex flex-row gap-3'>
+      <img className='w-12 h-12 rounded-xl' src={liveData?.image} alt='player' />
+      <div className='flex flex-col'>
+        <div className='flex flex-row space-x-5'>
+          <div className='text-gray-700 font-noraml'>{liveData?.name}</div>
+          <div className='text-gray-500 text-sm'>hace {timeLeft.days ? `${timeLeft.days} days` : ''} {timeLeft.hours ? `${timeLeft.hours} hours` : ''} {timeLeft.minutes ? `${timeLeft.minutes} minutes` : ''} {timeLeft.seconds ? `${timeLeft.seconds} seconds` : ''} segandas</div>
+        </div>
+        <div className='flex flex-row space-x-1'>
+          {
+            liveData.isPass ?
+              <div className='text-green-500'>Apto test 01</div>
+              :
+              <div className='text-red-500'>No Apto test 01</div>
+          }
+          <div className='w-0.5 h-full bg-gray-500' />
+          <div className='text-gray-700 font-normal'>Preguntas incorrectas: {display(liveData?.incorrect)}</div>
+          <div className='w-0.5 h-full bg-gray-500' />
+          <div className='text-gray-700 font-normal'>vidas: {display(liveData?.video)}</div>
+        </div>
+      </div>
+
+    </div>
+  )
+}
 const StudyResult = () => {
   const answers = useSelector(state => state.answerReducer.answers)
   const cheatNum = useSelector(state => state.answerReducer.cheatNum)
@@ -26,6 +74,8 @@ const StudyResult = () => {
   const [guessNum, setGuessNum] = useState(0)
   const [memoryNum, setMemoryNum] = useState(0)
   const [videoNum, setVideoNum] = useState(0)
+  const [isLive, setIsLive] = useState(false)
+  const [liveResults, setLiveResults] = useState([])
 
   const { account } = useAuth()
 
@@ -35,7 +85,7 @@ const StudyResult = () => {
   const date = `${weekday[current.getDay()]}, ${month[current.getMonth()]} ${current.getDate()} ${current.getFullYear()}`;
 
   let flag = false
-  const checkAnswers = () => {
+  const checkAnswers = async () => {
     let countCorrect = 0;
     let countFalse = 0;
     let countKiller = 0;
@@ -82,7 +132,7 @@ const StudyResult = () => {
           falseNum: countFalse,
           isPass: countFalse <= 3 ? true : false
         }
-        addHistory(data)
+        await addHistory(data)
       }
       else {
         const data = {
@@ -99,12 +149,20 @@ const StudyResult = () => {
           falseNum: countFalse,
           isPass: countFalse <= 3 ? true : false
         }
-        addHistory(data)
+        await addHistory(data)
       }
     }
   }
+
+  const readLiveData = async () => {
+    const data = await readLiveResult(index, category)
+    setLiveResults(data)
+    console.log('liveData: ', data)
+  }
+
   useEffect(() => {
     checkAnswers()
+    readLiveData()
   }, [])
 
   const handleNextClick = () => {
@@ -163,8 +221,8 @@ const StudyResult = () => {
 
           </div>
           <div className='mt-10 ml-32 flex flex-row gap-5 text-center'>
-            <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer'>resultado test</div>
-            <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={() => toast.error('There is no live tests result.')}>resultados live</div>
+            <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={() => setIsLive(false)}>resultado test</div>
+            <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={() => setIsLive(true)}>resultados live</div>
             <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={handleNextClick}>siguient test</div>
             <div className='rounded-xl bg-[#3598DB] hover:bg-blue-400 text-white text-sm py-3 w-36 cursor-pointer' onClick={handleTestsClick}>tests</div>
           </div>
@@ -172,103 +230,114 @@ const StudyResult = () => {
             resultados&nbsp;
             <div className='text-sm font-light border border-dashed border-gray-400 w-full'></div>
           </div>
-          <div className='ml-32'>
-            <div className='flex flex-col gap-7'>
-              <div className='flex flex-row space-x-6'>
-                <div className='h-12 w-2 rounded-md bg-[#3598DB]' />
-                <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#3598DB] rounded-md'>
-                  <img src='/assets/icons/profile.png' alt='profile' />
-                </div>
-                <div className='flex flex-col justify-between'>
-                  <div className='text-md font-bold'>{account.name}</div>
-                  <div className='text-sm text-gray-500'>{date}</div>
+          {
+            isLive ?
+              <div className='flex flex-col gap-5 pl-24 relative'>
+                <BsArrowClockwise className='absolute float-right right-0 w-6 h-6 cursor-pointer' onClick={readLiveData} />
+                {liveResults.map((liveData, key) =>
+                  <Player liveData={liveData} key={key} />)
+                }
+              </div>
+              :
+              <div className='ml-32'>
+                <div className='flex flex-col gap-7'>
+                  <div className='flex flex-row space-x-6'>
+                    <div className='h-12 w-2 rounded-md bg-[#3598DB]' />
+                    <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#3598DB] rounded-md'>
+                      <img src='/assets/icons/profile.png' alt='profile' />
+                    </div>
+                    <div className='flex flex-col justify-between'>
+                      <div className='text-md font-bold'>{account?.name}</div>
+                      <div className='text-sm text-gray-500'>{date}</div>
+                    </div>
+                  </div>
+                  <div className='flex flex-row space-x-6'>
+                    <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
+                    <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md'>
+                      <img src='/assets/icons/category.png' alt='profile' />
+                    </div>
+                    <div className='flex flex-col justify-center'>
+                      <div className='text-md font-bold'>Modo del examen: estudio</div>
+                    </div>
+                  </div>
+                  <div className='flex flex-row space-x-6'>
+                    <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
+                    <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md text-white'>
+                      <BsFillLightningChargeFill className='w-7 h-7' />
+                    </div>
+                    <div className='flex flex-col justify-center'>
+                      <div className='text-md font-bold'>Total de preguntas: {display(answers.length)}</div>
+                    </div>
+                  </div>
+                  <div className='flex flex-row space-x-6'>
+                    <div className='h-12 w-2 rounded-md bg-[#4EFF6C]' />
+                    <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#4EFF6C] rounded-md'>
+                      <img src='/assets/icons/check.png' alt='check' />
+                    </div>
+                    <div className='flex flex-col justify-center'>
+                      <div className='text-md font-bold'>Preguntas correctas: {display(correctNum)}</div>
+                    </div>
+                  </div>
+                  <div className='flex flex-row space-x-6'>
+                    <div className='h-12 w-2 rounded-md bg-[#FF5353]' />
+                    <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#FF5353] rounded-md'>
+                      <BsFillXCircleFill className='text-white w-7 h-7' />
+                    </div>
+                    <div className='flex flex-col justify-between'>
+                      <div className='text-md font-bold'>Preguntas incorrectas: {display(falseNum)}</div>
+                      <div className='text-sm text-gray-500'>Maximum fallos 3</div>
+                    </div>
+                  </div>
+                  <div className='flex flex-row space-x-6'>
+                    <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
+                    <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md'>
+                      <img className='text-white w-7 h-7' src='/assets/icons/pen.png' alt='pen' />
+                    </div>
+                    <div className='flex flex-col justify-between'>
+                      <div className='text-md font-bold'>Resultados elementados: {display(cheatNum)}</div>
+                      <div className='text-sm text-gray-500'>Maximum elementados 16</div>
+                    </div>
+                  </div>
+                  <div className='flex flex-row space-x-6'>
+                    <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
+                    <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md text-white'>
+                      <img src='/assets/icons/play.png' alt='play' />
+                    </div>
+                    <div className='flex flex-col justify-center'>
+                      <div className='text-md font-bold'>Videos visto: {display(videoNum)}</div>
+                    </div>
+                  </div>
+                  <div className='flex flex-row space-x-6'>
+                    <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
+                    <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md text-white'>
+                      <img src='/assets/icons/knife.png' alt='knife' />
+                    </div>
+                    <div className='flex flex-col justify-center'>
+                      <div className='text-md font-bold'>Has marcado como killers: {display(killerNum)}</div>
+                    </div>
+                  </div>
+                  <div className='flex flex-row space-x-6'>
+                    <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
+                    <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md text-white'>
+                      <img src='/assets/icons/question.png' alt='question' />
+                    </div>
+                    <div className='flex flex-col justify-center'>
+                      <div className='text-md font-bold'>Has adivindo: {display(guessNum)}</div>
+                    </div>
+                  </div>
+                  <div className='flex flex-row space-x-6'>
+                    <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
+                    <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md text-white'>
+                      <img src='/assets/icons/glass.png' alt='glass' />
+                    </div>
+                    <div className='flex flex-col justify-center'>
+                      <div className='text-md font-bold'>Sabes de memoria: {display(memoryNum)}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className='flex flex-row space-x-6'>
-                <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
-                <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md'>
-                  <img src='/assets/icons/category.png' alt='profile' />
-                </div>
-                <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Modo del examen: estudio</div>
-                </div>
-              </div>
-              <div className='flex flex-row space-x-6'>
-                <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
-                <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md text-white'>
-                  <BsFillLightningChargeFill className='w-7 h-7' />
-                </div>
-                <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Total de preguntas: {display(answers.length)}</div>
-                </div>
-              </div>
-              <div className='flex flex-row space-x-6'>
-                <div className='h-12 w-2 rounded-md bg-[#4EFF6C]' />
-                <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#4EFF6C] rounded-md'>
-                  <img src='/assets/icons/check.png' alt='check' />
-                </div>
-                <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Preguntas correctas: {display(correctNum)}</div>
-                </div>
-              </div>
-              <div className='flex flex-row space-x-6'>
-                <div className='h-12 w-2 rounded-md bg-[#FF5353]' />
-                <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#FF5353] rounded-md'>
-                  <BsFillXCircleFill className='text-white w-7 h-7' />
-                </div>
-                <div className='flex flex-col justify-between'>
-                  <div className='text-md font-bold'>Preguntas incorrectas: {display(falseNum)}</div>
-                  <div className='text-sm text-gray-500'>Maximum fallos 3</div>
-                </div>
-              </div>
-              <div className='flex flex-row space-x-6'>
-                <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
-                <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md'>
-                  <img className='text-white w-7 h-7' src='/assets/icons/pen.png' alt='pen' />
-                </div>
-                <div className='flex flex-col justify-between'>
-                  <div className='text-md font-bold'>Resultados elementados: {display(cheatNum)}</div>
-                  <div className='text-sm text-gray-500'>Maximum elementados 16</div>
-                </div>
-              </div>
-              <div className='flex flex-row space-x-6'>
-                <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
-                <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md text-white'>
-                  <img src='/assets/icons/play.png' alt='play' />
-                </div>
-                <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Videos visto: {display(videoNum)}</div>
-                </div>
-              </div>
-              <div className='flex flex-row space-x-6'>
-                <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
-                <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md text-white'>
-                  <img src='/assets/icons/knife.png' alt='knife' />
-                </div>
-                <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Has marcado como killers: {display(killerNum)}</div>
-                </div>
-              </div>
-              <div className='flex flex-row space-x-6'>
-                <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
-                <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md text-white'>
-                  <img src='/assets/icons/question.png' alt='question' />
-                </div>
-                <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Has adivindo: {display(guessNum)}</div>
-                </div>
-              </div>
-              <div className='flex flex-row space-x-6'>
-                <div className='h-12 w-2 rounded-md bg-[#87A7BC]' />
-                <div className='flex text-center items-center justify-center py-2 w-12 h-12 bg-[#87A7BC] rounded-md text-white'>
-                  <img src='/assets/icons/glass.png' alt='glass' />
-                </div>
-                <div className='flex flex-col justify-center'>
-                  <div className='text-md font-bold'>Sabes de memoria: {display(memoryNum)}</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          }
+
         </div>
         <div className='flex items-center justify-center pr-40'>
           <div className='bg-[#3598DB] rounded-xl w-72 h-72 relative'>

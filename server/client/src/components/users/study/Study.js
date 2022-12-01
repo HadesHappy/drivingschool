@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import Top from '../exam/Top'
 import Bottom from '../exam/Bottom'
-import { getProblems, readStudyProblems } from '../../../actions/problem'
+import { getStudyProblems, readStudyProblems } from '../../../actions/problem'
 import { useSelector, useDispatch } from 'react-redux'
 import { CHEATNUM } from '../../../utils/constants'
 import toast from 'react-hot-toast'
@@ -136,6 +136,7 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
     </>
   )
 }
+
 const Study = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -160,7 +161,7 @@ const Study = () => {
   useEffect(() => {
     setCheatText('')
     if (name === 'todotest')
-      dispatch(getProblems(testNum))
+      dispatch(getStudyProblems(testNum))
     else
       dispatch(readStudyProblems(testNum, name))
   }, [])
@@ -286,8 +287,6 @@ const Study = () => {
     }
   }
 
-  if (currentData && currentData.history)
-    console.log(currentData.history)
   return (
     <>
       <Top id={id} />

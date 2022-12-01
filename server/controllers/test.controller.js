@@ -140,10 +140,98 @@ const readTodoTestProblems = async (req, res) => {
   }
 }
 
+const readTodoStudyProblems = async (req, res) => {
+  try {
+    const test = await Test.findOne({ _id: req.params.id })
+    let datas = test.problems
+    const historyData = await History.find({ id: req.params.id, category: 'todotest' })
+    let studyData = []
+    if (historyData.length) {
+      const totalUsers = historyData.length
+      for (let i = 0; i < datas.length; i++) {
+        let histories = [{
+          choice: 'choice1',
+          userNum: 0,
+          users: [],
+          images: [],
+          percentage: 0,
+        }, {
+          choice: 'choice2',
+          userNum: 0,
+          users: [],
+          images: [],
+          percentage: 0,
+        }, {
+          choice: 'choice3',
+          userNum: 0,
+          users: [],
+          images: [],
+          percentage: 0,
+        }, {
+          choice: 'choice4',
+          userNum: 0,
+          users: [],
+          images: [],
+          percentage: 0,
+        }]
+        for (let j = 0; j < totalUsers; j++) {
+          const choice = historyData[j].choices[i].choice
+          const num = choice.slice(6, 7)
+          const userName = historyData[j].user
+          const user = await User.findOne({ name: userName })
+          const image = user.image
+          if (!histories[Number(num) - 1].users.includes(userName)) {
+            histories[Number(num) - 1].users.push(userName)
+            histories[Number(num) - 1].images.push(image)
+          }
+          histories[Number(num) - 1].userNum++
+          histories[Number(num) - 1].percentage = Math.floor(histories[Number(num) - 1].userNum / totalUsers * 100)
+        }
+        let newData = {
+          title: datas[i].title,
+          image: datas[i].image,
+          choice1: datas[i].choice1,
+          choice2: datas[i].choice2,
+          choice3: datas[i].choice3,
+          choice4: datas[i].choice4,
+          answer: datas[i].answer,
+          tema: datas[i].tema,
+          category: datas[i].category,
+          video: datas[i].video,
+          difficulty: datas[i].difficulty,
+          history: histories
+        }
+        studyData.push(newData)
+      }
+    }
+    else {
+      for (let i = 0; i < datas.length; i++) {
+        let newData = {
+          title: datas[i].title,
+          image: datas[i].image,
+          choice1: datas[i].choice1,
+          choice2: datas[i].choice2,
+          choice3: datas[i].choice3,
+          choice4: datas[i].choice4,
+          answer: datas[i].answer,
+          tema: datas[i].tema,
+          category: datas[i].category,
+          video: datas[i].video,
+          difficulty: datas[i].difficulty,
+        }
+        studyData.push(newData)
+      }
+    }
+    res.status(200).send(studyData)
+  }
+  catch (error) {
+    res.status(403).send(error)
+  }
+}
+
 const readbyName = async (req, res) => {
   try {
     const name = req.params.name
-    console.log(name)
     const myName = req.auth.name
     const tests = await Test.find()
     let questions = []
@@ -199,7 +287,7 @@ const readbyName = async (req, res) => {
         }
       }
 
-      const myHistories = await History.find({ test: groups[i].no, category: name, user: myName}, {}, { sort: { 'createdAt': -1 } })
+      const myHistories = await History.find({ test: groups[i].no, category: name, user: myName }, {}, { sort: { 'createdAt': -1 } })
       if (myHistories.length) {
         newItem.latestTime = myHistories[0].createdAt
         let length = myHistories.length < 3 ? myHistories.length : 3
@@ -341,7 +429,6 @@ const readStudyByNameAndId = async (req, res) => {
         studyData.push(newData)
       }
     }
-    console.log(studyData)
     res.status(200).send(studyData)
   }
   catch (error) {
@@ -373,7 +460,7 @@ const readTodoTest = async (req, res) => {
           newItem.images = images
         }
       }
-      const myHistories = await History.find({ id: tests[i].id, category: 'todotest', user: name, examType: 'exam' }, {}, { sort: { 'createdAt': -1 } })
+      const myHistories = await History.find({ id: tests[i].id, category: 'todotest', user: name }, {}, { sort: { 'createdAt': -1 } })
       if (myHistories.length) {
         newItem.latestTime = myHistories[0].createdAt
         let length = myHistories.length < 3 ? myHistories.length : 3
@@ -395,15 +482,53 @@ const readTodoTest = async (req, res) => {
   }
 }
 
+const readLiveResults = async (req, res) => {
+  try {
+    const id = req.params.id
+    const name = req.params.name
+    let datas
+    if (name === 'todotest')
+      datas = await History.find({ id: id, category: name, examType: 'study' }, {}, { sort: { 'createdAt': -1 } })
+    else
+      datas = await History.find({ test: id, category: name, examType: 'study' }, {}, { sort: { 'createdAt': -1 } })
+    let results = []
+    if (datas.length) {
+      let count = datas.length
+      if (datas.length > 10) {
+        count = 10
+      }
+      for (let i = 0; i < count; i++) {
+        const userName = datas[i].user
+        const user = await User.findOne({ name: userName })
+        const image = user.image
+        let data = {
+          name: userName,
+          image: image,
+          isPass: datas[i].isPass,
+          incorrect: datas[i].falseNum,
+          video: datas[i].videoNum,
+          time: datas[i].createdAt,
+        }
+        results.push(data)
+      }
+    }
+    res.status(200).send(results)
+  }
+  catch (error) {
+    res.status(403).send(error)
+  }
+}
 module.exports = {
   details,
   addTest,
   readTests,
   readTodoTestProblems,
+  readTodoStudyProblems,
   updateTest,
   deleteTest,
   readTodoTest,
   readbyNameAndId,
   readStudyByNameAndId,
   readbyName,
+  readLiveResults,
 }

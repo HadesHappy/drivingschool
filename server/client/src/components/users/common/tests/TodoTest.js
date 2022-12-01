@@ -83,7 +83,7 @@ const TodoTest = ({ test = '', no = '' }) => {
       setShowModal(true)
     }
     else{
-      toast.error('You should wait 24 hours.')
+      toast.error(`You should wait ${display(timeLeft.hours)} hours and ${display(timeLeft.minutes)} minutes.`)
     }
   }
 

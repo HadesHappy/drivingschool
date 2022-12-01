@@ -84,7 +84,7 @@ const NamedTest = ({ test = '', name = '' }) => {
       setShowModal(true)
     }
     else {
-      toast.error('You should wait 24 hours.')
+      toast.error(`You should wait ${displayTime(timeLeft.hours)} hours and ${displayTime(timeLeft.minutes)} minutes.`)
     }
   }
 

@@ -53,6 +53,17 @@ const getProblems = (id) => async dispatch => {
   }
 }
 
+const getStudyProblems = (id) => async dispatch => {
+  try {
+    dispatch({ type: PROBLEM_LOADING })
+    const data = await axios.get(`api/test/readStudy/${id}`)
+    dispatch({ type: GET_PROBLEMS, payload: data.data })
+  }
+  catch (error) {
+    return error
+  }
+}
+
 const readProblems = (test_num, name) => async dispatch => {
   try {
     dispatch({ type: PROBLEM_LOADING })
@@ -90,6 +101,7 @@ export {
   addProblem,
   getProblem,
   getProblems,
+  getStudyProblems,
   deleteProblem,
   updateProblem,
   initializeProblems,
