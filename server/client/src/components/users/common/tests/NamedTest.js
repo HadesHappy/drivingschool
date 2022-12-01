@@ -43,24 +43,30 @@ const NamedTest = ({ test = '', name = '' }) => {
   const [enabled, setEnabled] = useState(calculateEnabled())
 
   const calculateTimeLeft = () => {
+    if (enabled)
+      clearTimeout()
     if (test.latestTime) {
-      let difference = -(new Date(test.latestTime) - new Date());
-      if (difference < 24 * 60 * 60 * 1000) {
-        difference = 24 * 60 * 60 * 1000 - difference
-        let timeLeft = {};
-        if (difference > 0) {
-          timeLeft = {
-            days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-            hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-            minutes: Math.floor((difference / 1000 / 60) % 60),
-            seconds: Math.floor((difference / 1000) % 60)
-          };
+      if (!enabled) {
+        let difference = -(new Date(test.latestTime) - new Date());
+        if (difference < 24 * 60 * 60 * 1000) {
+          difference = 24 * 60 * 60 * 1000 - difference
+          let timeLeft = {};
+          if (difference > 0) {
+            timeLeft = {
+              days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+              hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+              minutes: Math.floor((difference / 1000 / 60) % 60),
+              seconds: Math.floor((difference / 1000) % 60)
+            };
+          }
+          return timeLeft;
         }
-        return timeLeft;
-      }
-      else {
-        setEnabled(true)
-        return 0
+
+        else {
+          setEnabled(true)
+          clearTimeout()
+          return 0
+        }
       }
     }
     else {
@@ -168,7 +174,7 @@ const NamedTest = ({ test = '', name = '' }) => {
 
           }
         </div>
-        
+
         {/* <div className='flex flex-row gap-3 items-center'>
           <div className='text-normal text-gray-500'>Dificultad</div>
           <div className='flex flex-row gap-1 items-center'>
