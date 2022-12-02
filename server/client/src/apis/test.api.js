@@ -6,15 +6,21 @@ import {
   GET_CATEGORY,
   PROBLEM_LOADING,
   GET_PROBLEMS,
-  TEST_LOADING
+  TEST_LOADING,
+  CATEGORY_LOADING,
 } from '../store/constants'
 
 const getTestData = (category) => async dispatch => {
   try {
     dispatch({ type: GET_CATEGORY, payload: category })
-    if (!category.startsWith('category'))
+    
+    if (category.startsWith('category'))
+      dispatch({ type: CATEGORY_LOADING })
+    else
       dispatch({ type: TEST_LOADING })
+
     const res = await axios.get(`api/test/readTestData/${category}`, HEADER())
+
     if (category.startsWith('category'))
       dispatch({ type: SET_TESTS, payload: res.data })
     else {

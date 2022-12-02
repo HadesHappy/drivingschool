@@ -7,11 +7,14 @@ const Tema = ({ tema = {}, selectedTema, setSelectedTema }) => {
   const onTemaClick = () => {
     if (selectedTema === tema.id) {
       setSelectedTema('')
+      setSelectedCategory('')
     }
     else {
       setSelectedTema(tema.id);
+      setSelectedCategory('')
     }
   }
+
   return (
     <>
       <div className='flex-col justify-center px-32 py-5 mb-3 text-2xl uppercase text-white bg-[#3598DB] w-full cursor-pointer hover:bg-blue-400' id={tema.id} onClick={onTemaClick}>

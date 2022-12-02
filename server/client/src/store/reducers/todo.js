@@ -3,6 +3,7 @@ import {
   SET_TESTS,
   GET_INDEX,
   TEST_LOADING,
+  CATEGORY_LOADING,
   GET_CATEGORY,
 } from '../constants'
 
@@ -10,7 +11,8 @@ const initialState = {
   tests: [],
   category: '',
   index: 0,
-  loading: false
+  loading: false,
+  categoryLoading: false
 }
 
 const todoReducer = (state = initialState, action) => {
@@ -31,6 +33,7 @@ const todoReducer = (state = initialState, action) => {
       return {
         ...state,
         tests: payload,
+        categoryLoading: false
       }
     case GET_INDEX:
       return {
@@ -40,7 +43,12 @@ const todoReducer = (state = initialState, action) => {
     case TEST_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
+      }
+    case CATEGORY_LOADING:
+      return {
+        ...state,
+        categoryLoading: true
       }
     default:
       return state

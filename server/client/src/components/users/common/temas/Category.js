@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { readCategoryTests } from '../../../../actions/test'
 import { getTestData } from '../../../../apis/test.api'
 import NamedTest from '../tests/NamedTest'
 
 const Category = ({ category = '', selectedCategory, setSelectedCategory }) => {
   const dispatch = useDispatch()
   const tests = useSelector(state => state.todoReducer.tests)
-  const loading = useSelector(state => state.todoReducer.loading)
-  const [string, setString] = useState()
+  const categoryLoading = useSelector(state => state.todoReducer.categoryLoading)
+  let string
+
   const onCategoryClick = () => {
     if (selectedCategory === category.id)
       setSelectedCategory('')
@@ -18,12 +18,12 @@ const Category = ({ category = '', selectedCategory, setSelectedCategory }) => {
     }
   }
 
-  useEffect(()=>{
-    setString(
+  if (!categoryLoading) {
+    string = (
       tests.map((test, key) =>
         <NamedTest test={test} key={key} name={category.id} />)
     )
-  },[tests])
+  }
 
   return (
     <>
