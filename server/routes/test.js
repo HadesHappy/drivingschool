@@ -9,6 +9,9 @@ router.get('/readbyName/:name', [authorizeBearerToken], testController.readbyNam
 router.get('/readbyNameAndId/:id/:name', testController.readbyNameAndId)
 router.get('/readStudyByNameAndId/:id/:name', testController.readStudyByNameAndId)
 
+router.get('/readTestData/:category', [authorizeBearerToken], testController.readTestData)
+router.get('/readExamData/:id/:category', testController.readExamData)
+router.get('/readStudyData/:id/:category', testController.readStudyData)
 router.get('/readResult/:id/:name', testController.readLiveResults)
 
 module.exports = router
