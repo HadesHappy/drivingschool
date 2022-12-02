@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { deleteProblem } from '../../../actions/problem';
-
+import { toast } from 'react-hot-toast';
 
 const QuestionButton = ({ q_id = '', selectedIndex, setSelectedIndex, lists, setLists, }) => {
   const navigate = useNavigate();
@@ -14,8 +14,14 @@ const QuestionButton = ({ q_id = '', selectedIndex, setSelectedIndex, lists, set
   }
 
   const deleteButtonClick = async () => {
-    dispatch(deleteProblem(q_id))
-    setLists(lists - 1)
+    if(lists !== 1){
+      dispatch(deleteProblem(q_id))
+      setLists(lists - 1)
+    }
+    else{
+      toast.error('Can not delete this item.')
+    }
+
   }
 
   const viewButtonClick = (e) => {

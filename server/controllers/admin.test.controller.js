@@ -1,35 +1,6 @@
 const Test = require("../models/Test")
 
-const details = async (req, res) => {
-  try {
-    let query = Question.find();
-
-    const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * pageSize;
-    const total = await Question.countDocuments();
-
-    const pages = Math.ceil(total / pageSize);
-
-    query = query.skip(skip).limit(pageSize);
-
-    if (page > pages) {
-      return res.status(404).json({
-        status: "fail",
-        message: "No page found",
-      });
-    }
-    const result = await query;
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: "Server Error",
-    });
-  }
-}
-
-const addTest = async (req, res) => {
+const add = async (req, res) => {
   try {
     const total = req.body.total;
     let newProblems = []
@@ -64,7 +35,7 @@ const addTest = async (req, res) => {
   }
 }
 
-const readTests = async (req, res) => {
+const read = async (req, res) => {
   try {
     const tests = await Test.find();
     let data = []
@@ -81,7 +52,7 @@ const readTests = async (req, res) => {
   }
 }
 
-const updateTest = async (req, res) => {
+const update = async (req, res) => {
   try {
     const total = req.body.total
     let test = await Test.findOne({ _id: req.params.id })
@@ -137,11 +108,39 @@ const deleteTest = async (req, res) => {
   }
 }
 
+// const details = async (req, res) => {
+//   try {
+//     let query = Question.find();
+
+//     const page = parseInt(req.query.page) || 1;
+//     const pageSize = parseInt(req.query.limit) || 10;
+//     const skip = (page - 1) * pageSize;
+//     const total = await Question.countDocuments();
+
+//     const pages = Math.ceil(total / pageSize);
+
+//     query = query.skip(skip).limit(pageSize);
+
+//     if (page > pages) {
+//       return res.status(404).json({
+//         status: "fail",
+//         message: "No page found",
+//       });
+//     }
+//     const result = await query;
+//     res.status(200).send(result);
+//   } catch (error) {
+//     res.status(500).json({
+//       status: "error",
+//       message: "Server Error",
+//     });
+//   }
+// }
+
 module.exports = {
-  details,
-  addTest,
-  readTests,
+  add,
+  read,
   readProblems,
-  updateTest,
+  update,
   deleteTest,
 }

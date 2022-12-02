@@ -2,7 +2,11 @@ const mongoose = require('mongoose')
 const modelName = 'History'
 
 const HistorySchema = new mongoose.Schema({
-  user: {
+  name: {
+    type: String,
+    required: true
+  },
+  image: {
     type: String,
     required: true
   },

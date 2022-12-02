@@ -2,7 +2,6 @@ import {
   GET_PROBLEM,
   ADD_PROBLEM,
   UPDATE_PROBLEM,
-  UPDATE_PROBLEMS,
   GET_PROBLEMS,
   DELETE_PROBLEM,
   INITIALIZE_PROBLEMS,
@@ -62,7 +61,6 @@ const problemReducer = (state = initialState, action) => {
         loading: false
       }
     case DELETE_PROBLEM:
-      console.log(payload)
       return {
         ...state,
         problems: state.problems.filter(problem => problem.id !== payload.id)

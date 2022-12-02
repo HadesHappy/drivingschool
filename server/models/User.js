@@ -6,17 +6,17 @@ const QuestionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
   image: {
     type: String,
     required: false,
     default: ''
   },
+  password: {
+    type: String,
+    required: true,
+  },
 },
- {
+  {
     timestamps: true,
   }
 )

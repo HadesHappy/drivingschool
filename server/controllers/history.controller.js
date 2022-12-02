@@ -1,10 +1,11 @@
 const History = require("../models/History");
-const Test = require("../models/Test")
+const User = require("../models/User")
 
 const saveHistory = async(req, res) => {
   try{
     let history = req.body
-    history = { user: req.auth.name, ...history }
+    const user = await User.findOne({ name: req.auth.name })
+    history = { user: req.auth.name, image: user.image, ...history }
     const newHistory = new History(history);
     await newHistory.save()
     res.status(200).send('success')
