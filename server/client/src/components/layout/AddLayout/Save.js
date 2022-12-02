@@ -1,7 +1,7 @@
 import React from 'react'
 import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
-import { saveTest } from '../../../apis/test.api'
+import { saveTest } from '../../../apis/admin.test.api'
 import isFill from '../../../utils/isFill'
 import { useNavigate } from 'react-router-dom'
 

@@ -13,6 +13,7 @@ const AddButton = () => {
     dispatch(initializeProblems())
     navigate('/add');
   }
+  
   return (
     <div className='w-32 bg-[#3598DB] p-2 float-right flex flex-row cursor-pointer items-center' onClick={handleClick}>
       <div className='w-10 h-10 bg-[#4b71b8] flex flex-row justify-center px-3 py-3'>

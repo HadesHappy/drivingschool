@@ -578,12 +578,12 @@ const readStudyData = async (req, res) => {
 const readLiveResults = async (req, res) => {
   try {
     const id = req.params.id
-    const name = req.params.name
+    const category = req.params.category
     let datas
-    if (name === 'todotest')
-      datas = await History.find({ id: id, category: name, examType: 'study' }, {}, { sort: { 'createdAt': -1 } })
+    if (category === 'todotest')
+      datas = await History.find({ id: id, category: category, examType: 'study' }, {}, { sort: { 'createdAt': -1 } })
     else
-      datas = await History.find({ test: id, category: name, examType: 'study' }, {}, { sort: { 'createdAt': -1 } })
+      datas = await History.find({ test: id, category: category, examType: 'study' }, {}, { sort: { 'createdAt': -1 } })
     let results = []
     if (datas.length) {
       let count = datas.length
@@ -591,12 +591,9 @@ const readLiveResults = async (req, res) => {
         count = 10
       }
       for (let i = 0; i < count; i++) {
-        const userName = datas[i].user
-        const user = await User.findOne({ name: userName })
-        const image = user.image
         let data = {
-          name: userName,
-          image: image,
+          name: datas[i].name,
+          image: datas[i].image,
           isPass: datas[i].isPass,
           incorrect: datas[i].falseNum,
           video: datas[i].videoNum,
@@ -618,6 +615,7 @@ module.exports = {
   readbyNameAndId,
   readStudyByNameAndId,
   readbyName,
+  
   readTestData,
   readStudyData,
   readExamData,

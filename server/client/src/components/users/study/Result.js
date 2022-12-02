@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast'
 import { clearAnswer } from '../../../actions/answer'
 import { useAuth } from '../../../contexts/AuthContext'
 import { addHistory } from '../../../apis/history.api'
-import { readLiveResult } from '../../../apis/test.api'
+import { readLiveResult } from '../../../apis/admin.test.api'
 
 const Player = ({ liveData = {} }) => {
   let timeLeft = {}
