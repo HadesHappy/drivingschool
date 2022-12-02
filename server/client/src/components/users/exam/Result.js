@@ -12,7 +12,6 @@ import { addHistory } from '../../../apis/history.api'
 
 const Result = () => {
   const answers = useSelector(state => state.answerReducer.answers)
-  const questions = useSelector(state => state.problemReducer.problems)
   const category = useSelector(state => state.todoReducer.category)
   const index = useSelector(state => state.todoReducer.index)
   const tests = useSelector(state => state.todoReducer.tests)

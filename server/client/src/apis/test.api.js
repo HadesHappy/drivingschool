@@ -28,7 +28,6 @@ const getTestData = (category) => async dispatch => {
 
 const getExamData = (id, category) => async dispatch => {
   try {
-    console.log(id, category)
     dispatch({ type: PROBLEM_LOADING })
     const res = await axios.get(`api/test/readExamData/${id}/${category}`)
     dispatch({ type: GET_PROBLEMS, payload: res.data })

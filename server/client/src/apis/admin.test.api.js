@@ -161,21 +161,10 @@ const getProblems = (id) => async dispatch => {
   }
 }
 
-const readLiveResult = async (id, name) => {
-  try {
-    const res = await axios.get(`api/test/readResult/${id}/${name}`)
-    return res.data
-  }
-  catch (error) {
-
-  }
-}
-
 export {
   saveTest,
   deleteTest,
   updateTest,
   getTests,
   getProblems,
-  readLiveResult,
 }

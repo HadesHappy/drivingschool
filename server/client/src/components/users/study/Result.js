@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast'
 import { clearAnswer } from '../../../actions/answer'
 import { useAuth } from '../../../contexts/AuthContext'
 import { addHistory } from '../../../apis/history.api'
-import { readLiveResult } from '../../../apis/admin.test.api'
+import { readLiveResult } from '../../../apis/test.api'
 
 const Player = ({ liveData = {} }) => {
   let timeLeft = {}
@@ -34,8 +34,7 @@ const Player = ({ liveData = {} }) => {
 
   const nameSplit = (userName) => {
     let splitedName = userName.split(' ')
-    console.log('name: ', splitedName)
-    let name = splitedName[1] === undefined ? splitedName[0] : splitedName[0] + ' ' + splitedName[1]?.substring(0,1) + '.'
+    let name = splitedName[1] === undefined ? splitedName[0] : splitedName[0] + ' ' + splitedName[1]?.substring(0, 1) + '.'
     return name
   }
   return (
@@ -49,7 +48,10 @@ const Player = ({ liveData = {} }) => {
         <div className='flex flex-row space-x-1'>
           {
             liveData.isPass ?
-              <div className='text-green-500'>Apto test 01</div>
+              liveData.video > 0 ?
+                <div className='text-blue-500'>Apto test 01</div>
+                :
+                <div className='text-green-500'>Apto test 01</div>
               :
               <div className='text-red-500'>No Apto test 01</div>
           }

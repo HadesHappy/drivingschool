@@ -3,7 +3,6 @@ import TodoTest from './tests/TodoTest'
 import Temas from './temas'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { useAuth } from '../../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { getTestData } from '../../../apis/test.api'
 
@@ -13,8 +12,6 @@ const Content = () => {
   const { id } = useParams();
   const tests = useSelector(state => state.todoReducer.tests)
   const loading = useSelector(state => state.todoReducer.loading)
-  const { account, isLoggedIn } = useAuth()
-  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   let string = ''
@@ -34,11 +31,6 @@ const Content = () => {
   useEffect(() => {
     loadData()
   }, [id])
-
-  useEffect(() => {
-    if (!isLoggedIn)
-      navigate('/')
-  }, [isLoggedIn])
 
   if (loading === false) {
     if (id === 'todotest')

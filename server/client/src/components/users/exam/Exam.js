@@ -120,6 +120,9 @@ const Exam = () => {
       const previous = Number(id) - 1
       navigate(`/exam/${previous}`)
     }
+    else{
+      toast.error('Can not go forward.')
+    }
   }
   const onNextClick = () => {
     if (choice === '') {
