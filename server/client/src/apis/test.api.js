@@ -2,42 +2,49 @@ import axios from '../utils/axios'
 import HEADER from './header'
 import {
   GET_TESTS,
+  SET_TESTS,
   GET_CATEGORY,
   PROBLEM_LOADING,
   GET_PROBLEMS,
   TEST_LOADING
 } from '../store/constants'
 
-const getTestData = (category)=> async dispatch => {
-  try{
+const getTestData = (category) => async dispatch => {
+  try {
     dispatch({ type: GET_CATEGORY, payload: category })
-    dispatch({ type: TEST_LOADING })
+    if (!category.startsWith('category'))
+      dispatch({ type: TEST_LOADING })
     const res = await axios.get(`api/test/readTestData/${category}`, HEADER())
-    dispatch({ type: GET_TESTS, payload: res.data })
+    if (category.startsWith('category'))
+      dispatch({ type: SET_TESTS, payload: res.data })
+    else {
+      dispatch({ type: GET_TESTS, payload: res.data })
+    }
   }
-  catch(error){
+  catch (error) {
 
   }
 }
 
 const getExamData = (id, category) => async dispatch => {
-  try{
+  try {
+    console.log(id, category)
     dispatch({ type: PROBLEM_LOADING })
-    const res = await axios.get(`api/test/readTestData/${id}/${category}`)
+    const res = await axios.get(`api/test/readExamData/${id}/${category}`)
     dispatch({ type: GET_PROBLEMS, payload: res.data })
   }
-  catch(error){
+  catch (error) {
 
   }
 }
 
 const getStudyData = (id, category) => async dispatch => {
-  try{
+  try {
     dispatch({ type: PROBLEM_LOADING })
-    const res = await axios.get(`api/test/readTestData/${id}/${category}`)
+    const res = await axios.get(`api/test/readStudyData/${id}/${category}`)
     dispatch({ type: GET_PROBLEMS, payload: res.data })
   }
-  catch(error){
+  catch (error) {
 
   }
 }

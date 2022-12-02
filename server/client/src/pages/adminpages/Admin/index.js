@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AddButton from '../../../components/admin/addtest/AddButton'
 import TestRow from '../../../components/admin/TestRow'
-import { getTests } from '../../../actions/test'
+import { getTests } from '../../../apis/admin.test.api'
 import { useSelector, useDispatch } from 'react-redux'
 import { useAuth } from '../../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'

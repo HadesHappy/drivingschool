@@ -1,4 +1,10 @@
 import axios from '../utils/axios'
+import {
+  TEST_LOADING,
+  GET_TESTS,
+  PROBLEM_LOADING,
+  GET_PROBLEMS,
+} from '../store/constants'
 
 const saveTest = async (questions) => {
   let formData = new FormData()
@@ -133,6 +139,28 @@ const deleteTest = async (id) => {
 
 }
 
+const getTests = () => async dispatch => {
+  try {
+    dispatch({ type: TEST_LOADING })
+    const data = await axios.get('api/admin/read');
+    dispatch({ type: GET_TESTS, payload: data.data })
+  }
+  catch (error) {
+    return error
+  }
+}
+
+const getProblems = (id) => async dispatch => {
+  try {
+    dispatch({ type: PROBLEM_LOADING })
+    const data = await axios.get(`api/admin/read/${id}`)
+    dispatch({ type: GET_PROBLEMS, payload: data.data })
+  }
+  catch (error) {
+    return error
+  }
+}
+
 const readLiveResult = async (id, name) => {
   try {
     const res = await axios.get(`api/test/readResult/${id}/${name}`)
@@ -147,5 +175,7 @@ export {
   saveTest,
   deleteTest,
   updateTest,
+  getTests,
+  getProblems,
   readLiveResult,
 }

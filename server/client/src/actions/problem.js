@@ -2,13 +2,9 @@ import {
   GET_PROBLEM,
   ADD_PROBLEM,
   UPDATE_PROBLEM,
-  GET_PROBLEMS,
   DELETE_PROBLEM,
   INITIALIZE_PROBLEMS,
-  PROBLEM_LOADING,
 } from "../store/constants"
-
-import axios from "../utils/axios"
 
 //Add Problem
 const addProblem = problemData => async dispatch => {
@@ -30,7 +26,6 @@ const getProblem = id => async dispatch => {
   catch (error) {
     return error
   }
-
 }
 
 const updateProblem = data => async dispatch => {
@@ -42,69 +37,21 @@ const updateProblem = data => async dispatch => {
   }
 }
 
-const getProblems = (id) => async dispatch => {
-  try {
-    dispatch({ type: PROBLEM_LOADING })
-    const data = await axios.get(`api/admin/read/${id}`)
-    dispatch({ type: GET_PROBLEMS, payload: data.data })
-  }
-  catch (error) {
-    return error
-  }
-}
-
-const getStudyProblems = (id) => async dispatch => {
-  try {
-    dispatch({ type: PROBLEM_LOADING })
-    const data = await axios.get(`api/test/readStudy/${id}`)
-    dispatch({ type: GET_PROBLEMS, payload: data.data })
-  }
-  catch (error) {
-    return error
-  }
-}
-
-const readProblems = (test_num, name) => async dispatch => {
-  try {
-    dispatch({ type: PROBLEM_LOADING })
-    const data = await axios.get(`api/test/readbyNameAndId/${test_num}/${name}`)
-    dispatch({ type: GET_PROBLEMS, payload: data.data })
-  }
-  catch (error) {
-    return error
-  }
-}
-
-const readStudyProblems = (test_num, name) => async dispatch => {
-  try {
-    dispatch({ type: PROBLEM_LOADING })
-    const data = await axios.get(`api/test/readStudyByNameAndId/${test_num}/${name}`)
-    dispatch({ type: GET_PROBLEMS, payload: data.data })
-  }
-  catch (error) {
-    return error
-  }
-}
-
 const deleteProblem = id => async dispatch => {
   const data = {
     id: id
   }
-  dispatch({ type: DELETE_PROBLEM, payload: data })
+  await dispatch({ type: DELETE_PROBLEM, payload: data })
 }
 
 const initializeProblems = () => async dispatch => {
-  dispatch({ type: INITIALIZE_PROBLEMS })
+  await dispatch({ type: INITIALIZE_PROBLEMS })
 }
 
 export {
   addProblem,
   getProblem,
-  getProblems,
-  getStudyProblems,
   deleteProblem,
   updateProblem,
   initializeProblems,
-  readProblems,
-  readStudyProblems,
 }

@@ -361,13 +361,13 @@ const testProblems = async (id, category) => {
         }
       }
     }
-    // for (let i = 0; i < 30; i++) {
-    //   let iid = 30 * (id - 1) + i
-    //   if (problems.length == iid) break
-    //   datas = [...datas, problems[iid]]
-    // }
-    problems = problems.skip(30 * (id - 1)).limit(30)
-    return problems
+    let datas = []
+    for (let i = 0; i < 30; i++) {
+      let iid = 30 * (id - 1) + i
+      if (problems.length == iid) break
+      datas = [...datas, problems[iid]]
+    }
+    return datas
   }
   catch (error) {
     return []
@@ -396,7 +396,7 @@ const readTestData = async (req, res) => {
         }
       }
       if (totalProblems)
-        length = Math.floor(totalProblems / 30)
+        length = Math.floor(totalProblems.length / 30) + 1
     }
 
     let datas = [] // response data
@@ -615,7 +615,7 @@ module.exports = {
   readbyNameAndId,
   readStudyByNameAndId,
   readbyName,
-  
+
   readTestData,
   readStudyData,
   readExamData,

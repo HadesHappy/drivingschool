@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { readCategoryTests } from '../../../../actions/test'
+import { getTestData } from '../../../../apis/test.api'
 import NamedTest from '../tests/NamedTest'
 
 const Category = ({ category = '', selectedCategory, setSelectedCategory }) => {
@@ -13,7 +14,7 @@ const Category = ({ category = '', selectedCategory, setSelectedCategory }) => {
       setSelectedCategory('')
     else {
       setSelectedCategory(category.id)
-      dispatch(readCategoryTests(category.id))
+      dispatch(getTestData(category.id))
     }
   }
 

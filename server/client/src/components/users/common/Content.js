@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react'
 import TodoTest from './tests/TodoTest'
 import Temas from './temas'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useAuth } from '../../../contexts/AuthContext'
-import { readTests, getTodoTests } from '../../../actions/test'
 import { useNavigate } from 'react-router-dom'
-
-import { useDispatch } from 'react-redux'
+import { getTestData } from '../../../apis/test.api'
 
 import NamedTest from './tests/NamedTest'
 
@@ -25,16 +23,11 @@ const Content = () => {
   const loadData = () => {
     if (!flag) {
       flag = true
-      switch (id) {
-        case 'todotest':
-          dispatch(getTodoTests())
-          break;
-        case 'testportemas':
-          string = (<><Temas /></>)
-          break;
-        default:
-          dispatch(readTests(id))
+      if (id === 'testportemas') {
+        string = (<><Temas /></>)
       }
+      else
+        dispatch(getTestData(id))
     }
   }
 

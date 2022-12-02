@@ -3,11 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import Top from '../exam/Top'
 import Bottom from '../exam/Bottom'
-import { getStudyProblems, readStudyProblems } from '../../../actions/problem'
 import { useSelector, useDispatch } from 'react-redux'
 import { CHEATNUM } from '../../../utils/constants'
 import toast from 'react-hot-toast'
 import { addAnswer, increaseCheatNum } from '../../../actions/answer'
+import { getStudyData } from '../../../apis/test.api'
 
 const DisplayButton = ({ num = '', pageId, visited = '', correct = '' }) => {
 
@@ -145,7 +145,7 @@ const Study = () => {
   const loading = useSelector(state => state.problemReducer.loading)
   const answers = useSelector(state => state.answerReducer.answers)
   const cheatNum = useSelector(state => state.answerReducer.cheatNum)
-  const name = useSelector(state => state.todoReducer.category)
+  const category = useSelector(state => state.todoReducer.category)
   const testNum = useSelector(state => state.todoReducer.index)
   const [currentData, setCurrentData] = useState({})
   const [length, setLength] = useState()
@@ -160,10 +160,7 @@ const Study = () => {
 
   useEffect(() => {
     setCheatText('')
-    if (name === 'todotest')
-      dispatch(getStudyProblems(testNum))
-    else
-      dispatch(readStudyProblems(testNum, name))
+    dispatch(getStudyData(testNum, category))
   }, [])
 
   useEffect(() => {

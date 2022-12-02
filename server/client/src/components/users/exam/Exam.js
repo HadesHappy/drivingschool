@@ -3,10 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import Top from './Top'
 import Bottom from './Bottom'
-import { getProblems, readProblems } from '../../../actions/problem'
 import { useSelector, useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
-import { addAnswer, updateAnswer } from '../../../actions/answer'
+import { addAnswer } from '../../../actions/answer'
+import { getExamData } from '../../../apis/test.api'
 
 const DisplayButton = ({ num = '', pageId, visited = '' }) => {
 
@@ -76,17 +76,14 @@ const Exam = () => {
   const loading = useSelector(state => state.problemReducer.loading)
   const answers = useSelector(state => state.answerReducer.answers)
 
-  const name = useSelector(state => state.todoReducer.category)
+  const category = useSelector(state => state.todoReducer.category)
   const testNum = useSelector(state => state.todoReducer.index)
   const [currentData, setCurrentData] = useState({})
   const [length, setLength] = useState()
   const [choice, setChoice] = useState('')
 
   useEffect(() => {
-    if (name === 'todotest')
-      dispatch(getProblems(testNum))
-    else
-      dispatch(readProblems(testNum, name))
+    dispatch(getExamData(testNum, category))
   }, [])
 
   useEffect(() => {

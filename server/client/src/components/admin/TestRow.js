@@ -3,8 +3,8 @@ import toast from 'react-hot-toast'
 import { deleteTest } from '../../apis/admin.test.api';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getTests, setIndex } from '../../actions/test';
-import { getProblems } from '../../actions/problem';
+import { getTests, getProblems } from '../../apis/admin.test.api';
+import { setIndex } from '../../actions/test';
 
 const TestRow = ({ test = {}, no = '' }) => {
   const navigate = useNavigate()
