@@ -45,7 +45,7 @@ const updateProblem = data => async dispatch => {
 const getProblems = (id) => async dispatch => {
   try {
     dispatch({ type: PROBLEM_LOADING })
-    const data = await axios.get(`api/test/read/${id}`)
+    const data = await axios.get(`api/admin/read/${id}`)
     dispatch({ type: GET_PROBLEMS, payload: data.data })
   }
   catch (error) {

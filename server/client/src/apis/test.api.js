@@ -49,7 +49,7 @@ const saveTest = async (questions) => {
   }
 
   try {
-    const result = await axios.post('api/test/add', formData, {
+    const result = await axios.post('api/admin/add', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -110,7 +110,7 @@ const updateTest = async (id, problems) => {
     )
   }
   try {
-    const result = await axios.post(`api/test/update/${id}`, formData, {
+    const result = await axios.post(`api/admin/update/${id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -124,7 +124,7 @@ const updateTest = async (id, problems) => {
 
 const deleteTest = async (id) => {
   try {
-    const data = await axios.post(`api/test/delete/${id}`);
+    const data = await axios.post(`api/admin/delete/${id}`);
     return data.data
   }
   catch (error) {

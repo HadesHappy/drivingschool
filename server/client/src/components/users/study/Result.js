@@ -32,14 +32,19 @@ const Player = ({ liveData = {} }) => {
     }
   }
 
-
+  const nameSplit = (userName) => {
+    let splitedName = userName.split(' ')
+    console.log('name: ', splitedName)
+    let name = splitedName[1] === undefined ? splitedName[0] : splitedName[0] + ' ' + splitedName[1]?.substring(0,1) + '.'
+    return name
+  }
   return (
     <div className='flex flex-row gap-3'>
       <img className='w-12 h-12 rounded-xl' src={liveData?.image} alt='player' />
       <div className='flex flex-col'>
         <div className='flex flex-row space-x-5'>
-          <div className='text-gray-700 font-noraml'>{liveData?.name}</div>
-          <div className='text-gray-500 text-sm'>hace {timeLeft.days ? `${timeLeft.days} days` : ''} {timeLeft.hours ? `${timeLeft.hours} hours` : ''} {timeLeft.minutes ? `${timeLeft.minutes} minutes` : ''} {timeLeft.seconds ? `${timeLeft.seconds} seconds` : ''} segandas</div>
+          <div className='text-gray-700 font-noraml'>{nameSplit(liveData?.name)}</div>
+          <div className='text-gray-500 text-sm'>hace {timeLeft.days ? `${timeLeft.days} days` : ''} {timeLeft.hours ? `${timeLeft.hours} hours` : ''} {timeLeft.minutes ? `${timeLeft.minutes} minutes` : ''} {timeLeft.seconds ? `${timeLeft.seconds} segandas` : ''} </div>
         </div>
         <div className='flex flex-row space-x-1'>
           {
@@ -157,7 +162,6 @@ const StudyResult = () => {
   const readLiveData = async () => {
     const data = await readLiveResult(index, category)
     setLiveResults(data)
-    console.log('liveData: ', data)
   }
 
   useEffect(() => {

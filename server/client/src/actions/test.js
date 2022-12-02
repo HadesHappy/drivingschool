@@ -24,7 +24,7 @@ const getTodoTests = () => async dispatch => {
 const getTests = () => async dispatch => {
   try {
     dispatch({ type: TEST_LOADING })
-    const data = await axios.get('api/test/read');
+    const data = await axios.get('api/admin/read');
     dispatch({ type: GET_TESTS, payload: data.data })
   }
   catch (error) {
