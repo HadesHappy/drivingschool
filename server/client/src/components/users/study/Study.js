@@ -104,14 +104,17 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
           {
             choice === '' ?
               removed ?
-                <div className='text-gray-500 pl-10 text-[32px] line-through'>{content}</div>
+                <div className='relative align-middle '>
+                  <div className='absolute border-2 border-black mt-6 ml-5 w-full' />
+                  <div className='text-gray-500 text-[32px] pl-10'>{content}</div>
+                </div>
                 :
                 <div className='text-gray-500 pl-10 text-[32px]'>{content}</div>
               :
               <>
                 <div className='relative'>
                   <div className='flex flex-col float-right right-0 min-w-fit'>
-                    <div className="-space-x-2 overflow-hidden mt-10">
+                    <div className="-space-x-2 overflow-hidden">
                       {
                         images.length > 5 ?
                           imageString
@@ -126,9 +129,7 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
                   </div>
                 </div>
                 <div className='relative'>
-                  <div className='bg-[#DBDB3559] absolute h-full' style={{ width: `${width}%` }}>
-
-                  </div>
+                  <div className='bg-[#DBDB3559] absolute h-full' style={{ width: `${width}%` }} />
                   <div className='pl-10 py-10 text-gray-500 text-[32px]'>
                     {content}
                   </div>
@@ -268,6 +269,7 @@ const Study = () => {
     }
     else {
       setShowVideo(true)
+      toast.error('There is no video explanation here.')
     }
     setIsVideoClicked(true)
   }
@@ -397,7 +399,7 @@ const Study = () => {
             </>
             : <></>
         }
-        <VideoPlayer url={currentData.video} showVideo={showVideo} setShowVideo={setShowVideo} />
+        <VideoPlayer url={currentData?.video} showVideo={showVideo} setShowVideo={setShowVideo} />
         <Bottom />
       </div>
     </>
