@@ -17,7 +17,8 @@ const VideoPlayer = ({ url, showVideo, setShowVideo }) => {
                   url='https://vimeo.com/585768792'
                   width='100%'
                   height='100%'
-                  playing='true'
+                  playing={true}
+                  controls={true}
                 />
               </div>
             </div>

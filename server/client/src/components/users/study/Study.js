@@ -397,7 +397,7 @@ const Study = () => {
             </>
             : <></>
         }
-        <VideoPlayer url={currentData.video} showVideo={showVideo} setShowVideo={setShowVideo} />
+        <VideoPlayer url={currentData?.video} showVideo={showVideo} setShowVideo={setShowVideo} />
         <Bottom />
       </div>
     </>
