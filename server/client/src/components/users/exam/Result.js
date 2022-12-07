@@ -44,7 +44,7 @@ const Result = () => {
 
     if (!saved) {
       saved = true
-      if(category === 'todotest'){
+      if (category === 'todotest') {
         const data = {
           id: index,
           category: category,
@@ -56,7 +56,7 @@ const Result = () => {
         }
         addHistory(data)
       }
-      else{
+      else {
         const data = {
           test: index,
           category: category,
@@ -77,10 +77,21 @@ const Result = () => {
 
   const handleNextClick = () => {
     const length = tests.length
-    if (index < length) {
-      dispatch(setIndex(index + 1))
-      dispatch(clearAnswer())
-      navigate('/exam/1')
+    let current = 0;
+    tests.forEach((test, key) => {
+      if (test.id === index)
+        current = key
+    })
+    const next = current + 1;
+    if (next < length) {
+      if (tests[next].latestTime && (new Date() - new Date(tests[next].latestTime) > 24 * 60 * 60 * 1000)) {
+        dispatch(setIndex(tests[next].id));
+        dispatch(clearAnswer())
+        navigate('/exam/1')
+      }
+      else
+        toast.error('Next Test is pending.')
+
     }
     else
       toast.error('This is the last test. There is not next test.')

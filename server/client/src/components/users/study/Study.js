@@ -8,6 +8,7 @@ import { CHEATNUM } from '../../../utils/constants'
 import toast from 'react-hot-toast'
 import { addAnswer, increaseCheatNum } from '../../../actions/answer'
 import { getStudyData } from '../../../apis/test.api'
+import ReactPlayer from 'react-player'
 
 const DisplayButton = ({ num = '', pageId, visited = '', correct = '' }) => {
 
@@ -260,7 +261,9 @@ const Study = () => {
   }
 
   const onVideoClick = () => {
+
     setIsVideoClicked(true)
+
   }
 
   const cheatNumClick = () => {
@@ -388,7 +391,14 @@ const Study = () => {
             </>
             : <></>
         }
-
+        <div className='relative pt-[56.25%]'>
+          <ReactPlayer
+            className='absoulte top-0 left-0'
+            url='https://vimeo.com/585768792'
+            width='100%'
+            height='100%'
+          />
+        </div>
         <Bottom />
       </div>
     </>
