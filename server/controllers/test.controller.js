@@ -36,13 +36,13 @@ const readTestData = async (req, res) => {
   try {
     const category = req.params.category
     const name = req.auth.name
-    console.log(category)
     const tests = await Test.find()
     let length = 0  // Number of Tests
     if (category === 'todotest')
       length = tests.length
     else {
       let totalProblems = []
+      console.log('test: ', tests.length)
       for (let i = 0; i < tests.length; i++) {
         let problems = []
         if (category.startsWith('category'))
@@ -51,13 +51,13 @@ const readTestData = async (req, res) => {
           problems = tests[i].problems.filter(problem => problem[category] === true)
 
         if (problems.length) {
-          totalProblems.push(problems)
+          for(let j=0; j<problems.length; j++)
+          totalProblems.push(problems[j])
         }
       }
       if (totalProblems.length)
         length = Math.floor(totalProblems.length / 30) + 1
     }
-
     let datas = [] // response data
     // Get Participants and User History
     for (let i = 0; i < length; i++) {

@@ -8,6 +8,7 @@ import { CHEATNUM } from '../../../utils/constants'
 import toast from 'react-hot-toast'
 import { addAnswer, increaseCheatNum } from '../../../actions/answer'
 import { getStudyData } from '../../../apis/test.api'
+import ReactPlayer from 'react-player'
 
 const DisplayButton = ({ num = '', pageId, visited = '', correct = '' }) => {
 
@@ -89,7 +90,7 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
 
   return (
     <>
-      <div className='flex flex-row items-center w-full'>
+      <div className='flex flex-row items-center w-full h-32 overflow-hidden'>
         {
           choice === name ?
             choice === answer ?
@@ -110,7 +111,7 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
               <>
                 <div className='relative'>
                   <div className='flex flex-col float-right right-0 min-w-fit'>
-                    <div className="-space-x-2 overflow-hidden">
+                    <div className="-space-x-2 overflow-hidden mt-10">
                       {
                         images.length > 5 ?
                           imageString
@@ -124,11 +125,15 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
                     </div>
                   </div>
                 </div>
-                <div className='bg-[#DBDB3559]' style={{ width: `${width}%` }}>
+                <div className='relative'>
+                  <div className='bg-[#DBDB3559] absolute h-full' style={{ width: `${width}%` }}>
+
+                  </div>
                   <div className='pl-10 py-10 text-gray-500 text-[32px]'>
                     {content}
                   </div>
                 </div>
+
               </>
           }
         </div>
@@ -256,7 +261,9 @@ const Study = () => {
   }
 
   const onVideoClick = () => {
+
     setIsVideoClicked(true)
+
   }
 
   const cheatNumClick = () => {
@@ -384,7 +391,15 @@ const Study = () => {
             </>
             : <></>
         }
-
+        <div className='relative w-[800px] h-[500px]'>
+          <ReactPlayer
+            className='absoulte top-0 left-0'
+            url='https://vimeo.com/585768792'
+            width='100%'
+            height='100%'
+            playing = 'true'
+          />
+        </div>
         <Bottom />
       </div>
     </>
