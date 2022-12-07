@@ -391,12 +391,13 @@ const Study = () => {
             </>
             : <></>
         }
-        <div className='relative pt-[56.25%]'>
+        <div className='relative w-[800px] h-[500px]'>
           <ReactPlayer
             className='absoulte top-0 left-0'
             url='https://vimeo.com/585768792'
             width='100%'
             height='100%'
+            playing = 'true'
           />
         </div>
         <Bottom />
