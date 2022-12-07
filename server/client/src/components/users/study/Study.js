@@ -90,7 +90,7 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
 
   return (
     <>
-      <div className='flex flex-row items-center w-full h-32 overflow-hidden'>
+      <div className='flex flex-row items-center w-full h-32 overflow-none'>
         {
           choice === name ?
             choice === answer ?
@@ -104,8 +104,8 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
           {
             choice === '' ?
               removed ?
-                <div className='relative align-middle'>
-                  <div className='absolute border-2 border-black mt-6 ml-5 w-full' />
+                <div className='relative flex items-center'>
+                  <div className='absolute border-2 border-black ml-5 w-full' />
                   <div className='text-gray-500 text-[32px] pl-10'>{content}</div>
                 </div>
                 :
@@ -128,13 +128,10 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
                     </div>
                   </div>
                 </div>
-                <div className='relative h-32'>
+                <div className='relative flex items-center h-32'>
                   <div className='bg-[#DBDB3559] absolute h-full' style={{ width: `${width}%` }} />
-                  <div className='pl-10 text-gray-500 text-[32px] text-center'>
-                    {content}
-                  </div>
+                  <div className='pl-10 text-gray-500 text-[32px]'>{content}</div>
                 </div>
-
               </>
           }
         </div>
