@@ -98,6 +98,7 @@ const readTestData = async (req, res) => {
           let result = {}
           result.isPass = myHistories[j].isPass
           result.falseNum = myHistories[j].falseNum
+          result.type = myHistories[j].examType
           results.push(result)
         }
         newItem.results = results
