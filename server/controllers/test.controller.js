@@ -51,8 +51,8 @@ const readTestData = async (req, res) => {
           problems = tests[i].problems.filter(problem => problem[category] === true)
 
         if (problems.length) {
-          for(let j=0; j<problems.length; j++)
-          totalProblems.push(problems[j])
+          for (let j = 0; j < problems.length; j++)
+            totalProblems.push(problems[j])
         }
       }
       if (totalProblems.length)
