@@ -8,7 +8,7 @@ import { CHEATNUM } from '../../../utils/constants'
 import toast from 'react-hot-toast'
 import { addAnswer, increaseCheatNum } from '../../../actions/answer'
 import { getStudyData } from '../../../apis/test.api'
-import ReactPlayer from 'react-player'
+import VideoPlayer from '../common/Video'
 
 const DisplayButton = ({ num = '', pageId, visited = '', correct = '' }) => {
 
@@ -162,6 +162,7 @@ const Study = () => {
   const [isVideoClicked, setIsVideoClicked] = useState(false)
   const [leftCheatNum, setLeftCheatNum] = useState(CHEATNUM)
   const [cheatText, setCheatText] = useState([])
+  const [showVideo, setShowVideo] = useState(false)
 
   useEffect(() => {
     setCheatText('')
@@ -261,9 +262,14 @@ const Study = () => {
   }
 
   const onVideoClick = () => {
-
+    if (currentData?.video) {
+      console.log('here')
+      setShowVideo(true)
+    }
+    else {
+      setShowVideo(true)
+    }
     setIsVideoClicked(true)
-
   }
 
   const cheatNumClick = () => {
@@ -391,15 +397,7 @@ const Study = () => {
             </>
             : <></>
         }
-        <div className='relative w-[800px] h-[500px]'>
-          <ReactPlayer
-            className='absoulte top-0 left-0'
-            url='https://vimeo.com/585768792'
-            width='100%'
-            height='100%'
-            playing = 'true'
-          />
-        </div>
+        <VideoPlayer url={currentData.video} showVideo={showVideo} setShowVideo={setShowVideo} />
         <Bottom />
       </div>
     </>

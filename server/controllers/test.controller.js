@@ -42,7 +42,6 @@ const readTestData = async (req, res) => {
       length = tests.length
     else {
       let totalProblems = []
-      console.log('test: ', tests.length)
       for (let i = 0; i < tests.length; i++) {
         let problems = []
         if (category.startsWith('category'))
