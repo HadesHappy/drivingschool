@@ -261,11 +261,9 @@ const Study = () => {
 
   const onVideoClick = () => {
     if (currentData?.video) {
-      console.log('here')
       setShowVideo(true)
     }
     else {
-      setShowVideo(true)
       toast.error('There is no video explanation here.')
     }
     setIsVideoClicked(true)

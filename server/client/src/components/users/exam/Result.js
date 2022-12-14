@@ -84,7 +84,7 @@ const Result = () => {
     })
     const next = current + 1;
     if (next < length) {
-      if (tests[next].latestTime && (new Date() - new Date(tests[next].latestTime) > 24 * 60 * 60 * 1000)) {
+      if ((tests[next].latestTime && (new Date() - new Date(tests[next].latestTime) > 24 * 60 * 60 * 1000)) || !tests[next].latestTime) {
         dispatch(setIndex(tests[next].id));
         dispatch(clearAnswer())
         navigate('/exam/1')

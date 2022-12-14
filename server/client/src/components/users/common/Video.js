@@ -18,7 +18,7 @@ const VideoPlayer = ({ url, showVideo, setShowVideo }) => {
               <div className='relative w-[720px] h-[360px] bg-gray-300'>
                 <ReactPlayer
                   className='absoulte top-0 left-0'
-                  url='https://vimeo.com/585768792'
+                  url='https://vimeo.com/781100951'
                   width='100%'
                   height='100%'
                   playing={true}

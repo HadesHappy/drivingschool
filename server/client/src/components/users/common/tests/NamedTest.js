@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
 
 const StatusCircle = ({ result = {} }) => {
-  console.log(result)
   return (
     <>
       {
