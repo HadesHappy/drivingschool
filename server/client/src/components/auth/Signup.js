@@ -2,25 +2,64 @@ import React, { useState, useEffect } from 'react';
 import { signupFields } from "./FormFields"
 import FormAction from "./FormAction";
 import Input from "./Input";
-import { FaUpload } from 'react-icons/fa'
-import { FileUploader } from 'react-drag-drop-files'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast'
+import { Uploader } from 'uploader'
+import { UploadButton } from 'react-uploader'
 
 const fields = signupFields;
 let fieldsState = {};
 
 fields.forEach(field => fieldsState[field.id] = '');
 
+const uploader = Uploader({ apiKey: 'free' });
+const options = {
+  multi: false,
+  styles: {
+    colors: {
+      primary: "#377dff",     // Hex codes only.
+      active: "#528fff"
+    },
+    fontSizes: {
+      base: 16
+    }
+  },
+  editor: {
+    images: {
+      crop: true,             // false disables the image editor / cropper
+      cropRatio: 1 / 1,
+      cropShape: "circ"       // "rect" | "circ"
+    }
+  },
+}
+
+const MyUploadButton = ({ setFiles, setFormData, formData }) =>
+  <UploadButton uploader={uploader}
+    options={options}
+    onComplete={files => {      // Optional.
+      if (files.length === 0) {
+        console.log('No files selected.')
+      } else {
+        console.log('Files uploaded:');
+        console.log(files.map(f => f.fileUrl));
+        setFiles(files[0].fileUrl);
+        setFormData({ ...formData, image: files[0].fileUrl });
+      }
+    }}>
+    {({ onClick }) =>
+      <button onClick={onClick}>
+        Upload a file...
+      </button>
+    }
+  </UploadButton>
+
 export default function Signup() {
   const [formData, setFormData] = useState(fieldsState);
-  const [isHover, setIsHover] = useState(false)
   const handleChange = (e) => setFormData({ ...formData, [e.target.id]: e.target.value });
   const [avatar, setAvatar] = useState('/assets/emotions/avatar1.png')
-  const fileTypes = ['JPG', 'PNG', 'GIF', 'jpg', 'png', 'gif'];
   const navigate = useNavigate();
-  const { isLoggedIn, register } = useAuth()
+  const { isLoggedIn, register } = useAuth();
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -43,29 +82,11 @@ export default function Signup() {
     }
   }
 
-  const handleDropChange = async (dropFile) => {
-    setAvatar(URL.createObjectURL(dropFile))
-    setFormData({ ...formData, image: dropFile })
-  }
-
   return (
     <form className="mt-8" encType='multipart/form-data'>
       <div className='flex flex-col justify-center items-center'>
-        <FileUploader
-          handleChange={handleDropChange}
-          name="file"
-          types={fileTypes}
-          children={
-            <div className="rounded-full shadow-lg text-center w-48 h-48 flex items-center justify-center duration-200 cursor-pointer" onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
-              {
-                isHover ?
-                  <FaUpload className='text-center w-28 h-28 text-[#3598DB]' />
-                  :
-                  <img className="rounded-full h-full  text-[#3598DB]" src={avatar} alt="Avatar Upload" />
-              }
-            </div>
-          }
-        />
+        <img className="rounded-full shadow-xl text-center w-48 h-48 flex items-center justify-center duration-200" src={avatar} alt='avatar' />
+        <MyUploadButton setFiles={setAvatar} setFormData={setFormData} formData={formData} />
       </div>
       <>
         {
