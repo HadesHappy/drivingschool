@@ -49,7 +49,7 @@ const MyUploadButton = ({ setFiles, setFormData, formData }) =>
     }}>
     {({ onClick }) =>
       <button onClick={onClick}>
-        Upload a file...
+        Upload avatar
       </button>
     }
   </UploadButton>

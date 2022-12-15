@@ -119,8 +119,8 @@ const NamedTest = ({ test = '', name = '' }) => {
       const extraNum = test.images.length - 4
       imageString = (<>
         {subImages.map((image, key) =>
-          <img className="inline-block h-7 w-7 rounded-full ring-2 ring-white" src={image} alt="" key={key} />)}
-        <div className='flex h-7 w-7 rounded-full ring-2 ring-white bg-[#3598DB] text-white font-medium text-center justify-center items-center'>{extraNum}+</div>
+          <img className="inline-block h-8 w-8 rounded-full ring-2 ring-white" src={image} alt="" key={key} />)}
+        <div className='flex h-8 w-8 rounded-full ring-2 ring-white bg-[#3598DB] text-white font-medium text-center justify-center items-center'>{extraNum}+</div>
       </>)
     }
   }
@@ -206,14 +206,14 @@ const NamedTest = ({ test = '', name = '' }) => {
               </>
           }
         </div>
-        <div className="flex -space-x-2 overflow-hidden min-w-[150px]">
+        <div className="flex justify-end -space-x-2 overflow-hidden min-w-[100px]">
           {
             test.images ?
               test.images.length > 5 ?
                 imageString
                 :
                 test.images.map((image, key) =>
-                  <img className="inline-block h-7 w-7 rounded-full ring-2 ring-white" src={image} alt="" key={key} />)
+                  <img className="inline-block h-8 w-8 rounded-full ring-2 ring-white" src={image} alt="" key={key} />)
               : <></>
           }
         </div>
