@@ -6,6 +6,10 @@ const TestSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  visitors: [{
+    type: String,
+    required: false
+  }],
   problems: [{
     title: {
       type: String,

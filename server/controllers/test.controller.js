@@ -201,6 +201,7 @@ const readStudyData = async (req, res) => {
           category: datas[i].category,
           video: datas[i].video,
           difficulty: datas[i].difficulty,
+          totalUser: totalLength,
           history: histories
         }
         studyData.push(newData)
