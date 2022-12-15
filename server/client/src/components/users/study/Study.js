@@ -106,10 +106,10 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
               removed ?
                 <div className='relative flex items-center'>
                   <div className='absolute border-2 border-black ml-5 w-full' />
-                  <div className='text-gray-500 text-[32px] pl-10'>{content}</div>
+                  <div className='text-gray-500 text-[28px] pl-10'>{content}</div>
                 </div>
                 :
-                <div className='text-gray-500 pl-10 text-[32px]'>{content}</div>
+                <div className='text-gray-500 pl-10 text-[28px]'>{content}</div>
               :
               <>
                 <div className='relative'>
@@ -130,7 +130,7 @@ const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice,
                 </div>
                 <div className='relative flex items-center h-32'>
                   <div className='bg-[#DBDB3559] absolute h-full' style={{ width: `${width}%` }} />
-                  <div className='pl-10 text-gray-500 text-[32px]'>{content}</div>
+                  <div className='pl-10 text-gray-500 text-[28px]'>{content}</div>
                 </div>
               </>
           }
@@ -261,11 +261,9 @@ const Study = () => {
 
   const onVideoClick = () => {
     if (currentData?.video) {
-      console.log('here')
       setShowVideo(true)
     }
     else {
-      setShowVideo(true)
       toast.error('There is no video explanation here.')
     }
     setIsVideoClicked(true)

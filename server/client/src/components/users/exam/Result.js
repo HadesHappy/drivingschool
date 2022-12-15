@@ -84,7 +84,7 @@ const Result = () => {
     })
     const next = current + 1;
     if (next < length) {
-      if (tests[next].latestTime && (new Date() - new Date(tests[next].latestTime) > 24 * 60 * 60 * 1000)) {
+      if ((tests[next].latestTime && (new Date() - new Date(tests[next].latestTime) > 24 * 60 * 60 * 1000)) || !tests[next].latestTime) {
         dispatch(setIndex(tests[next].id));
         dispatch(clearAnswer())
         navigate('/exam/1')
@@ -118,7 +118,12 @@ const Result = () => {
         <div className='flex flex-col 2xl:pl-60 xl:pl-20 mt-10'>
           <div className='flex flex-row float-left'>
             <div className='flex flex-col items-center justify-center'>
-              <div className='text-4xl font-bold py-2'>Wow! Eres un crack</div>
+            {
+                falseNum <= 3 ?
+                <div className='text-4xl font-bold py-2'>¡Wow! Eres un crack</div>
+                :
+              <div className='text-4xl font-bold py-2'>ánimo, es normal tener esos fallos</div>
+              }
               <div className='flex flex-row test-lg text-gray-500 gap-2 py-3'>Autoescuela App Test 001
                 {
                   falseNum <= 3 ?

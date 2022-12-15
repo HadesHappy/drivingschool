@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
 
 const StatusCircle = ({ result = {} }) => {
-  console.log(result)
   return (
     <>
       {
@@ -120,8 +119,8 @@ const NamedTest = ({ test = '', name = '' }) => {
       const extraNum = test.images.length - 4
       imageString = (<>
         {subImages.map((image, key) =>
-          <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src={image} alt="" key={key} />)}
-        <div className='flex h-10 w-10 rounded-full ring-2 ring-white bg-[#3598DB] text-white font-medium text-center justify-center items-center'>{extraNum}+</div>
+          <img className="inline-block h-7 w-7 rounded-full ring-2 ring-white" src={image} alt="" key={key} />)}
+        <div className='flex h-7 w-7 rounded-full ring-2 ring-white bg-[#3598DB] text-white font-medium text-center justify-center items-center'>{extraNum}+</div>
       </>)
     }
   }
@@ -214,7 +213,7 @@ const NamedTest = ({ test = '', name = '' }) => {
                 imageString
                 :
                 test.images.map((image, key) =>
-                  <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src={image} alt="" key={key} />)
+                  <img className="inline-block h-7 w-7 rounded-full ring-2 ring-white" src={image} alt="" key={key} />)
               : <></>
           }
         </div>
