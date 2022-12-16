@@ -13,7 +13,7 @@ import {
 const getTestData = (category) => async dispatch => {
   try {
     dispatch({ type: GET_CATEGORY, payload: category })
-    
+
     if (category.startsWith('category'))
       dispatch({ type: CATEGORY_LOADING })
     else
@@ -21,7 +21,6 @@ const getTestData = (category) => async dispatch => {
 
     const res = await axios.get(`api/test/readTestData/${category}`, HEADER())
 
-    console.log('data: ', res.data)
     if (category.startsWith('category'))
       dispatch({ type: SET_TESTS, payload: res.data })
     else {
@@ -65,9 +64,20 @@ const readLiveResult = async (id, category) => {
   }
 }
 
+const getBadge = async (category) => {
+  try {
+    const res = await axios.get(`api/test/tab/${category}`, HEADER())
+    return res.data.count
+  }
+  catch (error) {
+    console.log(error)
+  }
+}
+
 export {
   getTestData,
   getExamData,
   getStudyData,
   readLiveResult,
+  getBadge,
 }

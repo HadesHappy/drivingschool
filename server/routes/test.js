@@ -7,6 +7,7 @@ router.get('/readTestData/:category', [authorizeBearerToken], testController.rea
 router.get('/readExamData/:id/:category', testController.readExamData)
 router.get('/readStudyData/:id/:category', testController.readStudyData)
 router.get('/readResult/:id/:category', testController.readLiveResults)
+router.get('/tab/:category', [authorizeBearerToken], testController.tabBadge)
 
 module.exports = router
 

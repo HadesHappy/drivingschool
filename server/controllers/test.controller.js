@@ -318,9 +318,72 @@ const readLiveResults = async (req, res) => {
   }
 }
 
+const tabBadge = async (req, res) => {
+  try {
+    let category = req.params.category
+    if (category === 'testportemas')
+      category = 'category'
+    const name = req.auth.name
+    const tests = await Test.find()
+    let length = 0  // Number of Tests
+    if (category === 'todotest')
+      length = tests.length
+    else {
+      let totalProblems = []
+      for (let i = 0; i < tests.length; i++) {
+        let problems = []
+        if (category.startsWith('category'))
+          problems = tests[i].problems.filter(problem => problem.category === category)
+        else
+          problems = tests[i].problems.filter(problem => problem[category] === true)
+
+        if (problems.length) {
+          for (let j = 0; j < problems.length; j++)
+            totalProblems.push(problems[j])
+        }
+      }
+      if (totalProblems.length)
+        length = Math.floor(totalProblems.length / 30) + 1
+    }
+    let count = 0 // response data
+    for (let i = 0; i < length; i++) {
+      if (category === 'todotest') {
+        // Visit
+        let visits = await Visit.findOne({ category: 'todotest', id: tests[i].id })
+        if (visits) {
+          if (!visits.visitors.includes(name))
+            count++
+        }
+        else {
+          count++
+        }
+      }
+      else {
+        // Visit
+        const visits = await Visit.findOne({ category: category, id: i + 1 })
+        if (visits) {
+          if (!visits.visitors.includes(name))
+            count++
+        }
+        else {
+          count++
+        }
+      }
+    }
+    const resData = {
+      count: count
+    }
+    res.status(200).send(resData)
+  }
+  catch (error) {
+    res.status(403).send(error)
+  }
+}
+
 module.exports = {
   readTestData,
   readStudyData,
   readExamData,
   readLiveResults,
+  tabBadge,
 }
