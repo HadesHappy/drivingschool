@@ -79,9 +79,15 @@ const readTestData = async (req, res) => {
           else {
             newItem.visited = false
             let newVisitor = []
-            for (let k = 0; k < visits.visitors.length; k++)
-              newVisitor.push[visits.visitors[k]]
+            console.log('length: ', visits.visitors.length);
+            for (let k = 0; k < visits.visitors.length; k++){
+              console.log('here')
+              console.log('visitor: ', visits.visitors[k])
+              newVisitor.push(visits.visitors[k])
+            }
+            console.log('newVisitor1: ', newVisitor)
             newVisitor.push(name);
+            console.log('newVisitor2: ', newVisitor)
             await Visit.updateOne({ category: 'todotest', id: tests[i].id }, { visitors: newVisitor })
           }
         }
@@ -111,7 +117,7 @@ const readTestData = async (req, res) => {
             newItem.visited = false
             let newVisitor = []
             for (let k = 0; k < visits.visitors.length; k++)
-              newVisitor.push[visits.visitors[k]]
+              newVisitor.push(visits.visitors[k])
             newVisitor.push(name);
             await Visit.updateOne({ category: category, id: i + 1 }, { visitors: newVisitor })
           }
