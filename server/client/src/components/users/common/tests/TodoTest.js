@@ -153,7 +153,15 @@ const TodoTest = ({ test = '', no = '' }) => {
   return (
     <>
       <div className='flex flex-row items-center justify-between w-full mb-3 px-8 py-4 shadow-md cursor-pointer hover:shadow-xl hover:bg-gray-50' onClick={onClick}>
-        <div className='bg-[#3598DB] text-white text-2xl py-3 w-14 rounded-md text-center'>{display(no)}</div>
+        {
+          test?.visited ?
+            <div className='bg-[#3598DB] text-white text-2xl py-3 w-14 rounded-md text-center'>{display(no)}</div>
+            :
+            <div className='relative'>
+              <div className='absolute float-right right-0 -mr-5 -mt-2 text-white text-xs bg-[#26FF4A]'>NUEVO</div>
+              <div className='bg-[#3598DB] text-white text-2xl py-3 w-14 rounded-md text-center'>{display(no)}</div>
+            </div>
+        }
         <div className='text-normal  text-gray-600'>Test Oficiale de la DGT</div>
         <div className='flex flex-row space-x-2'>
           {

@@ -1,6 +1,7 @@
 const Test = require("../models/Test")
 const History = require('../models/History')
 const User = require('../models/User')
+const Visit = require('../models/Visit')
 
 const testProblems = async (id, category) => {
   try {
@@ -68,12 +69,62 @@ const readTestData = async (req, res) => {
         newItem.id = tests[i].id
         histories = await History.find({ id: tests[i].id, category: category }, {}, { sort: { 'createdAt': -1 } })
         myHistories = await History.find({ id: tests[i].id, category: category, name: name }, {}, { sort: { 'createdAt': -1 } })
+
+        // Visit
+        let visits = await Visit.findOne({ category: 'todotest', id: tests[i].id })
+        if (visits) {
+          if (visits.visitors.includes(name))
+            newItem.visited = true
+          else {
+            newItem.visited = false
+            let newVisitor = []
+            for (let k = 0; k < visits.visitors.length; k++)
+              newVisitor.push[visits.visitors[k]]
+            newVisitor.push(name);
+            await Visit.updateOne({ category: 'todotest', id: tests[i].id }, { visitors: newVisitor })
+          }
+        }
+        else {
+          console.log('visits')
+
+          newItem.visited = false
+          const newVisit = new Visit({
+            category: 'todotest',
+            id: tests[i].id,
+            visitors: [name]
+          })
+          await newVisit.save()
+        }
       }
       else {
         newItem.id = i + 1
         histories = await History.find({ test: i + 1, category: category }, {}, { sort: { 'createdAt': -1 } })
         myHistories = await History.find({ test: i + 1, category: category, name: name }, {}, { sort: { 'createdAt': -1 } })
+        // Visit
+        const visits = await Visit.findOne({ category: category, id: i + 1 })
+        if (visits) {
+          if (visits.visitors.includes(name))
+            newItem.visited = true
+          else {
+            newItem.visited = false
+            let newVisitor = []
+            for (let k = 0; k < visits.visitors.length; k++)
+              newVisitor.push[visits.visitors[k]]
+            newVisitor.push(name);
+            await Visit.updateOne({ category: category, id: i + 1 }, { visitors: newVisitor })
+          }
+        }
+        else {
+          newItem.visited = false
+          const newVisit = new Visit({
+            category: category,
+            id: i + 1,
+            visitors: [name]
+          })
+          await newVisit.save()
+        }
       }
+
       // Get Participants
       if (histories.length) {
         let users = []

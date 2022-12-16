@@ -159,7 +159,15 @@ const NamedTest = ({ test = '', name = '' }) => {
   return (
     <>
       <div className='flex flex-row items-center justify-between w-full mb-3 px-8 py-3 shadow-md hover:shadow-xl hover:bg-gray-50 cursor-pointer' onClick={onClick}>
-        <div className='bg-[#3598DB] text-white text-2xl py-3 w-14 rounded-md text-center'>{display(test.id)}</div>
+        {
+          test?.visited ?
+            <div className='bg-[#3598DB] text-white text-2xl py-3 w-14 rounded-md text-center'>{display(test.id)}</div>
+            :
+            <div className='relative'>
+              <div className='absolute float-right right-0 -mr-5 -mt-2 text-white text-xs bg-[#26FF4A]'>NUEVO</div>
+              <div className='bg-[#3598DB] text-white text-2xl py-3 w-14 rounded-md text-center'>{display(test.id)}</div>
+            </div>
+        }
         <div className='text-normal  text-gray-600'>Test Oficiale de la DGT</div>
         <div className='flex flex-row space-x-2'>
           {
@@ -171,10 +179,8 @@ const NamedTest = ({ test = '', name = '' }) => {
                 <div className='rounded-full border border-gray-400 w-4 h-4 bg-white' />
                 <div className='rounded-full border border-gray-400 w-4 h-4 bg-white' />
               </>
-
           }
         </div>
-
         {/* <div className='flex flex-row gap-3 items-center'>
           <div className='text-normal text-gray-500'>Dificultad</div>
           <div className='flex flex-row gap-1 items-center'>

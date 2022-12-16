@@ -21,6 +21,7 @@ const getTestData = (category) => async dispatch => {
 
     const res = await axios.get(`api/test/readTestData/${category}`, HEADER())
 
+    console.log('data: ', res.data)
     if (category.startsWith('category'))
       dispatch({ type: SET_TESTS, payload: res.data })
     else {
