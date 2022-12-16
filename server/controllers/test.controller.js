@@ -86,8 +86,6 @@ const readTestData = async (req, res) => {
           }
         }
         else {
-          console.log('visits')
-
           newItem.visited = false
           const newVisit = new Visit({
             category: 'todotest',
@@ -325,13 +323,10 @@ const tabBadge = async (req, res) => {
     const name = req.auth.name
     const tests = await Test.find()
     let count = 0
-    console.log('category: ', category)
     if (category === 'testportemas') {
-      console.log(categories.length)
       for (let l = 0; l < categories.length; l++) {
         let length = 0  // Number of Tests
         category = categories[l];
-        // console.log('category: ', category)
         let totalProblems = []
         for (let i = 0; i < tests.length; i++) {
           let problems = []

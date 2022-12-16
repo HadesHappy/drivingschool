@@ -5,7 +5,7 @@ const { signToken } = require('../middleware/auth.middleware')
 
 const register = async (request, response) => {
   const { name, password, confirmPassword, image } = request.body
-  console.log('password: ', password)
+  console.log('register: ', request.body)
   if (name == undefined || password == undefined || confirmPassword == undefined || password !== confirmPassword) {
 
     response.status(400).json({
@@ -52,6 +52,7 @@ const register = async (request, response) => {
 
 const login = async (request, response) => {
   const { name, password } = request.body
+  console.log('login: ', request.body)
   if (name == undefined || password == undefined) {
     response.status(400).json({
       error: 'request body',
@@ -116,7 +117,6 @@ const changePassword = async (req, res) => {
   try {
     const { name } = req.auth;
     const user = await User.findOne({ name: name });
-    console.log('user ', user)
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(req.body.password, salt)
     user.password = hashedPassword;
