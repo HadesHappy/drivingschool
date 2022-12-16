@@ -2,6 +2,7 @@ const Test = require("../models/Test")
 const History = require('../models/History')
 const User = require('../models/User')
 const Visit = require('../models/Visit')
+const { categories } = require('../utils/constants')
 
 const testProblems = async (id, category) => {
   try {
@@ -321,55 +322,88 @@ const readLiveResults = async (req, res) => {
 const tabBadge = async (req, res) => {
   try {
     let category = req.params.category
-    if (category === 'testportemas')
-      category = 'category'
     const name = req.auth.name
     const tests = await Test.find()
-    let length = 0  // Number of Tests
-    if (category === 'todotest')
-      length = tests.length
-    else {
-      let totalProblems = []
-      for (let i = 0; i < tests.length; i++) {
-        let problems = []
-        if (category.startsWith('category'))
+    let count = 0
+    console.log('category: ', category)
+    if (category === 'testportemas') {
+      console.log(categories.length)
+      for (let l = 0; l < categories.length; l++) {
+        let length = 0  // Number of Tests
+        category = categories[l];
+        // console.log('category: ', category)
+        let totalProblems = []
+        for (let i = 0; i < tests.length; i++) {
+          let problems = []
           problems = tests[i].problems.filter(problem => problem.category === category)
-        else
-          problems = tests[i].problems.filter(problem => problem[category] === true)
+          if (problems.length) {
+            for (let j = 0; j < problems.length; j++)
+              totalProblems.push(problems[j])
+          }
+        }
+        if (totalProblems.length)
+          length = Math.floor(totalProblems.length / 30) + 1
 
-        if (problems.length) {
-          for (let j = 0; j < problems.length; j++)
-            totalProblems.push(problems[j])
-        }
-      }
-      if (totalProblems.length)
-        length = Math.floor(totalProblems.length / 30) + 1
-    }
-    let count = 0 // response data
-    for (let i = 0; i < length; i++) {
-      if (category === 'todotest') {
-        // Visit
-        let visits = await Visit.findOne({ category: 'todotest', id: tests[i].id })
-        if (visits) {
-          if (!visits.visitors.includes(name))
+        for (let i = 0; i < length; i++) {
+          // Visit
+          const visits = await Visit.findOne({ category: category, id: i + 1 })
+          if (visits) {
+            if (!visits.visitors.includes(name))
+              count++
+          }
+          else {
             count++
-        }
-        else {
-          count++
+          }
         }
       }
+    }
+    else {
+      let length = 0  // Number of Tests
+      if (category === 'todotest')
+        length = tests.length
       else {
-        // Visit
-        const visits = await Visit.findOne({ category: category, id: i + 1 })
-        if (visits) {
-          if (!visits.visitors.includes(name))
+        let totalProblems = []
+        for (let i = 0; i < tests.length; i++) {
+          let problems = []
+          if (category.startsWith('category'))
+            problems = tests[i].problems.filter(problem => problem.category === category)
+          else
+            problems = tests[i].problems.filter(problem => problem[category] === true)
+
+          if (problems.length) {
+            for (let j = 0; j < problems.length; j++)
+              totalProblems.push(problems[j])
+          }
+        }
+        if (totalProblems.length)
+          length = Math.floor(totalProblems.length / 30) + 1
+      }
+      for (let i = 0; i < length; i++) {
+        if (category === 'todotest') {
+          // Visit
+          let visits = await Visit.findOne({ category: 'todotest', id: tests[i].id })
+          if (visits) {
+            if (!visits.visitors.includes(name))
+              count++
+          }
+          else {
             count++
+          }
         }
         else {
-          count++
+          // Visit
+          const visits = await Visit.findOne({ category: category, id: i + 1 })
+          if (visits) {
+            if (!visits.visitors.includes(name))
+              count++
+          }
+          else {
+            count++
+          }
         }
       }
     }
+
     const resData = {
       count: count
     }
