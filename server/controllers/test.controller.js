@@ -87,10 +87,13 @@ const readTestData = async (req, res) => {
         }
         else {
           newItem.visited = false
+          let newVisitor = []
+          newVisitor.push(name)
+
           const newVisit = new Visit({
             category: 'todotest',
             id: tests[i].id,
-            visitors: [name]
+            visitors: newVisitor
           })
           await newVisit.save()
         }
