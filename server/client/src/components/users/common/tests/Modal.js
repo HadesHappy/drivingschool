@@ -12,7 +12,6 @@ const Modal = ({ showModal, setShowModal}) => {
 
   const onExamClick = () => {
     dispatch(clearAnswer())
-    dispatch()
     navigate('/exam/1')
   }
 
