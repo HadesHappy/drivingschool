@@ -12,9 +12,9 @@ const Top = ({ id = ''}) => {
   return (
     <div className='mt-8'>
       <img className='absolute ml-10 -mt-2' src='/assets/icons/logo.png' alt='logo' />
-      <div className='bg-[#3598DB] flex flex-row justify-between pl-48 w-full h-8 pr-8 items-center'>
+      <div className='bg-[#3598DB] flex flex-row justify-between pl-48 w-full pr-8 items-center'>
         <div className='text-white text-lg'>Autoescuela App Test 0{displayNum(num)}</div>
-        <div className='flex flex-row items-center gap-20'>
+        <div className='flex flex-row items-center gap-10'>
           <DisplayImage total={participants?.total} images={participants?.images} />
           <div className='text-white text-lg'>Pregunta {displayNum(id)}</div>
           <div className='flex flex-row justify-center space-x-4 items-center'>
