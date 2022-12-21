@@ -68,6 +68,7 @@ const readTestData = async (req, res) => {
 
       if (category === 'todotest') {
         newItem.id = tests[i].id
+        newItem.num = i + 1
         histories = await History.find({ id: tests[i].id, category: category }, {}, { sort: { 'createdAt': -1 } })
         myHistories = await History.find({ id: tests[i].id, category: category, name: name }, {}, { sort: { 'createdAt': -1 } })
 
@@ -79,15 +80,10 @@ const readTestData = async (req, res) => {
           else {
             newItem.visited = false
             let newVisitor = []
-            console.log('length: ', visits.visitors.length);
             for (let k = 0; k < visits.visitors.length; k++){
-              console.log('here')
-              console.log('visitor: ', visits.visitors[k])
               newVisitor.push(visits.visitors[k])
             }
-            console.log('newVisitor1: ', newVisitor)
             newVisitor.push(name);
-            console.log('newVisitor2: ', newVisitor)
             await Visit.updateOne({ category: 'todotest', id: tests[i].id }, { visitors: newVisitor })
           }
         }

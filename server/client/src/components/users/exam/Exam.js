@@ -141,7 +141,7 @@ const Exam = () => {
 
   return (
     <>
-      <Top id={id} />
+      <Top id={id}/>
       <div className='h-full'>
         {
           currentData ?

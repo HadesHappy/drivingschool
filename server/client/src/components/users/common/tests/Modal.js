@@ -1,15 +1,18 @@
 import React from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { clearAnswer } from '../../../../actions/answer'
+import { displayNum } from '../../../../utils/display'
 
-const Modal = ({ showModal, setShowModal }) => {
+const Modal = ({ showModal, setShowModal}) => {
+  const num = useSelector(state => state.todoReducer.topNum)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const onExamClick = () => {
     dispatch(clearAnswer())
+    dispatch()
     navigate('/exam/1')
   }
 
@@ -17,6 +20,7 @@ const Modal = ({ showModal, setShowModal }) => {
     dispatch(clearAnswer())
     navigate('/study/1')
   }
+
   return (
     <>
       {
@@ -32,7 +36,7 @@ const Modal = ({ showModal, setShowModal }) => {
                     <div className="flex justify-between items-center p-5 border-b border-solid border-gray-300">
                       <div className='flex flex-row space-x-16 items-center font-bold'>
                         <FaArrowLeft className='cursor-pointer' onClick={() => setShowModal(false)} />
-                        <div className="text-2xl uppercase text-gray-600">test 01</div>
+                        <div className="text-2xl uppercase text-gray-600">test {displayNum(num)}</div>
                       </div>
                       <div>
                         <img src='/assets/icons/More.png' alt='more' />

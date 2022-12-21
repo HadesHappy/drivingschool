@@ -19,7 +19,6 @@ const TabButton = ({ text = '', id = '', selectedTab, setSelectedTab }) => {
     getCount();
   }, [selectedTab])
 
-  console.log(count)
   return (
     <div className='flex flex-col text-center'>
       {
