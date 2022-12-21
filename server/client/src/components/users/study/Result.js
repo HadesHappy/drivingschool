@@ -27,7 +27,6 @@ const Player = ({ liveData = {} }) => {
     }
   }
 
-  console.log(liveData)
   const nameSplit = (userName) => {
     let splitedName = userName.split(' ')
     let name = splitedName[1] === undefined ? splitedName[0] : splitedName[0] + ' ' + splitedName[1]?.substring(0, 1) + '.'

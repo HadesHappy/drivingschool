@@ -194,18 +194,40 @@ const readStudyData = async (req, res) => {
     const category = req.params.category
     let datas // Exam Datas
     let historyData // History Datas
-    let studyData = [] // Return Datas || Study Datas
+    let studyData = [] // Study Datas
+    let participants = {
+      total: 0,
+      images: []
+    }
+    let returnData = {
+      participants: {},
+      studyData: []
+    } // Return Datas = participants + studyData
+
     if (category === 'todotest') {
       const test = await Test.findOne({ _id: id })
       datas = test.problems
-      historyData = await History.find({ id: id, category: category })
+      historyData = await History.find({ id: id, category: category }, {}, { sort: { 'createdAt': -1 } })
     }
     else {
       datas = await testProblems(id, category)
-      historyData = await History.find({ test: id, category: category })
+      historyData = await History.find({ test: id, category: category }, {}, { sort: { 'createdAt': -1 } })
     }
     // Get Study Datas
     if (historyData.length) {
+      // participants
+      let newImageData = [];
+      for(let i = 0; i<historyData.length; i++){
+        if(!newImageData.includes(historyData[i].image)){
+          newImageData.push(historyData[i].image)
+        }
+      }
+      const imageLength = newImageData.length > 5 ? 5 : newImageData.length
+      for(let i=0; i<imageLength; i++){
+        participants.images.push(newImageData[i])
+      }
+      participants.total = newImageData.length
+      // study data
       const totalLength = historyData.length
       for (let i = 0; i < datas.length; i++) {
         // Initialize Histories
@@ -234,6 +256,7 @@ const readStudyData = async (req, res) => {
           images: [],
           percentage: 0,
         }]
+
         for (let j = 0; j < totalLength; j++) {
           const choice = historyData[j].choices[i].choice
           const num = choice.slice(6, 7)
@@ -246,6 +269,7 @@ const readStudyData = async (req, res) => {
           histories[Number(num) - 1].userNum++
           histories[Number(num) - 1].percentage = Math.floor(histories[Number(num) - 1].userNum / totalLength * 100)
         }
+
         let newData = {
           title: datas[i].title,
           image: datas[i].image,
@@ -282,7 +306,9 @@ const readStudyData = async (req, res) => {
         studyData.push(newData)
       }
     }
-    res.status(200).send(studyData)
+    returnData.participants = participants
+    returnData.studyData = studyData
+    res.status(200).send(returnData)
   }
   catch (error) {
     console.log(error)
