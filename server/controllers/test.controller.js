@@ -80,7 +80,7 @@ const readTestData = async (req, res) => {
           else {
             newItem.visited = false
             let newVisitor = []
-            for (let k = 0; k < visits.visitors.length; k++){
+            for (let k = 0; k < visits.visitors.length; k++) {
               newVisitor.push(visits.visitors[k])
             }
             newVisitor.push(name);
@@ -311,7 +311,7 @@ const readLiveResults = async (req, res) => {
           image: datas[i].image,
           isPass: datas[i].isPass,
           incorrect: datas[i].falseNum,
-          video: datas[i].videoNum,
+          cheatNum: datas[i].cheatNum,
           time: datas[i].createdAt,
         }
         results.push(data)
