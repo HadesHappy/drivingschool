@@ -21,10 +21,17 @@ const UploadModal = ({ showModal, setShowModal, setFiles, setFormData, formData 
 
   const handleSave = () => {
     const img = editor.current?.getImageScaledToCanvas().toDataURL()
+    var blobBin = atob(img.split(',')[1]);
+    var array = [];
+    for (var i = 0; i < blobBin.length; i++) {
+      array.push(blobBin.charCodeAt(i));
+    }
+    var file = new Blob([new Uint8Array(array)], { type: 'image/png' });
+
     const rect = editor.current?.getCroppingRect()
     setFiles(img)
-    setFormData({ ...formData, image: img });
-    if (!img || !rect) return
+    setFormData({ ...formData, image: file });
+    if (!file || !rect) return
 
     setShowModal(false)
   }

@@ -5,7 +5,7 @@ const uploadAvatar = async (req, res, next) => {
         return new Promise(async (resolve) => {
           const file = req.files[key]
 
-          const suffixUrl = `/assets/avatars/${Date.now()}-avatar-${file.name}`
+          const suffixUrl = `/assets/avatars/${Date.now()}-avatar-${file.name}.png`
           const path = `${__dirname}/../client/public${suffixUrl}`
 
           await file.mv(path, (err) => {
