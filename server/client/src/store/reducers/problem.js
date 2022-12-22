@@ -3,6 +3,7 @@ import {
   ADD_PROBLEM,
   UPDATE_PROBLEM,
   GET_PROBLEMS,
+  GET_PARTICIPANTS,
   DELETE_PROBLEM,
   INITIALIZE_PROBLEMS,
   PROBLEM_LOADING
@@ -10,6 +11,7 @@ import {
 
 const initialState = {
   problems: [],
+  participants: {},
   problem: {},
   loading: false,
 }
@@ -29,6 +31,11 @@ const problemReducer = (state = initialState, action) => {
         ...state,
         problems: payload,
         loading: false
+      }
+    case GET_PARTICIPANTS:
+      return {
+        ...state,
+        participants: payload,
       }
     case UPDATE_PROBLEM:
       const { id, property, value } = payload

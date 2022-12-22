@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
-import { setIndex } from '../../../../actions/test'
+import { setIndex, setTopNum } from '../../../../actions/test'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
+import { displayNum } from '../../../../utils/display'
 
 const StatusCircle = ({ result = {} }) => {
   return (
@@ -87,10 +88,11 @@ const NamedTest = ({ test = '', name = '' }) => {
   const onClick = () => {
     if (enabled) {
       dispatch(setIndex(test.id))
+      dispatch(setTopNum(test.id))
       setShowModal(true)
     }
     else {
-      toast.error(`You should wait ${displayTime(timeLeft.hours)} hours and ${displayTime(timeLeft.minutes)} minutes.`)
+      toast.error(`You should wait ${displayNum(timeLeft.hours)} hours and ${displayNum(timeLeft.minutes)} minutes.`)
     }
   }
 
@@ -100,14 +102,6 @@ const NamedTest = ({ test = '', name = '' }) => {
     }
     else
       return name.slice(0, 1).toUpperCase() + id
-  }
-
-  const displayTime = (id) => {
-    if (id < 10) {
-      return '0' + id
-    }
-    else
-      return id
   }
 
   if (test.images) {
@@ -197,7 +191,7 @@ const NamedTest = ({ test = '', name = '' }) => {
             enabled ?
               <div className='text-normal'>00:00:00</div>
               :
-              <div className='text-normal'>{displayTime(timeLeft.hours)}:{displayTime(timeLeft.minutes)}:{displayTime(timeLeft.seconds)}</div>
+              <div className='text-normal'>{displayNum(timeLeft.hours)}:{displayNum(timeLeft.minutes)}:{displayNum(timeLeft.seconds)}</div>
           }
         </div>
         <div className='flex'>

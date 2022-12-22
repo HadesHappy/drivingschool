@@ -68,6 +68,7 @@ const readTestData = async (req, res) => {
 
       if (category === 'todotest') {
         newItem.id = tests[i].id
+        newItem.num = i + 1
         histories = await History.find({ id: tests[i].id, category: category }, {}, { sort: { 'createdAt': -1 } })
         myHistories = await History.find({ id: tests[i].id, category: category, name: name }, {}, { sort: { 'createdAt': -1 } })
 
@@ -79,15 +80,10 @@ const readTestData = async (req, res) => {
           else {
             newItem.visited = false
             let newVisitor = []
-            console.log('length: ', visits.visitors.length);
-            for (let k = 0; k < visits.visitors.length; k++){
-              console.log('here')
-              console.log('visitor: ', visits.visitors[k])
+            for (let k = 0; k < visits.visitors.length; k++) {
               newVisitor.push(visits.visitors[k])
             }
-            console.log('newVisitor1: ', newVisitor)
             newVisitor.push(name);
-            console.log('newVisitor2: ', newVisitor)
             await Visit.updateOne({ category: 'todotest', id: tests[i].id }, { visitors: newVisitor })
           }
         }
@@ -198,18 +194,40 @@ const readStudyData = async (req, res) => {
     const category = req.params.category
     let datas // Exam Datas
     let historyData // History Datas
-    let studyData = [] // Return Datas || Study Datas
+    let studyData = [] // Study Datas
+    let participants = {
+      total: 0,
+      images: []
+    }
+    let returnData = {
+      participants: {},
+      studyData: []
+    } // Return Datas = participants + studyData
+
     if (category === 'todotest') {
       const test = await Test.findOne({ _id: id })
       datas = test.problems
-      historyData = await History.find({ id: id, category: category })
+      historyData = await History.find({ id: id, category: category }, {}, { sort: { 'createdAt': -1 } })
     }
     else {
       datas = await testProblems(id, category)
-      historyData = await History.find({ test: id, category: category })
+      historyData = await History.find({ test: id, category: category }, {}, { sort: { 'createdAt': -1 } })
     }
     // Get Study Datas
     if (historyData.length) {
+      // participants
+      let newImageData = [];
+      for(let i = 0; i<historyData.length; i++){
+        if(!newImageData.includes(historyData[i].image)){
+          newImageData.push(historyData[i].image)
+        }
+      }
+      const imageLength = newImageData.length > 5 ? 5 : newImageData.length
+      for(let i=0; i<imageLength; i++){
+        participants.images.push(newImageData[i])
+      }
+      participants.total = newImageData.length
+      // study data
       const totalLength = historyData.length
       for (let i = 0; i < datas.length; i++) {
         // Initialize Histories
@@ -238,6 +256,7 @@ const readStudyData = async (req, res) => {
           images: [],
           percentage: 0,
         }]
+
         for (let j = 0; j < totalLength; j++) {
           const choice = historyData[j].choices[i].choice
           const num = choice.slice(6, 7)
@@ -250,6 +269,7 @@ const readStudyData = async (req, res) => {
           histories[Number(num) - 1].userNum++
           histories[Number(num) - 1].percentage = Math.floor(histories[Number(num) - 1].userNum / totalLength * 100)
         }
+
         let newData = {
           title: datas[i].title,
           image: datas[i].image,
@@ -286,7 +306,9 @@ const readStudyData = async (req, res) => {
         studyData.push(newData)
       }
     }
-    res.status(200).send(studyData)
+    returnData.participants = participants
+    returnData.studyData = studyData
+    res.status(200).send(returnData)
   }
   catch (error) {
     console.log(error)
@@ -315,7 +337,7 @@ const readLiveResults = async (req, res) => {
           image: datas[i].image,
           isPass: datas[i].isPass,
           incorrect: datas[i].falseNum,
-          video: datas[i].videoNum,
+          cheatNum: datas[i].cheatNum,
           time: datas[i].createdAt,
         }
         results.push(data)

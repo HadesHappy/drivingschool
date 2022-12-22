@@ -10,16 +10,11 @@ import { clearAnswer } from '../../../actions/answer'
 import { useAuth } from '../../../contexts/AuthContext'
 import { addHistory } from '../../../apis/history.api'
 import { readLiveResult } from '../../../apis/test.api'
+import { displayNum } from '../../../utils/display'
 
 const Player = ({ liveData = {} }) => {
   let timeLeft = {}
-  const display = (num) => {
-    if (num < 10)
-      return '0' + num
-    else
-      return num
-  }
-
+  
   if (liveData.time) {
     const difference = -(new Date(liveData.time) - new Date());
     if (difference > 0) {
@@ -48,7 +43,7 @@ const Player = ({ liveData = {} }) => {
         <div className='flex flex-row space-x-1'>
           {
             liveData.isPass ?
-              liveData.video > 0 ?
+              liveData.cheatNum > 0 ?
                 <div className='text-blue-500'>Apto test 01</div>
                 :
                 <div className='text-green-500'>Apto test 01</div>
@@ -56,9 +51,9 @@ const Player = ({ liveData = {} }) => {
               <div className='text-red-500'>No Apto test 01</div>
           }
           <div className='w-0.5 h-full bg-gray-500' />
-          <div className='text-gray-700 font-normal'>Preguntas incorrectas: {display(liveData?.incorrect)}</div>
+          <div className='text-gray-700 font-normal'>Preguntas incorrectas: {displayNum(liveData?.incorrect)}</div>
           <div className='w-0.5 h-full bg-gray-500' />
-          <div className='text-gray-700 font-normal'>vidas: {display(liveData?.video)}</div>
+          <div className='text-gray-700 font-normal'>vidas: {displayNum(liveData?.cheatNum)}</div>
         </div>
       </div>
 
@@ -199,12 +194,6 @@ const StudyResult = () => {
       navigate(`/user/${category}`)
   }
 
-  const display = (num) => {
-    if (num < 10 && num > 0)
-      return '0' + num
-    else
-      return num
-  }
   return (
     <>
       <Top id={answers.length} />
@@ -287,7 +276,7 @@ const StudyResult = () => {
                       <BsFillLightningChargeFill className='w-7 h-7' />
                     </div>
                     <div className='flex flex-col justify-center'>
-                      <div className='text-md font-bold'>Total de preguntas: {display(answers.length)}</div>
+                      <div className='text-md font-bold'>Total de preguntas: {displayNum(answers.length)}</div>
                     </div>
                   </div>
                   <div className='flex flex-row space-x-6'>
@@ -296,7 +285,7 @@ const StudyResult = () => {
                       <img src='/assets/icons/check.png' alt='check' />
                     </div>
                     <div className='flex flex-col justify-center'>
-                      <div className='text-md font-bold'>Preguntas correctas: {display(correctNum)}</div>
+                      <div className='text-md font-bold'>Preguntas correctas: {displayNum(correctNum)}</div>
                     </div>
                   </div>
                   <div className='flex flex-row space-x-6'>
@@ -305,7 +294,7 @@ const StudyResult = () => {
                       <BsFillXCircleFill className='text-white w-7 h-7' />
                     </div>
                     <div className='flex flex-col justify-between'>
-                      <div className='text-md font-bold'>Preguntas incorrectas: {display(falseNum)}</div>
+                      <div className='text-md font-bold'>Preguntas incorrectas: {displayNum(falseNum)}</div>
                       <div className='text-sm text-gray-500'>Maximum fallos 3</div>
                     </div>
                   </div>
@@ -315,7 +304,7 @@ const StudyResult = () => {
                       <img className='text-white w-7 h-7' src='/assets/icons/pen.png' alt='pen' />
                     </div>
                     <div className='flex flex-col justify-between'>
-                      <div className='text-md font-bold'>Resultados elementados: {display(cheatNum)}</div>
+                      <div className='text-md font-bold'>Resultados elementados: {displayNum(cheatNum)}</div>
                       <div className='text-sm text-gray-500'>Maximum elementados 16</div>
                     </div>
                   </div>
@@ -325,7 +314,7 @@ const StudyResult = () => {
                       <img src='/assets/icons/play.png' alt='play' />
                     </div>
                     <div className='flex flex-col justify-center'>
-                      <div className='text-md font-bold'>Videos visto: {display(videoNum)}</div>
+                      <div className='text-md font-bold'>Videos visto: {displayNum(videoNum)}</div>
                     </div>
                   </div>
                   <div className='flex flex-row space-x-6'>
@@ -334,7 +323,7 @@ const StudyResult = () => {
                       <img src='/assets/icons/knife.png' alt='knife' />
                     </div>
                     <div className='flex flex-col justify-center'>
-                      <div className='text-md font-bold'>Has marcado como killers: {display(killerNum)}</div>
+                      <div className='text-md font-bold'>Has marcado como killers: {displayNum(killerNum)}</div>
                     </div>
                   </div>
                   <div className='flex flex-row space-x-6'>
@@ -343,7 +332,7 @@ const StudyResult = () => {
                       <img src='/assets/icons/question.png' alt='question' />
                     </div>
                     <div className='flex flex-col justify-center'>
-                      <div className='text-md font-bold'>Has adivindo: {display(guessNum)}</div>
+                      <div className='text-md font-bold'>Has adivindo: {displayNum(guessNum)}</div>
                     </div>
                   </div>
                   <div className='flex flex-row space-x-6'>
@@ -352,7 +341,7 @@ const StudyResult = () => {
                       <img src='/assets/icons/glass.png' alt='glass' />
                     </div>
                     <div className='flex flex-col justify-center'>
-                      <div className='text-md font-bold'>Sabes de memoria: {display(memoryNum)}</div>
+                      <div className='text-md font-bold'>Sabes de memoria: {displayNum(memoryNum)}</div>
                     </div>
                   </div>
                 </div>

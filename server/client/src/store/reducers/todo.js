@@ -2,6 +2,7 @@ import {
   GET_TESTS,
   SET_TESTS,
   GET_INDEX,
+  GET_TOPNUM,
   TEST_LOADING,
   CATEGORY_LOADING,
   GET_CATEGORY,
@@ -11,6 +12,7 @@ const initialState = {
   tests: [],
   category: '',
   index: 0,
+  topNum: 0,
   loading: false,
   categoryLoading: false
 }
@@ -39,6 +41,11 @@ const todoReducer = (state = initialState, action) => {
       return {
         ...state,
         index: payload
+      }
+    case GET_TOPNUM:
+      return {
+        ...state,
+        topNum: payload
       }
     case TEST_LOADING:
       return {

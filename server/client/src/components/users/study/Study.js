@@ -55,7 +55,6 @@ const StudyButton = ({ name = '', onClick, checked }) => {
 
 const ChoiceButton = ({ name = '', content = '', answer = '', choice, setChoice, removed, userNum = '', images = '', totalUser }) => {
   const { account } = useAuth();
-  console.log(account.image)
   const buttonClick = () => {
     if (choice === '') {
       setChoice(name)

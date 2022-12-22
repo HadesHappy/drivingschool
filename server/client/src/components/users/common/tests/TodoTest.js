@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
 import toast from 'react-hot-toast'
-import { setIndex } from '../../../../actions/test'
+import { setIndex, setTopNum } from '../../../../actions/test'
 import { useDispatch } from 'react-redux'
+import { displayNum } from '../../../../utils/display'
 
 const StatusCircle = ({ result = {} }) => {
   return (
@@ -86,19 +87,14 @@ const TodoTest = ({ test = '', no = '' }) => {
   const onClick = () => {
     if (enabled) {
       dispatch(setIndex(test.id))
+      dispatch(setTopNum(test.num))
       setShowModal(true)
     }
     else {
-      toast.error(`You should wait ${display(timeLeft.hours)} hours and ${display(timeLeft.minutes)} minutes.`)
+      toast.error(`You should wait ${displayNum(timeLeft.hours)} hours and ${displayNum(timeLeft.minutes)} minutes.`)
     }
   }
 
-  const display = (num) => {
-    if (num < 10)
-      return '0' + num
-    else
-      return num
-  }
   const onDetailClick = (e) => {
     e.stopPropagation()
     toast.success('details')
@@ -155,11 +151,11 @@ const TodoTest = ({ test = '', no = '' }) => {
       <div className='flex flex-row items-center justify-between w-full mb-3 px-8 py-4 shadow-md cursor-pointer hover:shadow-xl hover:bg-gray-50' onClick={onClick}>
         {
           test?.visited ?
-            <div className='bg-[#3598DB] text-white text-2xl py-3 w-14 rounded-md text-center'>{display(no)}</div>
+            <div className='bg-[#3598DB] text-white text-2xl py-3 w-14 rounded-md text-center'>{displayNum(no)}</div>
             :
             <div className='relative'>
               <div className='absolute float-right right-0 -mr-5 -mt-2 text-white text-xs bg-[#26FF4A]'>NUEVO</div>
-              <div className='bg-[#3598DB] text-white text-2xl py-3 w-14 rounded-md text-center'>{display(no)}</div>
+              <div className='bg-[#3598DB] text-white text-2xl py-3 w-14 rounded-md text-center'>{displayNum(no)}</div>
             </div>
         }
         <div className='text-normal  text-gray-600'>Test Oficiale de la DGT</div>
@@ -182,7 +178,7 @@ const TodoTest = ({ test = '', no = '' }) => {
             enabled ?
               <div className='text-normal'>00:00:00</div>
               :
-              <div className='text-normal'>{display(timeLeft.hours)}:{display(timeLeft.minutes)}:{display(timeLeft.seconds)}</div>
+              <div className='text-normal'>{displayNum(timeLeft.hours)}:{displayNum(timeLeft.minutes)}:{displayNum(timeLeft.seconds)}</div>
           }
         </div>
         <div className='flex'>

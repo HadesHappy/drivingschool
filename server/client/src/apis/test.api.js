@@ -6,6 +6,7 @@ import {
   GET_CATEGORY,
   PROBLEM_LOADING,
   GET_PROBLEMS,
+  GET_PARTICIPANTS,
   TEST_LOADING,
   CATEGORY_LOADING,
 } from '../store/constants'
@@ -47,7 +48,9 @@ const getStudyData = (id, category) => async dispatch => {
   try {
     dispatch({ type: PROBLEM_LOADING })
     const res = await axios.get(`api/test/readStudyData/${id}/${category}`)
-    dispatch({ type: GET_PROBLEMS, payload: res.data })
+    console.log('res: ', res)
+    dispatch({ type: GET_PROBLEMS, payload: res.data.studyData })
+    dispatch({ type: GET_PARTICIPANTS, payload: res.data.participants })
   }
   catch (error) {
 
