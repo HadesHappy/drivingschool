@@ -6,16 +6,17 @@ import { useDispatch } from 'react-redux'
 import { displayNum } from '../../../../utils/display'
 
 const StatusCircle = ({ result = {} }) => {
+  console.log(result)
   return (
     <>
       {
         result.isPass ?
-          result.type === 'exam' ?
-            <div className='rounded-full w-4 h-4 bg-green-500' />
-            :
-            <div className='rounded-full w-4 h-4 bg-yellow-500' />
+          <div className='rounded-full w-4 h-4 bg-green-500' />
           :
-          <div className='rounded-full w-4 h-4 bg-red-500' />
+          result.falseNum === 4 || result.falseNum === 5 ?
+            <div className='rounded-full w-4 h-4 bg-yellow-500' />
+            :
+            <div className='rounded-full w-4 h-4 bg-red-500' />
       }
     </>
   )

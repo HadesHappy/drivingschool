@@ -69,7 +69,6 @@ export default function Signup() {
               isRequired={field.isRequired}
               placeholder={field.placeholder}
             />
-
           )
         }
         <FormAction handleClick={handleClick} text="Signup" />
