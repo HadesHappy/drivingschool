@@ -5,67 +5,27 @@ import Input from "./Input";
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast'
-import { Uploader } from 'uploader'
-import { UploadButton } from 'react-uploader'
+import UploadModal from './Editor/UploadModal';
 
 const fields = signupFields;
 let fieldsState = {};
 
 fields.forEach(field => fieldsState[field.id] = '');
 
-const uploader = Uploader({ apiKey: 'free' });
-const options = {
-  multi: false,
-  styles: {
-    colors: {
-      primary: "#377dff",     // Hex codes only.
-      active: "#528fff"
-    },
-    fontSizes: {
-      base: 16
-    }
-  },
-  editor: {
-    images: {
-      crop: true,             // false disables the image editor / cropper
-      cropRatio: 1 / 1,
-      cropShape: "circ"       // "rect" | "circ"
-    }
-  },
-}
-
-const MyUploadButton = ({ setFiles, setFormData, formData }) =>
-  <UploadButton uploader={uploader}
-    options={options}
-    onComplete={files => {      // Optional.
-      if (files.length === 0) {
-        console.log('No files selected.')
-      } else {
-        console.log('Files uploaded:');
-        console.log(files.map(f => f.fileUrl));
-        setFiles(files[0].fileUrl);
-        setFormData({ ...formData, image: files[0].fileUrl });
-      }
-    }}>
-    {({ onClick }) =>
-      <button onClick={onClick}>
-        Upload avatar
-      </button>
-    }
-  </UploadButton>
-
 export default function Signup() {
-  const [formData, setFormData] = useState(fieldsState);
-  const handleChange = (e) => setFormData({ ...formData, [e.target.id]: e.target.value });
-  const [avatar, setAvatar] = useState('/assets/emotions/avatar1.png')
   const navigate = useNavigate();
+  const [formData, setFormData] = useState(fieldsState);
+  const [avatar, setAvatar] = useState('/assets/emotions/avatar1.png')
   const { isLoggedIn, register } = useAuth();
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     if (isLoggedIn) {
       navigate('/')
     }
   }, [isLoggedIn])
+
+  const handleChange = (e) => setFormData({ ...formData, [e.target.id]: e.target.value });
 
   const handleClick = async () => {
     if (formData.image === '' || formData.image === undefined) {
@@ -82,11 +42,17 @@ export default function Signup() {
     }
   }
 
+  const onAvatarClick = () => {
+    setShowModal(true)
+  }
+
   return (
     <form className="mt-8" encType='multipart/form-data'>
       <div className='flex flex-col justify-center items-center'>
         <img className="rounded-full shadow-xl text-center w-48 h-48 flex items-center justify-center duration-200" src={avatar} alt='avatar' />
-        <MyUploadButton setFiles={setAvatar} setFormData={setFormData} formData={formData} />
+      </div>
+      <div className='text-center text-sm cursor-pointer mt-2' onClick={onAvatarClick}>
+        Upload Avatar
       </div>
       <>
         {
@@ -108,6 +74,7 @@ export default function Signup() {
         }
         <FormAction handleClick={handleClick} text="Signup" />
       </>
+      <UploadModal showModal={showModal} setShowModal={setShowModal} setFiles={setAvatar} setFormData={setFormData} formData={formData} />
     </form>
   )
 }
