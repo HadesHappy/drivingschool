@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import Top from '../exam/Top'
+import Top from './Top'
 import Bottom from '../exam/Bottom'
 import { useSelector, useDispatch } from 'react-redux'
 import { CHEATNUM } from '../../../utils/constants'

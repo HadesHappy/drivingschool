@@ -19,7 +19,7 @@ const UserSideBar = () => {
 
   return (
     <div
-      className="sidebar fixed px-3 mt-4 top-0 bottom-0 overflow-y-auto text-center shadow-xl w-1/6"
+      className="sidebar fixed px-3 mt-4 top-0 bottom-0 overflow-y-auto text-center shadow-xl min-w-[150px]"
     >
       <div className="text-gray-800 text-2xl">
         <div className="p-2.5 mt-1 flex items-center">

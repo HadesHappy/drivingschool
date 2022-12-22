@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Top from '../exam/Top'
+import Top from './Top'
 import Bottom from '../exam/Bottom'
 import { BsFillLightningChargeFill, BsFillXCircleFill, BsArrowClockwise } from 'react-icons/bs'
 import { useSelector, useDispatch } from 'react-redux'
@@ -11,6 +11,7 @@ import { useAuth } from '../../../contexts/AuthContext'
 import { addHistory } from '../../../apis/history.api'
 import { readLiveResult } from '../../../apis/test.api'
 import { displayNum } from '../../../utils/display'
+import { getStudyData } from '../../../apis/test.api'
 
 const Player = ({ liveData = {} }) => {
   let timeLeft = {}
@@ -164,6 +165,7 @@ const StudyResult = () => {
   useEffect(() => {
     checkAnswers()
     readLiveData()
+    dispatch(getStudyData(index, category))
   }, [])
 
   const handleNextClick = () => {
